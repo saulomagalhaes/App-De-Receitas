@@ -1,5 +1,3 @@
-const USER_EMAIL = 'USER_EMAIL';
+export const USER_EMAIL = 'USER_EMAIL';
 
-const setEmail = (email) => ({ type: USER_EMAIL, email });
-
-export default setEmail;
+export const setEmail = (email) => ({ type: USER_EMAIL, email });
