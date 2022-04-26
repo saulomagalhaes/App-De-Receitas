@@ -9,8 +9,7 @@ function Login(props) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const setLocalStorage = () => {
-    const newEmail = email;
-    localStorage.setItem('email', JSON.stringify({ email: newEmail }));
+    localStorage.setItem('user', JSON.stringify({ email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
   };
@@ -18,15 +17,14 @@ function Login(props) {
   const dispatch = useDispatch();
 
   const onSubmitButtonClick = () => {
-    // e.preventDefault();
     setLocalStorage();
     const { history } = props;
     // fazer o dispatch
     dispatch(saveEmail(email));
-    history.push('/');
+    history.push('/foods');
   };
 
-  const validateButton = () => {
+  useEffect(() => {
     const emailRegex = /\S+@\S+\.\S+/;
     const min = 6;
     const validateEmail = emailRegex.test(email);
@@ -37,10 +35,6 @@ function Login(props) {
     } else {
       setIsButtonDisabled(true);
     }
-  };
-
-  useEffect(() => {
-    validateButton();
   }, [email, password]);
 
   return (
