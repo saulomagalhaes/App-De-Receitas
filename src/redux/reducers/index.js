@@ -1,12 +1,10 @@
 import { combineReducers } from 'redux';
+import foods from './foods';
 import user from './user';
-import token from './token';
-import questions from './questions';
 
 const rootReducer = combineReducers({
   user,
-  token,
-  questions,
+  foods,
 });
 
 export default rootReducer;
