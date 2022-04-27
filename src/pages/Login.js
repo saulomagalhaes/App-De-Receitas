@@ -19,7 +19,6 @@ function Login(props) {
   const onSubmitButtonClick = () => {
     setLocalStorage();
     const { history } = props;
-    // fazer o dispatch
     dispatch(saveEmail(email));
     history.push('/foods');
   };
@@ -47,7 +46,6 @@ function Login(props) {
           name="email"
           value={ email }
           onChange={ (e) => setEmail(e.target.value) }
-          // onChange={ (e) => handleChange(e) }
           placeholder="E-mail"
         />
         <input
