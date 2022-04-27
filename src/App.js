@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-// import rockGlass from './images/rockGlass.svg';
+import Routes from './Routes';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/HeaderProvisorio/HeaderProvisorio';
 
@@ -11,6 +11,7 @@ function App() {
       <div className="meals">
         a
       </div>
+      <Routes />
     </div>
   );
 }
