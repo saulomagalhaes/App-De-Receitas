@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import './styles.css';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -8,6 +7,7 @@ import profileIcon from '../../images/profileIcon.svg';
 
 function Header(props) {
   const { title } = props;
+  const [InputSearch, toggleInputSearch] = useState(false);
   const arrayTitles = [
     'Explore',
     'Explore Foods',
@@ -33,7 +33,15 @@ function Header(props) {
       {contain ? (
         ''
       ) : (
-        <img src={ searchIcon } alt="searchIcon" data-testid="search-top-btn" />
+        <>
+          <button type="button" onClick={ () => toggleInputSearch(!InputSearch) }>
+            <img src={ searchIcon } alt="searchIcon" data-testid="search-top-btn" />
+          </button>
+
+          {
+            InputSearch ? <input type="text" data-testid="search-input" /> : ''
+          }
+        </>
       )}
     </header>
   );
