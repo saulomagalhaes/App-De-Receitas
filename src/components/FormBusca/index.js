@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getFoodsByName } from '../../redux/actions';
-// import { getFoodsByIngredient,
-//   getFoodsByName, getFoodsByFLetter } from '../../redux/actions';
+import {
+  getFoodsByIngredient,
+  getFoodsByName,
+  getFoodsByFLetter,
+} from '../../redux/actions';
 // import './styles.css';
 
 function FormBusca() {
@@ -10,13 +12,18 @@ function FormBusca() {
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getFoodsByName('beef'));
-  }, []);
-
-  useEffect(() => {
-    console.log(searchType);
-  }, [searchType]);
+  const handleSearch = () => {
+    if (searchType === 'ingredient') {
+      dispatch(getFoodsByIngredient(textSearch));
+    } else if (searchType === 'name') {
+      dispatch(getFoodsByName(textSearch));
+    } else if (searchType === 'firstLetter') {
+      if (textSearch.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
+      }
+      dispatch(getFoodsByFLetter(textSearch));
+    }
+  };
 
   return (
     <form>
@@ -65,7 +72,7 @@ function FormBusca() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        // onClick={ handleOrder }
+        onClick={ handleSearch }
       >
         SEARCH
       </button>
