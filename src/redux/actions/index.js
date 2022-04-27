@@ -19,6 +19,7 @@ const saveFoods = (foods) => ({
 //   type: 'GET_FOODS_NAME',
 //   foods,
 // });
+
 // const saveFoodsByFLetter = (foods) => ({
 //   type: 'GET_FOODS_FIRST_LETTER',
 //   foods,
