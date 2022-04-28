@@ -13,6 +13,7 @@ function Drinks(props) {
     const id = Number(drinks[0].idDrink);
     return history.push(`/drinks/${id}`);
   };
+
   return (
     <>
       <Header title="Drinks" />
@@ -22,6 +23,7 @@ function Drinks(props) {
     </>
   );
 }
+
 Drinks.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getFoodsByIngredient,
   getFoodsByName,
@@ -8,6 +8,7 @@ import {
   getDrinksByIngredient,
   getDrinksByName,
   getDrinksByFLetter,
+  getEmptySize,
 } from '../../redux/actions';
 // import './styles.css';
 
@@ -17,30 +18,54 @@ function FormBusca(props) {
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
 
-  const handleSearch = () => {
-    if (title === 'Drinks') {
-      if (searchType === 'ingredient') {
-        dispatch(getDrinksByIngredient(textSearch));
-      } else if (searchType === 'name') {
-        dispatch(getDrinksByName(textSearch));
-      } else if (searchType === 'firstLetter') {
-        if (textSearch.length > 1) {
-          return global.alert('Your search must have only 1 (one) character');
-        }
-        return dispatch(getDrinksByFLetter(textSearch));
-      }
-    }
+  const drinks = useSelector((state) => state.drinks.drinks);
+  const foods = useSelector((state) => state.foods.meals);
 
+  const verifyDrinks = () => {
+    if (drinks === null) {
+      console.log('entrou');
+      dispatch(getEmptySize(true));
+    }
+  };
+
+  const verifyFoods = () => {
+    if (foods === null) {
+      console.log('entrou');
+      dispatch(getEmptySize(true));
+    }
+  };
+
+  const searchDrinks = () => {
     if (searchType === 'ingredient') {
-      dispatch(getFoodsByIngredient(textSearch));
+      dispatch(getDrinksByIngredient(textSearch), () => verifyDrinks());
     } else if (searchType === 'name') {
-      dispatch(getFoodsByName(textSearch));
+      dispatch(getDrinksByName(textSearch), () => verifyDrinks());
     } else if (searchType === 'firstLetter') {
       if (textSearch.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      dispatch(getFoodsByFLetter(textSearch));
+      dispatch(getDrinksByFLetter(textSearch), () => verifyDrinks());
     }
+  };
+
+  const searchFoods = () => {
+    if (searchType === 'ingredient') {
+      dispatch(getFoodsByIngredient(textSearch), () => verifyFoods());
+    } else if (searchType === 'name') {
+      dispatch(getFoodsByName(textSearch), () => verifyFoods());
+    } else if (searchType === 'firstLetter') {
+      if (textSearch.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
+      }
+      dispatch(getFoodsByFLetter(textSearch), () => verifyFoods());
+    }
+  };
+
+  const handleSearch = () => {
+    if (title === 'Drinks') {
+      return searchDrinks();
+    }
+    return searchFoods();
   };
 
   return (
