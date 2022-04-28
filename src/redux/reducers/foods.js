@@ -9,7 +9,7 @@ const foods = (state = INITIAL_STATE, action) => {
   case 'GET_FOODS':
     return {
       ...state,
-      meals: action.foods,
+      meals: action.foods.meals,
     };
   case 'GET_FOOD_CATEGORIES':
     return {

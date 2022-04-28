@@ -8,7 +8,6 @@ import Cards from '../components/Cards';
 function Foods(props) {
   const { history } = props;
   const foods = useSelector((state) => state.foods.meals);
-  const empty = useSelector((state) => state.empty);
 
   const redirectDetails = () => {
     const id = Number(foods[0].idMeal);
@@ -17,17 +16,18 @@ function Foods(props) {
 
   const checkCard = () => (foods.length === 1
     ? redirectDetails()
-    : <Cards foods={ foods } />);
-
-  const checkEmpty = () => (empty === true
-    ? global.alert('Sorry, we haven\'t found any recipes for these filters.')
-    : checkCard());
+    : <Cards foods={ foods } />
+  );
 
   return (
     <>
       <Header title="Foods" />
       <h1>Food</h1>
-      {empty !== null ? checkEmpty() : ''}
+      {foods !== null
+        ? checkCard()
+        : global.alert(
+          'Sorry, we haven\'t found any recipes for these filters.',
+        )}
       <Footer />
     </>
   );
