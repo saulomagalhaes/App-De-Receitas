@@ -25,7 +25,7 @@ describe('1. Validação da página Login ', () => {
     expect(inputLogin).toBeInTheDocument();
   });
 
-  it('1.2 - Verifica se o botão de login está desabilitadoo', () => {
+  it('1.2 - Verifica se o botão de login está desabilitado', () => {
     renderWithRouterAndRedux(<App />);
     const inputLogin = screen.getByTestId(LOGIN_SUBMIT_BTN_ID);
     expect(inputLogin).toBeDisabled();
