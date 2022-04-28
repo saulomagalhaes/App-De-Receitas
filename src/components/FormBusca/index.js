@@ -17,20 +17,20 @@ function FormBusca(props) {
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
 
-  const handleSearch = () => {
-    if (title === 'Drinks') {
-      if (searchType === 'ingredient') {
-        dispatch(getDrinksByIngredient(textSearch));
-      } else if (searchType === 'name') {
-        dispatch(getDrinksByName(textSearch));
-      } else if (searchType === 'firstLetter') {
-        if (textSearch.length > 1) {
-          return global.alert('Your search must have only 1 (one) character');
-        }
-        return dispatch(getDrinksByFLetter(textSearch));
+  const searchDrinks = () => {
+    if (searchType === 'ingredient') {
+      dispatch(getDrinksByIngredient(textSearch));
+    } else if (searchType === 'name') {
+      dispatch(getDrinksByName(textSearch));
+    } else if (searchType === 'firstLetter') {
+      if (textSearch.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
       }
+      dispatch(getDrinksByFLetter(textSearch));
     }
+  };
 
+  const searchFoods = () => {
     if (searchType === 'ingredient') {
       dispatch(getFoodsByIngredient(textSearch));
     } else if (searchType === 'name') {
@@ -43,6 +43,12 @@ function FormBusca(props) {
     }
   };
 
+  const handleSearch = () => {
+    if (title === 'Drinks') {
+      return searchDrinks();
+    }
+    return searchFoods();
+  };
   return (
     <form>
       <label htmlFor="textSearch">
@@ -100,5 +106,4 @@ function FormBusca(props) {
 FormBusca.propTypes = {
   title: PropTypes.string.isRequired,
 };
-
 export default FormBusca;
