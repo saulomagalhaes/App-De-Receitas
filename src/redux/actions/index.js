@@ -5,6 +5,10 @@ import {
   fetchDrinksByIngredient,
   fetchDrinksByName,
   fetchDrinksByFLetter,
+  fetchFoodById,
+  fetchDrinkById,
+  fetchFoodsCategories,
+  fetchDrinksCategories,
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
@@ -20,6 +24,25 @@ const saveFoods = (foods) => ({
 const saveDrinks = (drinks) => ({
   type: 'GET_DRINKS',
   drinks,
+});
+
+const saveFoodDetails = (food) => ({
+  type: 'GET_FOOD_DETAILS',
+  food,
+});
+
+const saveDrinkDetails = (drink) => ({
+  type: 'GET_DRINK_DETAILS',
+  drink,
+});
+
+const saveFoodsCategories = (categories) => ({
+  type: 'GET_FOOD_CATEGORIES',
+  categories,
+});
+const saveDrinksCategories = (categories) => ({
+  type: 'GET_DRINK_CATEGORIES',
+  categories,
 });
 
 export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
@@ -71,6 +94,42 @@ export const getDrinksByFLetter = (letter) => async (dispatch) => {
   try {
     const data = await fetchDrinksByFLetter(letter);
     dispatch(saveDrinks(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodById = (id) => async (dispatch) => {
+  try {
+    const data = await fetchFoodById(id);
+    dispatch(saveFoodDetails(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinkById = (id) => async (dispatch) => {
+  try {
+    const data = await fetchDrinkById(id);
+    dispatch(saveDrinkDetails(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodsCategories = () => async (dispatch) => {
+  try {
+    const data = await fetchFoodsCategories();
+    dispatch(saveFoodsCategories(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinksCategories = () => async (dispatch) => {
+  try {
+    const data = await fetchDrinksCategories();
+    dispatch(saveDrinksCategories(data));
   } catch (error) {
     dispatch(failedRequest(error));
   }
