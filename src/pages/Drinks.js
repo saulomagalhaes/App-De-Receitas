@@ -14,11 +14,20 @@ function Drinks(props) {
     return history.push(`/drinks/${id}`);
   };
 
+  const checkCard = () => (drinks.length === 1
+    ? redirectDetails()
+    : <Cards drinks={ drinks } />
+  );
+
   return (
     <>
       <Header title="Drinks" />
-      <h1>Drinks</h1>
-      {drinks.length === 1 ? redirectDetails() : <Cards drinks={ drinks } />}
+      <h1>Food</h1>
+      {drinks !== null
+        ? checkCard()
+        : global.alert(
+          'Sorry, we haven\'t found any recipes for these filters.',
+        )}
       <Footer />
     </>
   );
