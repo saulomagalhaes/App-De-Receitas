@@ -5,6 +5,9 @@ import {
   getFoodsByIngredient,
   getFoodsByName,
   getFoodsByFLetter,
+  getDrinksByIngredient,
+  getDrinksByName,
+  getDrinksByFLetter,
 } from '../../redux/actions';
 // import './styles.css';
 
