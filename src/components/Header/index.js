@@ -8,7 +8,7 @@ import FormBusca from '../FormBusca';
 
 function Header(props) {
   const { title } = props;
-  const [InputSearch, toggleInputSearch] = useState(false);
+  const [toogleSearch, setToggleSearch] = useState(false);
   const arrayTitles = [
     'Explore',
     'Explore Foods',
@@ -35,12 +35,12 @@ function Header(props) {
         {contain ? (
           ''
         ) : (
-          <button type="button" onClick={ () => toggleInputSearch(!InputSearch) }>
+          <button type="button" onClick={ () => setToggleSearch(!toogleSearch) }>
             <img src={ searchIcon } alt="searchIcon" data-testid="search-top-btn" />
           </button>
         )}
       </header>
-      { InputSearch ? <FormBusca /> : '' }
+      { toogleSearch ? <FormBusca title={ title } /> : '' }
     </>
   );
 }

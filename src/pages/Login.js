@@ -40,22 +40,25 @@ function Login(props) {
     <div className="Login">
       <h3 className="text-center">Login</h3>
       <section className="login-inputs">
-        <input
-          type="text"
-          data-testid="email-input"
-          name="email"
-          value={ email }
-          onChange={ (e) => setEmail(e.target.value) }
-          placeholder="E-mail"
-        />
-        <input
-          type="password"
-          data-testid="password-input"
-          name="password"
-          value={ password }
-          onChange={ (e) => setPassword(e.target.value) }
-          placeholder="Senha"
-        />
+        <form>
+          <input
+            type="text"
+            data-testid="email-input"
+            name="email"
+            value={ email }
+            onChange={ (e) => setEmail(e.target.value) }
+            placeholder="E-mail"
+          />
+          <input
+            type="password"
+            data-testid="password-input"
+            name="password"
+            value={ password }
+            onChange={ (e) => setPassword(e.target.value) }
+            placeholder="Senha"
+            autoComplete="off"
+          />
+        </form>
       </section>
       <div className="link">
         <button
