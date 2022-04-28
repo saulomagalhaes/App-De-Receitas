@@ -1,22 +1,26 @@
 const INITIAL_STATE = {
-  meals: [
-    {
-      strMeal: 'Brown Stew Chicken',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg',
-      idMeal: '52940',
-    },
-    {
-      strMeal: 'Chicken & mushroom Hotpot',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/uuuspp1511297945.jpg',
-      idMeal: '52846',
-    },
-  ],
+  meals: [],
+  categories: [],
+  mealdetails: [],
 };
 
 const foods = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'GET_FOODS':
-    return action.foods;
+    return {
+      ...state,
+      meals: action.foods.meals,
+    };
+  case 'GET_FOOD_CATEGORIES':
+    return {
+      ...state,
+      categories: action.categories,
+    };
+  case 'GET_FOOD_DETAILS':
+    return {
+      ...state,
+      mealdetails: action.food,
+    };
   default:
     return state;
   }

@@ -1,7 +1,5 @@
 import React from 'react';
 
-// import PropTypes from 'prop-types';
-
 import './style.css';
 import drinkIcon from '../../images/drinkIcon.svg';
 import exploreIcon from '../../images/exploreIcon.svg';
@@ -22,9 +20,5 @@ function Footer() {
     </footer>
   );
 }
-
-// Footer.propTypes = {
-//   history: PropTypes.string.isRequired,
-// };
 
 export default Footer;

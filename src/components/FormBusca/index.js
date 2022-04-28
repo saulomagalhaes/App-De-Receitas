@@ -1,22 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { getFoodsByName } from '../../redux/actions';
-// import { getFoodsByIngredient,
-//   getFoodsByName, getFoodsByFLetter } from '../../redux/actions';
+import {
+  getFoodsByIngredient,
+  getFoodsByName,
+  getFoodsByFLetter,
+  getDrinksByIngredient,
+  getDrinksByName,
+  getDrinksByFLetter,
+
+} from '../../redux/actions';
 // import './styles.css';
 
-function FormBusca() {
+function FormBusca(props) {
+  const { title } = props;
   const [textSearch, setTextSearch] = useState('');
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getFoodsByName('beef'));
-  }, []);
+  const searchDrinks = () => {
+    if (searchType === 'ingredient') {
+      dispatch(getDrinksByIngredient(textSearch));
+    } else if (searchType === 'name') {
+      dispatch(getDrinksByName(textSearch));
+    } else if (searchType === 'firstLetter') {
+      if (textSearch.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
+      }
+      dispatch(getDrinksByFLetter(textSearch));
+    }
+  };
 
-  useEffect(() => {
-    console.log(searchType);
-  }, [searchType]);
+  const searchFoods = () => {
+    if (searchType === 'ingredient') {
+      dispatch(getFoodsByIngredient(textSearch));
+    } else if (searchType === 'name') {
+      dispatch(getFoodsByName(textSearch));
+    } else if (searchType === 'firstLetter') {
+      if (textSearch.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
+      }
+      dispatch(getFoodsByFLetter(textSearch));
+    }
+  };
+
+  const handleSearch = () => {
+    if (title === 'Drinks') {
+      return searchDrinks();
+    }
+    return searchFoods();
+  };
 
   return (
     <form>
@@ -65,12 +98,15 @@ function FormBusca() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        // onClick={ handleOrder }
+        onClick={ handleSearch }
       >
         SEARCH
       </button>
     </form>
   );
 }
+FormBusca.propTypes = {
+  title: PropTypes.string.isRequired,
+};
 
 export default FormBusca;
