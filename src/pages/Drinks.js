@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
+import { getDrinksByName } from '../redux/actions';
 
 function Drinks(props) {
   const { history } = props;
@@ -18,6 +19,12 @@ function Drinks(props) {
     ? redirectDetails()
     : <Cards drinks={ drinks } />
   );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDrinksByName(''));
+  }, []);
 
   return (
     <>
