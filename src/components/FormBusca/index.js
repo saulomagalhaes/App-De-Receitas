@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   getFoodsByIngredient,
   getFoodsByName,
@@ -8,7 +8,7 @@ import {
   getDrinksByIngredient,
   getDrinksByName,
   getDrinksByFLetter,
-  getEmptySize,
+
 } from '../../redux/actions';
 // import './styles.css';
 
@@ -18,46 +18,29 @@ function FormBusca(props) {
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
 
-  const drinks = useSelector((state) => state.drinks.drinks);
-  const foods = useSelector((state) => state.foods.meals);
-
-  const verifyDrinks = () => {
-    if (drinks === null) {
-      console.log('entrou');
-      dispatch(getEmptySize(true));
-    }
-  };
-
-  const verifyFoods = () => {
-    if (foods === null) {
-      console.log('entrou');
-      dispatch(getEmptySize(true));
-    }
-  };
-
   const searchDrinks = () => {
     if (searchType === 'ingredient') {
-      dispatch(getDrinksByIngredient(textSearch), () => verifyDrinks());
+      dispatch(getDrinksByIngredient(textSearch));
     } else if (searchType === 'name') {
-      dispatch(getDrinksByName(textSearch), () => verifyDrinks());
+      dispatch(getDrinksByName(textSearch));
     } else if (searchType === 'firstLetter') {
       if (textSearch.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      dispatch(getDrinksByFLetter(textSearch), () => verifyDrinks());
+      dispatch(getDrinksByFLetter(textSearch));
     }
   };
 
   const searchFoods = () => {
     if (searchType === 'ingredient') {
-      dispatch(getFoodsByIngredient(textSearch), () => verifyFoods());
+      dispatch(getFoodsByIngredient(textSearch));
     } else if (searchType === 'name') {
-      dispatch(getFoodsByName(textSearch), () => verifyFoods());
+      dispatch(getFoodsByName(textSearch));
     } else if (searchType === 'firstLetter') {
       if (textSearch.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
-      dispatch(getFoodsByFLetter(textSearch), () => verifyFoods());
+      dispatch(getFoodsByFLetter(textSearch));
     }
   };
 

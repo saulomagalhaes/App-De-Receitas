@@ -12,7 +12,6 @@ import {
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
-export const GET_EMPTY_SIZE = 'GET_EMPTY_SIZE';
 
 export const saveEmail = (email) => ({ type: USER_EMAIL, email });
 const failedRequest = (payload) => ({ type: 'FAILED_REQUEST', payload });
@@ -135,8 +134,3 @@ export const getDrinksCategories = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
-export const getEmptySize = (boolean) => ({
-  type: GET_EMPTY_SIZE,
-  boolean,
-});
