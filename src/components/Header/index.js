@@ -29,7 +29,7 @@ function Header(props) {
           <img src={ searchIcon } alt="searchIcon" data-testid="search-top-btn" />
         )}
       </header>
-      <FormBusca />
+      <FormBusca title={ title } />
     </>
   );
 }
