@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
+import { getDrinksByName } from '../redux/actions';
 
 function Drinks(props) {
   const { history } = props;
@@ -14,11 +15,26 @@ function Drinks(props) {
     return history.push(`/drinks/${id}`);
   };
 
+  const checkCard = () => (drinks.length === 1
+    ? redirectDetails()
+    : <Cards drinks={ drinks } />
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getDrinksByName(''));
+  }, []);
+
   return (
     <>
       <Header title="Drinks" />
-      <h1>Drinks</h1>
-      {drinks.length === 1 ? redirectDetails() : <Cards drinks={ drinks } />}
+      <h1>Food</h1>
+      {drinks !== null
+        ? checkCard()
+        : global.alert(
+          'Sorry, we haven\'t found any recipes for these filters.',
+        )}
       <Footer />
     </>
   );

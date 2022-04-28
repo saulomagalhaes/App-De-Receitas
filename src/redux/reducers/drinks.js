@@ -9,7 +9,7 @@ const drinks = (state = INITIAL_STATE, action) => {
   case 'GET_DRINKS':
     return {
       ...state,
-      drinks: action.drinks,
+      drinks: action.drinks.drinks,
     };
   case 'GET_DRINK_CATEGORIES':
     return {
