@@ -26,10 +26,6 @@ function Foods(props) {
     dispatch(getFoodsByName(''));
   }, []);
 
-  useEffect(() => {
-    console.log(foods.meals);
-  }, [foods]);
-
   return (
     <>
       <Header title="Foods" />
@@ -40,7 +36,6 @@ function Foods(props) {
           'Sorry, we haven\'t found any recipes for these filters.',
         )}
       <Footer />
-
     </>
   );
 }
