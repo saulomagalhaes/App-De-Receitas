@@ -127,8 +127,3 @@ export const getDrinksCategories = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
-export const getEmptySize = (boolean) => ({
-  type: GET_EMPTY_SIZE,
-  boolean,
-});

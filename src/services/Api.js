@@ -59,7 +59,6 @@ export const fetchDrinksByName = async (name) => {
   const API_NAME = `${API_DRINK_N}${name}`;
   const response = await fetch(API_NAME);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
@@ -67,20 +66,17 @@ export const fetchDrinksByFLetter = async (letter) => {
   const API_LETTER = `${API_DRINK_FL}${letter}`;
   const response = await fetch(API_LETTER);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
 export const fetchFoodsCategories = async () => {
   const response = await fetch(API_FOOD_CATEGEORIES);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
 export const fetchDrinksCategories = async () => {
   const response = await fetch(API_DRINK_CATEGEORIES);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };

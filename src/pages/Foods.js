@@ -1,9 +1,10 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
+import { getFoodsByName } from '../redux/actions';
 
 function Foods(props) {
   const { history } = props;
@@ -19,6 +20,12 @@ function Foods(props) {
     : <Cards foods={ foods } />
   );
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFoodsByName(''));
+  }, []);
+
   return (
     <>
       <Header title="Foods" />
@@ -32,7 +39,9 @@ function Foods(props) {
     </>
   );
 }
+
 Foods.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
+
 export default Foods;

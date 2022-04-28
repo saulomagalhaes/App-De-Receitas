@@ -7,15 +7,18 @@ const foods = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'GET_FOODS':
     return {
-      ...state, meals: action.foods.meals,
+      ...state,
+      meals: action.foods.meals,
     };
   case 'GET_FOOD_CATEGORIES':
     return {
-      ...state, categories: action.categories,
+      ...state,
+      categories: action.categories,
     };
   case 'GET_FOOD_DETAILS':
     return {
-      ...state, mealdetails: action.food,
+      ...state,
+      mealdetails: action.food,
     };
   default:
     return state;
