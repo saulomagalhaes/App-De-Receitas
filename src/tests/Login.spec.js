@@ -12,7 +12,7 @@ import {
 } from './helpers/constants';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
-describe('1. Validação da página Login ', () => {
+describe('1. Validação da página Loginn ', () => {
   it(`1.1 - Verifica se existe campos para preencher email e senha 
   e um botão para login`, () => {
     renderWithRouterAndRedux(<App />);
