@@ -1,15 +1,13 @@
 import React from 'react';
 
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import './style.css';
 import drinkIcon from '../../images/drinkIcon.svg';
 import exploreIcon from '../../images/exploreIcon.svg';
 import mealIcon from '../../images/mealIcon.svg';
 
-function Footer(props) {
-  const { history } = props;
-  console.log(history);
+function Footer() {
   return (
     <footer data-testid="footer" className="footer">
       <a href="http://localhost:3000/drinks">
@@ -25,8 +23,8 @@ function Footer(props) {
   );
 }
 
-Footer.propTypes = {
-  history: PropTypes.string.isRequired,
-};
+// Footer.propTypes = {
+//   history: PropTypes.string.isRequired,
+// };
 
 export default Footer;
