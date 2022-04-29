@@ -13,7 +13,6 @@ export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
   const response = await fetch(URL_FOOD_DETAILS);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 

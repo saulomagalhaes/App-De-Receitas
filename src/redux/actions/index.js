@@ -95,6 +95,7 @@ export const getDrinksByFLetter = (letter) => async (dispatch) => {
 export const getFoodById = (id) => async (dispatch) => {
   try {
     const data = await fetchFoodById(id);
+    console.log(data);
     dispatch(saveFoodDetails(data));
   } catch (error) {
     dispatch(failedRequest(error));

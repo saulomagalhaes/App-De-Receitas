@@ -44,12 +44,7 @@ function FormBusca(props) {
     }
   };
 
-  const handleSearch = () => {
-    if (title === 'Drinks') {
-      return searchDrinks();
-    }
-    return searchFoods();
-  };
+  const handleSearch = () => (title === 'Drinks' ? searchDrinks() : searchFoods());
 
   return (
     <form>

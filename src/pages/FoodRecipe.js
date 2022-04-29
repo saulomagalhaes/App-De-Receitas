@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getFoodById } from '../redux/actions';
 
 function FoodRecipe() {
   const { id } = useParams();
   const { dispatch } = useDispatch();
+  const recipes = useSelector((state) => state.foods.mealdetails);
+
+  console.log(getFoodById(id));
 
   useEffect(() => {
     dispatch(getFoodById(id));
   }, []);
 
-  const recipes = useSelector((state) => state.foods.mealdetails);
+  const onSubmitButtonClick = () => {
+    const { history } = props;
+    history.push('/foods');
+  };
+
+  console.log(recipes);
   return (
     <>
       {
@@ -32,6 +41,7 @@ function FoodRecipe() {
                 alt="Botão de inciar"
                 type="button"
                 data-testid="start-recipe-btn"
+                onClick={ onSubmitButtonClick }
               >
                 Iniciar
               </button>
@@ -41,5 +51,11 @@ function FoodRecipe() {
     </>
   );
 }
+
+FoodRecipe.propTypes = {
+  history: PropTypes.objectOf(
+    PropTypes.any,
+  ).isRequired,
+};
 
 export default FoodRecipe;

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { getDrinkById } from '../redux/actions';
 
-function DrinkRecipe() {
+function DrinkRecipe(props) {
   const { id } = useParams();
   const { dispatch } = useDispatch();
 
