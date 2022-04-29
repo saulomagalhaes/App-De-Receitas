@@ -1,11 +1,16 @@
-.cards{
+.cards {
   display: flex;
-  img{
-    width: 13rem;
-    height: 13rem;
-  }
-  div{
-    line-height: 1;
-  }
+  div.card {
 
+    > img {
+      width: 5rem;
+      height: 5rem;
+    }
+}
+}
+
+.tags{
+  display: flex;
+  justify-self: space-between;
+  align-items: center;
 }

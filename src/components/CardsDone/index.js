@@ -1,24 +1,62 @@
 import React from 'react';
 import './styles.scss';
+import shareIcon from '../../images/shareIcon.svg';
 
 function CardsDone() {
+  const doneRecipes = localStorage.getItem('doneRecipes')
+    ? JSON.parse(localStorage.getItem('doneRecipes'))
+    : '';
+
+  if (doneRecipes === '') return <h1>Não há receitas finalizadas</h1>;
+
   return (
     <section className="cards">
-      <img
-        data-testid="0-horizontal-image"
-        src="https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=60"
-        alt="food"
-      />
-      <div>
-        <button data-testid="0-horizontal-share-btn" type="button">
-          Share
-        </button>
-        <p data-testid="0-horizontal-top-text">Food</p>
-        <p data-testid="0-horizontal-name">Chicken and Potatoes</p>
-        <p data-testid="0-horizontal-done-date">Done on: 12/12/2019</p>
-        <p data-testid="0-horizontal-tag-1-horizontal-tag">#Chicken</p>
-        <p data-testid="0-horizontal-tag-2-horizontal-tag">#Potatoes</p>
-      </div>
+      {doneRecipes.map((recipe, index) => (
+        <div key={ recipe.id } className="card">
+          <img
+            data-testid={ `${index}-horizontal-image` }
+            src={ recipe.image }
+            alt={ recipe.name }
+          />
+          <div className="card-info">
+            <img
+              alt="share icon"
+              data-testid={ `${index}-horizontal-share-btn` }
+              src={ shareIcon }
+            />
+            {recipe.alcoholicOrNot === '' ? (
+              <p
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                {`${recipe.nationality} - ${recipe.category}`}
+
+              </p>
+            ) : (
+              <p data-testid={ `${index}-horizontal-top-text` }>
+                {recipe.alcoholicOrNot}
+              </p>
+            )}
+
+            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            <p data-testid={ `${index}-horizontal-done-date` }>
+              {recipe.doneDate}
+            </p>
+
+            {recipe.tags !== [] && (
+              <div>
+                {recipe.tags.map((recipeTag) => (
+                  <p
+                    key={ recipeTag }
+                    data-testid={ `0-${recipeTag}-horizontal-tag` }
+                  >
+                    {recipeTag}
+                  </p>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
     </section>
   );
 }
