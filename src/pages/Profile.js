@@ -7,7 +7,7 @@ function Profile({ history }) {
   const email = localStorage.getItem('user')
     ? JSON.parse(localStorage.getItem('user')).email
     : '';
-  
+
   const funcLogoutAndRedirect = () => { // desloga e redireciona para login
     localStorage.removeItem('user');
     localStorage.removeItem('mealsToken');
