@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from 'react-bootstrap';
 
 function Cards(props) {
   const { foods, drinks } = props;
@@ -7,14 +8,24 @@ function Cards(props) {
       const maxIndex = 11;
       if (index <= maxIndex) {
         return (
-          <div key={ food.idMeal } data-testid={ `${index}-recipe-card` }>
-            <h2 data-testid={ `${index}-card-name` }>{food.strMeal}</h2>
-            <img
+          <Card
+            style={ { width: '18rem' } }
+            key={ food.idMeal }
+            data-testid={ `${index}-recipe-card` }
+          >
+            <Card.Img
+              variant="top"
               src={ food.strMealThumb }
               alt="food"
               data-testid={ `${index}-card-img` }
             />
-          </div>
+            <Card.Body>
+              <Card.Title data-testid={ `${index}-card-name` }>{food.strMeal}</Card.Title>
+              {/* <Card.Text>
+                XXX
+              </Card.Text> */}
+            </Card.Body>
+          </Card>
         );
       }
       return false;
@@ -25,14 +36,24 @@ function Cards(props) {
     const maxIndex = 11;
     if (index <= maxIndex) {
       return (
-        <div key={ drink.idDrink } data-testid={ `${index}-recipe-card` }>
-          <h2 data-testid={ `${index}-card-name` }>{drink.strDrink}</h2>
-          <img
+        <Card
+          style={ { width: '18rem' } }
+          key={ drink.idDrink }
+          data-testid={ `${index}-recipe-card` }
+        >
+          <Card.Img
+            variant="top"
             src={ drink.strDrinkThumb }
-            alt="food"
+            alt="drink"
             data-testid={ `${index}-card-img` }
           />
-        </div>
+          <Card.Body>
+            <Card.Title data-testid={ `${index}-card-name` }>{drink.strDrink}</Card.Title>
+            {/* <Card.Text>
+              XXX
+            </Card.Text> */}
+          </Card.Body>
+        </Card>
       );
     }
     return false;
