@@ -6,10 +6,8 @@ import { getFoodById } from '../redux/actions';
 
 function FoodRecipe() {
   const { id } = useParams();
-  const { dispatch } = useDispatch();
-  const recipes = useSelector((state) => state.foods.mealdetails);
-
-  console.log(getFoodById(id));
+  const dispatch = useDispatch();
+  const { meals } = useSelector((state) => state.foods.mealdetails);
 
   useEffect(() => {
     dispatch(getFoodById(id));
@@ -20,34 +18,51 @@ function FoodRecipe() {
     history.push('/foods');
   };
 
-  console.log(recipes);
+  console.log(meals);
   return (
     <>
       {
-        recipes
+        meals
           .map((element) => (
-            <div key={ element.id }>
-              <img src="" alt="Imagem da Comida" data-testid="recipe-photo" />
-              <h1 data-testid="recipe-title">Foods Recipes</h1>
+            <div key={ element.idMeal }>
+              <img
+                src={ element.strMealThumb }
+                alt="Imagem da Comida"
+                data-testid="recipe-photo"
+              />
+              <h1 data-testid="recipe-title">{ element.strMeal }</h1>
               <button data-testid="share-btn" type="button">Compartilhar</button>
               <button data-testid="favorite-btn" type="button">Favoritar</button>
-              <p data-testid="recipe-category" />
-              <p data-testid={ `${index}-ingredient-name-and-measure` } />
-              <p data-testid="instructions" />
-              <inframe data-testid="video" />
-              <div data-testid={ `${index}-recomendation-card` } />
-              <button
-                src=""
-                alt="Botão de inciar"
-                type="button"
-                data-testid="start-recipe-btn"
-                onClick={ onSubmitButtonClick }
+              <p data-testid="recipe-category">{element.strCategory}</p>
+              <p data-testid={ `${element.idMeal}-ingredient-name-and-measure` } />
+              <p data-testid="instructions">{ element.strInstructions }</p>
+              <iframe
+                width="560"
+                height="315"
+                src={ element.strYoutube }
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write;
+                encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                data-testid="video"
               >
-                Iniciar
-              </button>
+                { console.log(element.strYoutube) }
+              </iframe>
+              <div data-testid={ `${element.idMeal}-recomendation-card` } />
             </div>
           ))
       }
+      <button
+        src=""
+        alt="Botão de inciar"
+        type="button"
+        disabled
+        onClick={ onSubmitButtonClick }
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </>
   );
 }

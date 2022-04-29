@@ -6,7 +6,7 @@ import { getDrinkById } from '../redux/actions';
 
 function DrinkRecipe(props) {
   const { id } = useParams();
-  const { dispatch } = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getDrinkById(id));
@@ -26,17 +26,27 @@ function DrinkRecipe(props) {
             <div key={ element.idDrink }>
               <img
                 src={ element.strDrinkThumb }
-                alt="Imagem da Comida"
+                alt="Imagem da Bebida"
                 data-testid="recipe-photo"
               />
               <h1 data-testid="recipe-title">{ element.strDrink }</h1>
               <button data-testid="share-btn" type="button">Compartilhar</button>
               <button data-testid="favorite-btn" type="button">Favoritar</button>
               <p data-testid="recipe-category">{element.strCategory}</p>
-              <p data-testid={ `${index}-ingredient-name-and-measure` } />
+              <p data-testid={ `${element.idMeal}-ingredient-name-and-measure` } />
               <p data-testid="instructions">{ element.strInstructions }</p>
-              <inframe data-testid="video" src={ element.strVideo } />
-              <div data-testid={ `${index}-recomendation-card` } />
+              <iframe
+                width="560"
+                height="315"
+                src={ element.strYoutube }
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write;
+                encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                data-testid="video"
+              />
+              <div data-testid={ `${element.idMeal}-recomendation-card` } />
             </div>
           ))
       }
