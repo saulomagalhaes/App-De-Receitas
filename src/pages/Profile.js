@@ -4,7 +4,9 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile({ history }) {
-  const { email } = JSON.parse(localStorage.getItem('user'));
+  const email = localStorage.getItem('user')
+    ? JSON.parse(localStorage.getItem('user')).email
+    : '';
 
   const funcLogoutAndRedirect = () => { // desloga e redireciona para login
     localStorage.removeItem('user');
