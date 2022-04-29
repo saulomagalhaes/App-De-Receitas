@@ -50,11 +50,11 @@ function Foods(props) {
           variant="secondary"
           size="sm"
           className="ml-2"
-          // onClick={ () => setAll('all') }
+          onClick={ () => dispatch(getFoodsByName('')) }
         >
           All
         </Button>
-        <FilterButtons categories={ arrayCats } />
+        <FilterButtons categories={ arrayCats } title="Foods" />
       </div>
       {foods !== null
         ? checkCard()

@@ -16,6 +16,11 @@ const foods = (state = INITIAL_STATE, action) => {
       ...state,
       categories: action.categories.meals,
     };
+  case 'GET_FOODS_BY_CATEGORY':
+    return {
+      ...state,
+      meals: action.food.meals,
+    };
   case 'GET_FOOD_DETAILS':
     return {
       ...state,

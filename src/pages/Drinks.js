@@ -33,7 +33,6 @@ function Drinks(props) {
 
   useEffect(() => {
     if (categories !== null) {
-      console.log(categories);
       const magic = 5;
       const newCat = [...new Set(categories
         .reduce((cats, { strCategory }) => [...cats, strCategory], []))]
@@ -50,11 +49,12 @@ function Drinks(props) {
           variant="secondary"
           size="sm"
           className="ml-2"
+          onClick={ () => dispatch(getDrinksByName('')) }
           // onClick={ () => setAll('all') }
         >
           All
         </Button>
-        <FilterButtons categories={ arrayCats } />
+        <FilterButtons categories={ arrayCats } title="Drinks" />
       </div>
       {drinks !== null
         ? checkCard()
