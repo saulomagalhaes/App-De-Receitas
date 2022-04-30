@@ -1,23 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './styles.scss';
 import shareIcon from '../../images/shareIcon.svg';
 
-function CardsDone() {
-  const [copied, setCopied] = useState('');
-  const doneRecipes = localStorage.getItem('doneRecipes')
-    ? JSON.parse(localStorage.getItem('doneRecipes'))
-    : '';
+function CardsDone(props) {
+  const { data, handleCopy, copied } = props;
 
-  const handleCopy = (url) => {
-    navigator.clipboard.writeText(url);
-    setCopied('Link copied!');
-  };
-
-  if (doneRecipes === '') return <h1>Não há receitas finalizadas</h1>;
+  if (data === '') return <h1>Não há receitas finalizadas</h1>;
 
   return (
     <section className="cards">
-      {doneRecipes.map((recipe, index) => (
+      {data.map((recipe, index) => (
         <div key={ recipe.id } className="card">
           <img
             data-testid={ `${index}-horizontal-image` }
@@ -69,5 +62,21 @@ function CardsDone() {
     </section>
   );
 }
+
+CardsDone.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      category: PropTypes.string.isRequired,
+      alcoholicOrNot: PropTypes.string.isRequired,
+      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+      doneDate: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
+  handleCopy: PropTypes.func.isRequired,
+  copied: PropTypes.string.isRequired,
+};
 
 export default CardsDone;
