@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   meals: [],
   categories: [],
   mealdetails: [],
+  mealsProgress: [],
 };
 
 const foods = (state = INITIAL_STATE, action) => {
@@ -20,6 +21,11 @@ const foods = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       mealdetails: action.food,
+    };
+  case 'SAVEFOODPROGRESS':
+    return {
+      ...state,
+      mealsProgress: action.food.meals,
     };
   default:
     return state;

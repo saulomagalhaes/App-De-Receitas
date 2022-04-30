@@ -33,7 +33,6 @@ function Foods(props) {
 
   useEffect(() => {
     if (categories !== null) {
-      console.log(categories);
       const magic = 5;
       const newCat = [...new Set(categories
         .reduce((cats, { strCategory }) => [...cats, strCategory], []))]

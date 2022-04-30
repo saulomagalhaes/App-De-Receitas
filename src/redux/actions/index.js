@@ -45,6 +45,21 @@ const saveDrinksCategories = (categories) => ({
   categories,
 });
 
+const saveFoodInProgress = (food) => ({
+  type: 'SAVEFOODPROGRESS',
+  food,
+});
+
+export const funcSaveFoodInProgress = (idFood) => async (dispatch) => {
+  try {
+    const data = await fetchFoodById(idFood);
+    // console.log(data);
+    dispatch(saveFoodInProgress(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
 export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
   try {
     const data = await fetchFoodsByIngredient(ingredient);
@@ -58,6 +73,7 @@ export const getFoodsByName = (name) => async (dispatch) => {
   try {
     const data = await fetchFoodsByName(name);
     dispatch(saveFoods(data));
+    console.log(data);
   } catch (error) {
     dispatch(failedRequest(error));
   }
