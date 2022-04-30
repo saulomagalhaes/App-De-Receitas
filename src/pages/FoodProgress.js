@@ -27,11 +27,13 @@ function FoodProgress() {
     const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
       ingredientMeasure
-        .push(mealsProgress[0][`strIngredient${index}`]
-          + mealsProgress[0][`strMeasure${index}`]);
+        .push(`${mealsProgress[0][`strIngredient${index}`]
+        } - ${mealsProgress[0][`strMeasure${index}`]}`);
     }
     return ingredientMeasure;
   }
+
+  const four = 2;
 
   return (
     <>
@@ -56,12 +58,19 @@ function FoodProgress() {
           {
             concatenateIngredient()
               .map((ingredient, index) => (
-                <p
-                  data-testid={ `${index}-ingredient-name-and-measure` }
-                  key={ index }
-                >
-                  {ingredient}
-                </p>
+                // <label htmlFor={ index } key={ index }>
+                // <input type="checkbox" />
+                ingredient.length > four
+                && (
+                  <p
+                    data-testid={ `${index}-ingredient-step` }
+                    key={ index }
+                    id={ index }
+                  >
+                    {ingredient}
+                  </p>
+                )
+                // </label>
               ))
           }
           <hr />

@@ -19,7 +19,7 @@ describe('47 - Desenvolva a tela de maneira que contenha uma imagem da receita, 
     cy.get('[data-testid="share-btn"]');
     cy.get('[data-testid="favorite-btn"]');
     cy.get('[data-testid="recipe-category"]');
-    // cy.get('[data-testid*="ingredient-step"]').should('have.length', 8);
+    cy.get('[data-testid*="ingredient-step"]').should('have.length', 8);
     cy.get('[data-testid="instructions"]');
     cy.get('[data-testid="finish-recipe-btn"]');
   });
