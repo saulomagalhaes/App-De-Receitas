@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './styles.scss';
 import shareIcon from '../../images/shareIcon.svg';
+import blackHeartIcon from '../../images/blackHeartIcon.svg';
 
-function CardsDone(props) {
-  const { data, handleCopy, copied } = props;
+function CardsFavorite(props) {
+  const { data, handleCopy, copied, handleFavorites } = props;
 
   if (data === '') return <h1>Não há receitas finalizadas</h1>;
 
@@ -20,6 +21,7 @@ function CardsDone(props) {
             />
           </a>
           <div className="card-info">
+
             <button
               type="button"
               onClick={ () => handleCopy(`http://localhost:3000/foods/${recipe.id}`) }
@@ -31,6 +33,18 @@ function CardsDone(props) {
               />
               {copied}
             </button>
+
+            <button
+              type="button"
+              onClick={ () => handleFavorites(recipe.id) }
+            >
+              <img
+                alt="black heart icon"
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeartIcon }
+              />
+            </button>
+
             {recipe.alcoholicOrNot === '' ? (
               <p data-testid={ `${index}-horizontal-top-text` }>
                 {`${recipe.nationality} - ${recipe.category}`}
@@ -46,22 +60,6 @@ function CardsDone(props) {
             >
               {recipe.name}
             </a>
-            <p data-testid={ `${index}-horizontal-done-date` }>
-              {recipe.doneDate}
-            </p>
-
-            {recipe.tags !== [] && (
-              <div>
-                {recipe.tags.map((recipeTag) => (
-                  <p
-                    key={ recipeTag }
-                    data-testid={ `0-${recipeTag}-horizontal-tag` }
-                  >
-                    {recipeTag}
-                  </p>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       ))}
@@ -69,21 +67,20 @@ function CardsDone(props) {
   );
 }
 
-CardsDone.propTypes = {
+CardsFavorite.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
       nationality: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       image: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
       alcoholicOrNot: PropTypes.string.isRequired,
-      tags: PropTypes.arrayOf(PropTypes.string).isRequired,
-      doneDate: PropTypes.string.isRequired,
     }),
   ).isRequired,
   handleCopy: PropTypes.func.isRequired,
   copied: PropTypes.string.isRequired,
+  handleFavorites: PropTypes.func.isRequired,
 };
 
-export default CardsDone;
+export default CardsFavorite;
