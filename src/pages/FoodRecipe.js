@@ -12,7 +12,7 @@ function FoodRecipe(props) {
 
   useEffect(() => {
     dispatch(getFoodById(id));
-  }, []);
+  }, [dispatch, id]);
 
   const onSubmitButtonClick = () => {
     const idProgress = Number(meals[0].idMeal);

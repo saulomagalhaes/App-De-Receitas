@@ -12,7 +12,7 @@ function DrinkRecipe(props) {
 
   useEffect(() => {
     dispatch(getDrinkById(id));
-  }, []);
+  }, [dispatch, id]);
 
   console.log(dispatch(getDrinkById(id)));
 
@@ -45,6 +45,7 @@ function DrinkRecipe(props) {
                 />
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
                 <p data-testid="recipe-category">{element.strCategory}</p>
+                {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
                 <button data-testid="share-btn" type="button">Compartilhar</button>
                 <button data-testid="favorite-btn" type="button">Favoritar</button>
                 <hr />
@@ -62,7 +63,7 @@ function DrinkRecipe(props) {
                   }
                 </ul>
                 <h1>Instructions</h1>
-                <p data-testid="instructions">{ element.strInstructions }</p>
+                <p data-testid="instructions">{element.strInstructions}</p>
                 <div data-testid={ `${element.idDrink}-recomendation-card` } />
               </div>
             ))

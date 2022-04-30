@@ -18,7 +18,7 @@ const drinks = (state = INITIAL_STATE, action) => {
   case 'GET_DRINK_DETAILS':
     return {
       ...state,
-      drinkdetails: action.food,
+      drinkdetails: action.drink,
     };
   default:
     return state;

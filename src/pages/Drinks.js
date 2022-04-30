@@ -27,7 +27,7 @@ function Drinks(props) {
   useEffect(() => {
     dispatch(getDrinksByName(''));
     dispatch(getDrinksCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (categories !== null) {
