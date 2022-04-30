@@ -21,10 +21,12 @@ function FoodRecipe(props) {
 
   function concatenateIngredient() {
     const ingredientMeasure = [];
-    const MAX_NUMBER = 16;
+    const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
-      ingredientMeasure
-        .push(meals[0][`strIngredient${index}`] + meals[0][`strMeasure${index}`]);
+      if (meals[0][`strIngredient${index}`]) {
+        ingredientMeasure
+          .push(meals[0][`strIngredient${index}`] + meals[0][`strMeasure${index}`]);
+      }
     }
     return ingredientMeasure;
   }

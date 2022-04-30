@@ -23,10 +23,12 @@ function DrinkRecipe(props) {
 
   function concatenateIngredient() {
     const ingredientMeasure = [];
-    const MAX_NUMBER = 16;
+    const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
-      ingredientMeasure
-        .push(drinks[0][`strIngredient${index}`] + drinks[0][`strMeasure${index}`]);
+      if (drinks[0][`strMeasure${index}`]) {
+        ingredientMeasure
+          .push(drinks[0][`strIngredient${index}`] + drinks[0][`strMeasure${index}`]);
+      }
     }
     return ingredientMeasure;
   }
