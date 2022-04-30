@@ -1,15 +1,16 @@
 .cards {
   display: flex;
   div.card {
-
-    > img {
-      width: 5rem;
-      height: 5rem;
+    a {
+      img {
+        width: 5rem;
+        height: 5rem;
+      }
     }
-}
+  }
 }
 
-.tags{
+.tags {
   display: flex;
   justify-self: space-between;
   align-items: center;

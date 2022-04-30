@@ -4,6 +4,7 @@ import FiltersDone from '../components/FiltersDone';
 import CardsDone from '../components/CardsDone';
 
 function RecipesDone() {
+  // const { history } = props;
   const doneRecipes = localStorage.getItem('doneRecipes')
     ? JSON.parse(localStorage.getItem('doneRecipes'))
     : '';
@@ -28,6 +29,10 @@ function RecipesDone() {
     navigator.clipboard.writeText(url);
     setCopied('Link copied!');
   };
+
+  // const handleDetails = (url) => {
+  //   history.push(url);
+  // };
   return (
     <>
       <Header title="Done Recipes" />
@@ -36,7 +41,12 @@ function RecipesDone() {
         handleDrink={ handleDrink }
         handleAll={ handleAll }
       />
-      <CardsDone handleCopy={ handleCopy } data={ data } copied={ copied } />
+      <CardsDone
+        handleCopy={ handleCopy }
+        data={ data }
+        copied={ copied }
+        // handleDetails={ handleDetails }
+      />
     </>
   );
 }

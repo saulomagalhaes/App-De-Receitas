@@ -12,11 +12,13 @@ function CardsDone(props) {
     <section className="cards">
       {data.map((recipe, index) => (
         <div key={ recipe.id } className="card">
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt={ recipe.name }
-          />
+          <a href={ `http://localhost:3000/${recipe.type}s/${recipe.id}` }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+          </a>
           <div className="card-info">
             <button
               type="button"
@@ -38,8 +40,12 @@ function CardsDone(props) {
                 {recipe.alcoholicOrNot}
               </p>
             )}
-
-            <p data-testid={ `${index}-horizontal-name` }>{recipe.name}</p>
+            <a
+              href={ `http://localhost:3000/${recipe.type}s/${recipe.id}` }
+              data-testid={ `${index}-horizontal-name` }
+            >
+              {recipe.name}
+            </a>
             <p data-testid={ `${index}-horizontal-done-date` }>
               {recipe.doneDate}
             </p>
