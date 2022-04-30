@@ -4,12 +4,10 @@ import FiltersDone from '../components/FiltersDone';
 import CardsDone from '../components/CardsDone';
 
 function RecipesDone() {
-  // const { history } = props;
   const doneRecipes = localStorage.getItem('doneRecipes')
     ? JSON.parse(localStorage.getItem('doneRecipes'))
     : '';
 
-  // const copyDoneRecipes = [...doneRecipes];
   const [copied, setCopied] = useState('');
   const [data, setData] = useState(doneRecipes);
 
@@ -30,9 +28,6 @@ function RecipesDone() {
     setCopied('Link copied!');
   };
 
-  // const handleDetails = (url) => {
-  //   history.push(url);
-  // };
   return (
     <>
       <Header title="Done Recipes" />
@@ -41,12 +36,7 @@ function RecipesDone() {
         handleDrink={ handleDrink }
         handleAll={ handleAll }
       />
-      <CardsDone
-        handleCopy={ handleCopy }
-        data={ data }
-        copied={ copied }
-        // handleDetails={ handleDetails }
-      />
+      <CardsDone handleCopy={ handleCopy } data={ data } copied={ copied } />
     </>
   );
 }
