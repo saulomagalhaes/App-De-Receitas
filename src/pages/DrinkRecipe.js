@@ -14,8 +14,6 @@ function DrinkRecipe(props) {
     dispatch(getDrinkById(id));
   }, [dispatch, id]);
 
-  console.log(dispatch(getDrinkById(id)));
-
   const onSubmitButtonClick = () => {
     const idProgress = Number(drinks[0].idDrink);
     return history.push(`/drinks/${idProgress}/in-progress`);
