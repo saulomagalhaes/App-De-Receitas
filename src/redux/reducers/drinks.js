@@ -13,7 +13,7 @@ const drinks = (state = INITIAL_STATE, action) => {
   case 'GET_DRINK_CATEGORIES':
     return {
       ...state,
-      categories: action.categories,
+      categories: action.categories.drinks,
     };
   case 'GET_DRINK_DETAILS':
     return {
@@ -24,5 +24,4 @@ const drinks = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-
 export default drinks;

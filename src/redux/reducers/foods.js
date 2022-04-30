@@ -13,7 +13,7 @@ const foods = (state = INITIAL_STATE, action) => {
   case 'GET_FOOD_CATEGORIES':
     return {
       ...state,
-      categories: action.categories,
+      categories: action.categories.meals,
     };
   case 'GET_FOOD_DETAILS':
     return {
@@ -24,5 +24,4 @@ const foods = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-
 export default foods;

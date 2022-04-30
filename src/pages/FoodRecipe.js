@@ -5,76 +5,96 @@ import { useParams } from 'react-router-dom';
 import { getFoodById } from '../redux/actions';
 
 function FoodRecipe(props) {
-  const { history } = props;
   const { meals } = useSelector((state) => state.foods.mealdetails);
+  const { history } = props;
   const { id } = useParams();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getFoodById(id));
+  }, []);
 
   const onSubmitButtonClick = () => {
     const idProgress = Number(meals[0].idMeal);
     return history.push(`/foods/${idProgress}/in-progress`);
   };
 
-  useEffect(() => {
-    dispatch(getFoodById(id));
-  }, []);
+  function concatenateIngredient() {
+    const ingredientMeasure = [];
+    const MAX_NUMBER = 16;
+    for (let index = 1; index < MAX_NUMBER; index += 1) {
+      ingredientMeasure
+        .push(meals[0][`strIngredient${index}`] + meals[0][`strMeasure${index}`]);
+    }
+    return ingredientMeasure;
+  }
 
-  console.log(meals);
-  console.log(Object.values(meals[0]));
-  return (
-    <>
-      {
-        meals
-          .map((element) => (
-            <div key={ element.idMeal }>
-              <img
-                src={ element.strMealThumb }
-                alt="Imagem da Comida"
-                data-testid="recipe-photo"
-              />
-              <h1 data-testid="recipe-title">{ element.strMeal }</h1>
-              <p data-testid="recipe-category">{element.strCategory}</p>
-              <button data-testid="share-btn" type="button">Compartilhar</button>
-              <button data-testid="favorite-btn" type="button">Favoritar</button>
+  if (meals !== undefined) {
+    return (
+      <>
+        {
+          meals
+            .map((element) => (
+              <div key={ element.idMeal }>
+                <img
+                  src={ element.strMealThumb }
+                  alt="Imagem da Comida"
+                  data-testid="recipe-photo"
+                />
+                <h1 data-testid="recipe-title">{ element.strMeal }</h1>
+                <p data-testid="recipe-category">{element.strCategory}</p>
+                <button data-testid="share-btn" type="button">Compartilhar</button>
+                <button data-testid="favorite-btn" type="button">Favoritar</button>
 
-              <hr />
-              <ul>
-                <li data-testid={ `${element.idMeal}-ingredient-name-and-measure` }>
-                  { element.strIngredient2 }
-                </li>
-              </ul>
+                <hr />
+                <ul>
+                  {
+                    concatenateIngredient()
+                      .map((ingredient, index) => (
+                        <li
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                          key={ index }
+                        >
+                          {ingredient}
+                        </li>
+                      ))
+                  }
+                </ul>
 
-              <hr />
-              <h1>Instructions</h1>
-              <p data-testid="instructions">{ element.strInstructions }</p>
+                <hr />
+                <h1>Instructions</h1>
+                <p data-testid="instructions">{ element.strInstructions }</p>
 
-              <iframe
-                width="560"
-                height="315"
-                src={ element.strYoutube }
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write;
-                encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                data-testid="video"
-              />
-              <div data-testid={ `${element.idMeal}-recomendation-card` } />
-            </div>
-          ))
-      }
-      <button
-        src=""
-        alt="Botão de inciar"
-        type="button"
-        disabled
-        onClick={ onSubmitButtonClick }
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-      </button>
-    </>
-  );
+                <iframe
+                  width="560"
+                  height="315"
+                  src={ element.strYoutube }
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write;
+                  encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  data-testid="video"
+                />
+                <div data-testid={ `${element.idMeal}-recomendation-card` } />
+              </div>
+            ))
+        }
+        <button
+          src=""
+          alt="Botão de inciar"
+          type="button"
+          disabled
+          onClick={ onSubmitButtonClick }
+          data-testid="start-recipe-btn"
+        >
+          Start Recipe
+        </button>
+      </>
+    );
+  }
+
+  return null;
 }
 
 FoodRecipe.propTypes = {

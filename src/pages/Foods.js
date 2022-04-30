@@ -1,35 +1,59 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
-import { getFoodsByName } from '../redux/actions';
+import { getFoodsByName, getFoodsCategories } from '../redux/actions';
+import FilterButtons from '../components/FilterButtons';
 
 function Foods(props) {
   const { history } = props;
   const foods = useSelector((state) => state.foods.meals);
+  const categories = useSelector((state) => state.foods.categories);
+  const [arrayCats, setArrayCats] = useState([]);
 
   const redirectDetails = () => {
     const id = Number(foods[0].idMeal);
     return history.push(`/foods/${id}`);
   };
-
   const checkCard = () => (foods.length === 1
     ? redirectDetails()
     : <Cards foods={ foods } />
   );
-
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFoodsByName(''));
+    dispatch(getFoodsCategories());
   }, []);
+
+  useEffect(() => {
+    if (categories !== null) {
+      console.log(categories);
+      const magic = 5;
+      const newCat = [...new Set(categories
+        .reduce((cats, { strCategory }) => [...cats, strCategory], []))]
+        .slice(0, magic);
+      setArrayCats(newCat);
+    }
+  }, [categories]);
 
   return (
     <>
       <Header title="Foods" />
-      <h1>Food</h1>
+      <div>
+        <Button
+          variant="secondary"
+          size="sm"
+          className="ml-2"
+          // onClick={ () => setAll('all') }
+        >
+          All
+        </Button>
+        <FilterButtons categories={ arrayCats } />
+      </div>
       {foods !== null
         ? checkCard()
         : global.alert(
