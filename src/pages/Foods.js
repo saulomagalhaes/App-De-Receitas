@@ -40,6 +40,17 @@ function Foods(props) {
     }
   }, [categories]);
 
+  useEffect(() => {
+    if (categories !== null) {
+      console.log(categories);
+      const magic = 5;
+      const newCat = [...new Set(categories
+        .reduce((cats, { strCategory }) => [...cats, strCategory], []))]
+        .slice(0, magic);
+      setArrayCats(newCat);
+    }
+  }, [categories]);
+
   return (
     <>
       <Header title="Foods" />
