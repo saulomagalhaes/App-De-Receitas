@@ -7,7 +7,7 @@ import profileIcon from '../../images/profileIcon.svg';
 import FormBusca from '../FormBusca';
 
 function Header(props) {
-  const { title } = props;
+  const { title, checkButton } = props;
   const [toogleSearch, setToggleSearch] = useState(false);
   const arrayTitles = [
     'Explore',
@@ -40,13 +40,17 @@ function Header(props) {
           </button>
         )}
       </header>
-      { toogleSearch ? <FormBusca title={ title } /> : '' }
+      { toogleSearch ? <FormBusca
+        title={ title }
+        checkButton={ checkButton }
+      /> : '' }
     </>
   );
 }
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
+  checkButton: PropTypes.func.isRequired,
 };
 
 export default Header;

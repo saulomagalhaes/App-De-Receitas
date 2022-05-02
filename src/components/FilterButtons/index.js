@@ -5,7 +5,7 @@ import { getFoodsByCategory, getDrinksByCategory, getOrdinaryDrink }
 from '../../redux/actions';
 
 function FilterButtons(props) {
-  const { title } = props;
+  const { title, checkButton } = props;
 
   const dispatch = useDispatch();
 
@@ -17,17 +17,19 @@ function FilterButtons(props) {
 
   const handleClick = (category) => {
     if (title === 'Foods') {
+      checkButton(true);
       return filterFood(category);
     }
     if (title === 'Drinks' && category === 'Ordinary Drink') {
       console.log('dentro do if');
+      checkButton(true);
       return filterOrdinaryDrink();
     }
+    checkButton(true);
     return filterDrink(category);
   };
 
   const { categories } = props;
-  console.log(categories);
   return categories.map((cat, index) => (
     <Button
       key={ index }

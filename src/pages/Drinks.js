@@ -13,16 +13,28 @@ function Drinks(props) {
   const drinks = useSelector((state) => state.drinks.drinks);
   const categories = useSelector((state) => state.drinks.categories);
   const [arrayCats, setArrayCats] = useState([]);
+  const [checkClickFood, setCheckClickFood] = useState(false);
 
   const redirectDetails = () => {
     const id = Number(drinks[0].idDrink);
     return history.push(`/drinks/${id}`);
   };
 
-  const checkCard = () => (drinks.length === 1
-    ? redirectDetails()
-    : <Cards drinks={ drinks } />
-  );
+  const checkCard = () => {
+    if (checkClickFood === false
+      && drinks.length === 1) {
+      return redirectDetails();
+    }
+    if (checkClickFood === false
+      && drinks.length > 1) {
+      return <Cards drinks={ drinks } />;
+    }
+    if (checkClickFood === true
+      && drinks.length === 1) {
+      return <Cards drinks={ drinks } />;
+    }
+    return <Cards drinks={ drinks } />;
+  };
 
   const dispatch = useDispatch();
 
@@ -54,7 +66,11 @@ function Drinks(props) {
         >
           All
         </Button>
-        <FilterButtons categories={ arrayCats } title="Drinks" />
+        <FilterButtons
+          categories={ arrayCats }
+          title="Drinks"
+          checkButton={ setCheckClickFood }
+        />
       </div>
       {drinks !== null
         ? checkCard()
