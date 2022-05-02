@@ -14,6 +14,8 @@ function FoodRecipe(props) {
     dispatch(getFoodById(id));
   }, [dispatch, id]);
 
+  console.log(meals);
+
   const onSubmitButtonClick = () => {
     const idProgress = Number(meals[0].idMeal);
     return history.push(`/foods/${idProgress}/in-progress`);
@@ -25,7 +27,8 @@ function FoodRecipe(props) {
     for (let index = 1; index < MAX_NUMBER; index += 1) {
       if (meals[0][`strIngredient${index}`]) {
         ingredientMeasure
-          .push(meals[0][`strIngredient${index}`] + meals[0][`strMeasure${index}`]);
+          .push(`${meals[0][`strIngredient${index}`]
+          } ${meals[0][`strMeasure${index}`]}`);
       }
     }
     return ingredientMeasure;
@@ -66,11 +69,12 @@ function FoodRecipe(props) {
                 <hr />
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{ element.strInstructions }</p>
-
                 <iframe
                   width="560"
                   height="315"
-                  src={ element.strYoutube }
+                  src={ `https://www.youtube.com/embed/${element.strYoutube
+                    .substring(element.strYoutube.indexOf('=') + 1)}` }
+                  YsJXZwE5pdY
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write;

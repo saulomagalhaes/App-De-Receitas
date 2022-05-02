@@ -25,7 +25,8 @@ function DrinkRecipe(props) {
     for (let index = 1; index < MAX_NUMBER; index += 1) {
       if (drinks[0][`strMeasure${index}`]) {
         ingredientMeasure
-          .push(drinks[0][`strIngredient${index}`] + drinks[0][`strMeasure${index}`]);
+          .push(`${drinks[0][`strIngredient${index}`]
+          } ${drinks[0][`strMeasure${index}`]}`);
       }
     }
     return ingredientMeasure;
