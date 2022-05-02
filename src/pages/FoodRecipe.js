@@ -39,7 +39,7 @@ function FoodRecipe(props) {
       <>
         {
           meals
-            .map((element) => (
+            .map((element, index) => (
               <div key={ element.idMeal }>
                 <img
                   src={ element.strMealThumb }
@@ -55,9 +55,9 @@ function FoodRecipe(props) {
                 <ul>
                   {
                     concatenateIngredient()
-                      .map((ingredient, index) => (
+                      .map((ingredient, ind) => (
                         <li
-                          data-testid={ `${index}-ingredient-name-and-measure` }
+                          data-testid={ `${ind}-ingredient-name-and-measure` }
                           key={ index }
                         >
                           {ingredient}
@@ -82,7 +82,7 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <div data-testid={ `${element.idMeal}-recomendation-card` } />
+                <div data-testid={ `${index}-recomendation-card` } />
               </div>
             ))
         }
