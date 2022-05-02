@@ -13,27 +13,31 @@ function FoodProgress() {
 
   useEffect(() => {
     dispatch(getFoodById(id));
-    const idFood = 52977;
-    dispatch(funcSaveFoodInProgress(idFood));
+    // const idFood = 52977;
+    dispatch(funcSaveFoodInProgress(id));
   }, []);
 
-  const onSubmitButtonClick = () => {
+  const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
     const { history } = props;
     history.push('/foods');
   };
 
-  function concatenateIngredient() {
+  function concatenateIngredient() { // A LOGICA PARA RENDERIZAR SOMENTE SE TIVER ALGO DENTRO, DEVE ESTAR AQUI!!!!!!!!!!!!!!!!!
     const ingredientMeasure = [];
     const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
-      ingredientMeasure
-        .push(`${mealsProgress[0][`strIngredient${index}`]
-        } - ${mealsProgress[0][`strMeasure${index}`]}`);
+      const ingredient = mealsProgress[0][`strIngredient${index}`];
+      if (ingredient) {
+        ingredientMeasure
+          .push(`${mealsProgress[0][`strIngredient${index}`] // AQUI DEVERA SER FEITA UMA ALTERACAO, PARA PODER PASSAR TAMBEM, POR TODAS RECEITAS EM PROGRESSO, PARA RENDERIZAR TODOS, POIS ASSIM SO ESTA RENDERIZANDO UMA
+          } - ${mealsProgress[0][`strMeasure${index}`]}`);
+      }
     }
     return ingredientMeasure;
   }
 
-  const four = 2;
+  // const four = 4; /[a-z]+/;
+  // const regex = new RegExp('[a-z]+');
 
   return (
     <>
@@ -54,14 +58,11 @@ function FoodProgress() {
           </button>
           <hr />
           <h1>Ingredients</h1>
-          <p data-testid={ `${element.idMeal}-ingredient-step` } />
-          {
-            concatenateIngredient()
-              .map((ingredient, index) => (
-                // <label htmlFor={ index } key={ index }>
-                // <input type="checkbox" />
-                ingredient.length > four
-                && (
+          {/* <div data-testid={ `${element.idMeal}-ingredient-step` }> */}
+          <div>
+            {
+              concatenateIngredient()
+                .map((ingredient, index) => (
                   <p
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
@@ -69,10 +70,11 @@ function FoodProgress() {
                   >
                     {ingredient}
                   </p>
-                )
-                // </label>
-              ))
-          }
+                  // )
+                  // </label>
+                ))
+            }
+          </div>
           <hr />
 
           <h1>Instructions</h1>
