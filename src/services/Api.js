@@ -10,12 +10,13 @@ const API_FOOD_DETAILS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i='
 const API_DRINK_DETAILS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 const API_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/random.php';
 const API_DRINK_RANDOM = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
+const API_FOOD_FILTER_BY_CATEGORY = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+const API_DRINK_FILTER_BY_CATEGORY = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
 
 export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
   const response = await fetch(URL_FOOD_DETAILS);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
@@ -35,6 +36,22 @@ export const fetchFoodsByIngredient = async (ingredient) => {
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
+export const fetchDrinksByCategory = async (category) => {
+  const URL_BY_CATEGORY = `${API_DRINK_FILTER_BY_CATEGORY}${category}`;
+  const response = await fetch(URL_BY_CATEGORY);
+  const json = await response.json();
+
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchFoodsByCategory = async (category) => {
+  const URL_BY_CATEGORY = `${API_FOOD_FILTER_BY_CATEGORY}${category}`;
+  const response = await fetch(URL_BY_CATEGORY);
+  const json = await response.json();
+
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
 export const fetchFoodsByName = async (name) => {
   const API_NAME = `${API_N}${name}`;
   const response = await fetch(API_NAME);
@@ -42,7 +59,6 @@ export const fetchFoodsByName = async (name) => {
 
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
-
 export const fetchFoodsByFLetter = async (letter) => {
   const API_LETTER = `${API_FL}${letter}`;
   const response = await fetch(API_LETTER);
@@ -63,7 +79,6 @@ export const fetchDrinksByName = async (name) => {
   const API_NAME = `${API_DRINK_N}${name}`;
   const response = await fetch(API_NAME);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
@@ -71,7 +86,6 @@ export const fetchDrinksByFLetter = async (letter) => {
   const API_LETTER = `${API_DRINK_FL}${letter}`;
   const response = await fetch(API_LETTER);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 

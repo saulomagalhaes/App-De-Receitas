@@ -11,21 +11,26 @@ import {
   fetchDrinksCategories,
   fetchFoodRandom,
   fetchDrinkRandom,
+  fetchFoodsByCategory,
+  fetchDrinksByCategory,
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
-
+export const GET_EMPTY_SIZE = 'GET_EMPTY_SIZE';
 export const saveEmail = (email) => ({ type: USER_EMAIL, email });
 const failedRequest = (payload) => ({ type: 'FAILED_REQUEST', payload });
-
 const saveFoods = (foods) => ({
   type: 'GET_FOODS',
   foods,
 });
-
 const saveDrinks = (drinks) => ({
   type: 'GET_DRINKS',
   drinks,
+});
+
+const saveFoodsByCategory = (food) => ({
+  type: 'GET_FOODS_BY_CATEGORY',
+  food,
 });
 
 const saveFoodDetails = (food) => ({
@@ -56,6 +61,24 @@ export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
   }
 };
 
+export const getDrinksByCategory = (category) => async (dispatch) => {
+  try {
+    const data = await fetchDrinksByCategory(category);
+    dispatch(saveDrinks(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodsByCategory = (category) => async (dispatch) => {
+  try {
+    const data = await fetchFoodsByCategory(category);
+    dispatch(saveFoodsByCategory(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
 export const getFoodsByName = (name) => async (dispatch) => {
   try {
     const data = await fetchFoodsByName(name);
@@ -64,7 +87,6 @@ export const getFoodsByName = (name) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodsByFLetter = (letter) => async (dispatch) => {
   try {
     const data = await fetchFoodsByFLetter(letter);
@@ -73,7 +95,6 @@ export const getFoodsByFLetter = (letter) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinksByIngredient = (ingredient) => async (dispatch) => {
   try {
     const data = await fetchDrinksByIngredient(ingredient);
@@ -82,7 +103,6 @@ export const getDrinksByIngredient = (ingredient) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinksByName = (name) => async (dispatch) => {
   try {
     const data = await fetchDrinksByName(name);
@@ -91,7 +111,6 @@ export const getDrinksByName = (name) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinksByFLetter = (letter) => async (dispatch) => {
   try {
     const data = await fetchDrinksByFLetter(letter);

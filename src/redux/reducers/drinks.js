@@ -3,10 +3,9 @@ const INITIAL_STATE = {
   categories: [],
   drinkdetails: [],
 };
-
 const drinks = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'GET_DRINKS':
+  case ('GET_DRINKS'):
     return {
       ...state,
       drinks: action.drinks.drinks,
@@ -25,5 +24,4 @@ const drinks = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-
 export default drinks;
