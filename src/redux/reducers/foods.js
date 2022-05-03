@@ -19,7 +19,7 @@ const foods = (state = INITIAL_STATE, action) => {
   case 'GET_FOOD_DETAILS':
     return {
       ...state,
-      mealdetails: action.food,
+      mealdetails: action.food.meals,
     };
   default:
     return state;

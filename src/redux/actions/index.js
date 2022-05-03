@@ -9,6 +9,8 @@ import {
   fetchDrinkById,
   fetchFoodsCategories,
   fetchDrinksCategories,
+  fetchFoodRandom,
+  fetchDrinkRandom,
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
@@ -130,6 +132,24 @@ export const getDrinksCategories = () => async (dispatch) => {
   try {
     const data = await fetchDrinksCategories();
     dispatch(saveDrinksCategories(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodRandom = () => async (dispatch) => {
+  try {
+    const data = await fetchFoodRandom();
+    dispatch(saveFoodDetails(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinkRandom = () => async (dispatch) => {
+  try {
+    const data = await fetchDrinkRandom();
+    dispatch(saveDrinkDetails(data));
   } catch (error) {
     dispatch(failedRequest(error));
   }

@@ -8,6 +8,8 @@ const API_FOOD_CATEGEORIES = 'https://www.themealdb.com/api/json/v1/1/list.php?c
 const API_DRINK_CATEGEORIES = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 const API_FOOD_DETAILS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 const API_DRINK_DETAILS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
+const API_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/random.php';
+const API_DRINK_RANDOM = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 
 export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
@@ -81,6 +83,18 @@ export const fetchFoodsCategories = async () => {
 
 export const fetchDrinksCategories = async () => {
   const response = await fetch(API_DRINK_CATEGEORIES);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchFoodRandom = async () => {
+  const response = await fetch(API_FOOD_RANDOM);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchDrinkRandom = async () => {
+  const response = await fetch(API_DRINK_RANDOM);
   const json = await response.json();
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
