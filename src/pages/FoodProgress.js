@@ -33,8 +33,50 @@ function FoodProgress() {
     return ingredientMeasure;
   }
 
+  const testeBtn = () => {
+    // const storagePadrao = {
+    //   cocktails: {
+    //     'id-da-bebida': ['listadeingredientesutilizados'],
+    //   },
+    //   meals: {
+    //     'id-da-comida': ['listadeingredientesutilizados'],
+    //   },
+    // };
+    // localStorage.setItem('inProgressRecipes', JSON.stringify(storagePadrao));
+
+    // const chaveJaExistente = localStorage.getItem('inProgressRecipes');
+    // const { meals } = localStorage.getItem('inProgressRecipes');
+    // const ingredientMeasure = concatenateIngredient();
+    // const objectRecipe = {
+    //   ...chaveJaExistente,
+    //   meals: {
+    //     ...meals,
+    //     [id]: ingredientMeasure,
+    //   },
+    // };
+    // localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+    // console.log(localStorage.getItem('inProgressRecipes'));
+
+    const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    const { meals } = chaveJaExistente;
+    // const ingredientMeasure = concatenateIngredient();
+    const objectRecipe = {
+      ...chaveJaExistente,
+      meals: {
+        ...meals,
+        novaChave: 'valorDaNovaChave2',
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+    console.log(localStorage.getItem('inProgressRecipes'));
+    // console.log(localStorage.getItem('inProgressRecipes'));
+  };
+
   return (
     <>
+      <button type="button" onClick={ () => testeBtn() }>
+        aassss
+      </button>
       {mealsProgress.map((element) => (
         <div key={ element.idMeal }>
           <img
