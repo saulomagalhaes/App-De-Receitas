@@ -11,7 +11,6 @@ import {
   fetchDrinksCategories,
   fetchFoodsByCategory,
   fetchDrinksByCategory,
-  fetchOrdinaryDrinkCategory,
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
@@ -65,15 +64,6 @@ export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
 export const getDrinksByCategory = (category) => async (dispatch) => {
   try {
     const data = await fetchDrinksByCategory(category);
-    dispatch(saveDrinks(data));
-  } catch (error) {
-    dispatch(failedRequest(error));
-  }
-};
-
-export const getOrdinaryDrink = () => async (dispatch) => {
-  try {
-    const data = await fetchOrdinaryDrinkCategory();
     dispatch(saveDrinks(data));
   } catch (error) {
     dispatch(failedRequest(error));

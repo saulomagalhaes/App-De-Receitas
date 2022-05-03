@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { getFoodsByCategory, getDrinksByCategory, getOrdinaryDrink }
+import { getFoodsByCategory, getDrinksByCategory }
 from '../../redux/actions';
 
 function FilterButtons(props) {
@@ -13,17 +13,10 @@ function FilterButtons(props) {
 
   const filterDrink = (category) => dispatch(getDrinksByCategory(category));
 
-  const filterOrdinaryDrink = () => dispatch(getOrdinaryDrink());
-
   const handleClick = (category) => {
     if (title === 'Foods') {
       checkButton(true);
       return filterFood(category);
-    }
-    if (title === 'Drinks' && category === 'Ordinary Drink') {
-      console.log('dentro do if');
-      checkButton(true);
-      return filterOrdinaryDrink();
     }
     checkButton(true);
     return filterDrink(category);
