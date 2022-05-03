@@ -13,7 +13,7 @@ import {
 // import './styles.css';
 
 function FormBusca(props) {
-  const { title } = props;
+  const { title, checkButton } = props;
   const [textSearch, setTextSearch] = useState('');
   const [searchType, setSearchType] = useState('ingredient');
   const dispatch = useDispatch();
@@ -102,5 +102,6 @@ function FormBusca(props) {
 }
 FormBusca.propTypes = {
   title: PropTypes.string.isRequired,
+  checkButton: PropTypes.func.isRequired,
 };
 export default FormBusca;

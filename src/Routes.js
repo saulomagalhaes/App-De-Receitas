@@ -14,7 +14,7 @@ import FoodIgredients from './pages/FoodIgredients';
 import DrinkIgredients from './pages/DrinkIgredients';
 import FoodNationalities from './pages/FoodNationalities';
 import Profile from './pages/Profile';
-import RecipesMade from './pages/RecipesMade';
+import RecipesDone from './pages/RecipesDone';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 
 function Routes() {
@@ -69,7 +69,7 @@ function Routes() {
       <Route
         exact
         path="/done-recipes"
-        render={ (props) => <RecipesMade { ...props } /> }
+        render={ (props) => <RecipesDone { ...props } /> }
       />
       <Route
         exact
