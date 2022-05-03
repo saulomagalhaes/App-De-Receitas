@@ -8,6 +8,8 @@ const API_FOOD_CATEGEORIES = 'https://www.themealdb.com/api/json/v1/1/list.php?c
 const API_DRINK_CATEGEORIES = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 const API_FOOD_DETAILS = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
 const API_DRINK_DETAILS = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
+const API_FOOD_FILTER_BY_CATEGORY = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
+const API_DRINK_FILTER_BY_CATEGORY = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
 
 export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
@@ -28,6 +30,21 @@ export const fetchDrinkById = async (id) => {
 export const fetchFoodsByIngredient = async (ingredient) => {
   const API_INGREDIENT = `${API_INGR}${ingredient}`;
   const response = await fetch(API_INGREDIENT);
+  const json = await response.json();
+
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+export const fetchDrinksByCategory = async (category) => {
+  const URL_BY_CATEGORY = `${API_DRINK_FILTER_BY_CATEGORY}${category}`;
+  const response = await fetch(URL_BY_CATEGORY);
+  const json = await response.json();
+
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchFoodsByCategory = async (category) => {
+  const URL_BY_CATEGORY = `${API_FOOD_FILTER_BY_CATEGORY}${category}`;
+  const response = await fetch(URL_BY_CATEGORY);
   const json = await response.json();
 
   return response.ok ? Promise.resolve(json) : Promise.reject(json);

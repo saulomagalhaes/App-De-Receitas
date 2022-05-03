@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const drinks = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-  case 'GET_DRINKS':
+  case ('GET_DRINKS'):
     return {
       ...state,
       drinks: action.drinks.drinks,
