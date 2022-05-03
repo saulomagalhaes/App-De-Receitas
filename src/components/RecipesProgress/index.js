@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { funcSaveFoodInProgress, getFoodById } from '../redux/actions';
+import { funcSaveFoodInProgress, getFoodById } from '../../redux/actions';
 
-function FoodProgress() {
+function RecipeProgress() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { mealsProgress } = useSelector((state) => state.foods);
@@ -99,8 +99,8 @@ function FoodProgress() {
   );
 }
 
-FoodProgress.propTypes = {
+RecipeProgress.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
-export default FoodProgress;
+export default RecipeProgress;
