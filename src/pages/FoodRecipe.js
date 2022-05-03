@@ -1,25 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getFoodById } from '../redux/actions';
+import { getDrinksByName, getFoodById } from '../redux/actions';
 
 function FoodRecipe(props) {
   const { meals } = useSelector((state) => state.foods.mealdetails);
   const { history } = props;
   const { id } = useParams();
+  const NINETEEN_MAX_LENGTH = 19;
+  const drinks = useSelector((state) => state.drinks.drinks);
+  const [buttonProgress] = useState(false);
+  const [StartOnProgress] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getFoodById(id));
-  }, [dispatch, id]);
+    dispatch(getDrinksByName(''));
+  }, []);
 
-  console.log(meals);
+  console.log('Recomendacoes', drinks);
 
-  const onSubmitButtonClick = () => {
-    const idProgress = Number(meals[0].idMeal);
-    return history.push(`/foods/${idProgress}/in-progress`);
-  };
+  // const verificProgress = () => {
+  //  setStartOnProgress
+  // };
 
   function concatenateIngredient() {
     const ingredientMeasure = [];
@@ -33,6 +37,17 @@ function FoodRecipe(props) {
     }
     return ingredientMeasure;
   }
+
+  const onSubmitButtonClick = () => {
+    const ingredientMeasure = concatenateIngredient();
+    const objectRecipe = {
+      meals: { [id]: ingredientMeasure },
+      cocktails: { [id]: '' },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+    console.log(localStorage.getItem('inProgressRecipes'));
+    return history.push(`/foods/${id}/in-progress`);
+  };
 
   if (meals !== undefined) {
     return (
@@ -82,7 +97,22 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <div data-testid={ `${index}-recomendation-card` } />
+                <div>
+                  {
+                    drinks
+                      .splice(NINETEEN_MAX_LENGTH)
+                      .map((item) => item.strDrinkThumb)
+                      .map((img, indexImg) => (
+                        <img
+                          data-testid={ `${indexImg}-recomendation-card` }
+                          key={ indexImg }
+                          src={ img }
+                          style={ { width: '200px', display: 'inline' } }
+                          alt="Recomendação de Bebida"
+                        />
+                      ))
+                  }
+                </div>
               </div>
             ))
         }
@@ -90,11 +120,11 @@ function FoodRecipe(props) {
           src=""
           alt="Botão de inciar"
           type="button"
-          disabled
+          disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
         >
-          Start Recipe
+          { StartOnProgress ? 'Start Recipe' : 'Continue Recipe' }
         </button>
       </>
     );
