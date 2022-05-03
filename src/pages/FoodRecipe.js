@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getDrinksByName, getFoodById } from '../redux/actions';
 
+const NINETEEN_MAX_LENGTH = 19;
+const MAX_NUMBER = 20;
+
 function FoodRecipe(props) {
   const { meals } = useSelector((state) => state.foods.mealdetails);
   const { history } = props;
   const { id } = useParams();
-  const NINETEEN_MAX_LENGTH = 19;
   const drinks = useSelector((state) => state.drinks.drinks);
   const [buttonProgress] = useState(false);
   const [StartOnProgress] = useState(false);
@@ -27,7 +29,6 @@ function FoodRecipe(props) {
 
   function concatenateIngredient() {
     const ingredientMeasure = [];
-    const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
       if (meals[0][`strIngredient${index}`]) {
         ingredientMeasure
