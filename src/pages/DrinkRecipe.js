@@ -1,7 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
 import { getDrinkById, getFoodsByName } from '../redux/actions';
 
 const NINETEEN_MAX_LENGTH = 19;
@@ -12,6 +15,7 @@ function DrinkRecipe(props) {
   const foods = useSelector((state) => state.foods.meals);
   const { history } = props;
   const { id } = useParams();
+  const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
   const dispatch = useDispatch();
 
   console.log(foods);
@@ -54,8 +58,19 @@ function DrinkRecipe(props) {
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
                 <p data-testid="recipe-category">{element.strCategory}</p>
                 {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
-                <button data-testid="share-btn" type="button">Compartilhar</button>
-                <button data-testid="favorite-btn" type="button">Favoritar</button>
+                <button data-testid="share-btn" type="button">
+                  <img src={ shareIcon } alt="Butão de Compartilhar" />
+                </button>
+                <button
+                  data-testid="favorite-btn"
+                  type="button"
+                  onClick={ () => setOnFavoriteHeart(!onFavoriteHeart) }
+                >
+                  <img
+                    src={ onFavoriteHeart ? whiteHeartIcon : blackHeartIcon }
+                    alt="Butão de Favoritar"
+                  />
+                </button>
                 <hr />
                 <ul>
                   {
