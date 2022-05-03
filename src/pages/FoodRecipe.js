@@ -16,20 +16,28 @@ function FoodRecipe(props) {
   const { id } = useParams();
   const drinks = useSelector((state) => state.drinks.drinks);
   const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
-  const [buttonProgress] = useState(false); //
-  const [StartOnProgress] = useState(false); //
+  const [buttonProgress] = useState(false);
+  const [StartOnProgress, setStartOnProgress] = useState('');
   const dispatch = useDispatch();
+
+  function checkStorage() {
+    if (localStorage.getItem('inProgressRecipes')) {
+      const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const previousMeals = previousProgress.meals;
+      const checkedId = Object.keys(previousMeals)
+        .find((element) => element === id);
+      return checkedId
+        ? setStartOnProgress('Continue Recipe')
+        : setStartOnProgress('Start Recipe');
+    }
+    return setStartOnProgress('Start Recipe');
+  }
 
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(getDrinksByName(''));
+    checkStorage();
   }, []);
-
-  console.log('Recomendacoes', drinks);
-
-  // const verificProgress = () => {
-  //  setStartOnProgress
-  // };
 
   function concatenateIngredient() {
     const ingredientMeasure = [];
@@ -43,16 +51,30 @@ function FoodRecipe(props) {
     return ingredientMeasure;
   }
 
-  const onSubmitButtonClick = () => {
+  function onSubmitButtonClick() {
     const ingredientMeasure = concatenateIngredient();
-    const objectRecipe = {
-      meals: { [id]: ingredientMeasure },
-      cocktails: { [id]: '' },
-    };
+    let objectRecipe = {};
+    if (localStorage.getItem('inProgressRecipes')) {
+      const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const previousMeals = previousProgress.meals;
+
+      objectRecipe = {
+        ...previousProgress,
+        meals: {
+          ...previousMeals,
+          [id]: ingredientMeasure,
+        },
+      };
+    } else {
+      objectRecipe = {
+        cocktails: {},
+        meals: { [id]: ingredientMeasure },
+      };
+    }
+
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    console.log(localStorage.getItem('inProgressRecipes'));
-    return history.push(`/foods/${id}/in-progress`);
-  };
+    history.push(`/foods/${id}/in-progress`);
+  }
 
   if (meals !== undefined) {
     return (
@@ -133,14 +155,13 @@ function FoodRecipe(props) {
             ))
         }
         <button
-          src=""
           alt="Botão de inciar"
           type="button"
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
         >
-          { StartOnProgress ? 'Start Recipe' : 'Continue Recipe' }
+          { StartOnProgress }
         </button>
       </>
     );
