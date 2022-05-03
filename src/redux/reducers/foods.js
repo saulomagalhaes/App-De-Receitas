@@ -3,7 +3,6 @@ const INITIAL_STATE = {
   categories: [],
   mealdetails: [],
 };
-
 const foods = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'GET_FOODS':
@@ -30,5 +29,4 @@ const foods = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-
 export default foods;

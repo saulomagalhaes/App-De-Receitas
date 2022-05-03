@@ -31,7 +31,6 @@ function Cards(props) {
       return false;
     });
   }
-
   return drinks.map((drink, index) => {
     const maxIndex = 11;
     if (index <= maxIndex) {
@@ -59,5 +58,4 @@ function Cards(props) {
     return false;
   });
 }
-
 export default Cards;

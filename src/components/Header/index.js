@@ -25,11 +25,7 @@ function Header(props) {
     <>
       <header className="header">
         <Link to="/profile">
-          <img
-            src={ profileIcon }
-            alt="profileIcon"
-            data-testid="profile-top-btn"
-          />
+          <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
         </Link>
         <h1 data-testid="page-title">{title}</h1>
         {contain ? (

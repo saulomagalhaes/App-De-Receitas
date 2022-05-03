@@ -41,7 +41,7 @@ function Drinks(props) {
   useEffect(() => {
     dispatch(getDrinksByName(''));
     dispatch(getDrinksCategories());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (categories !== null) {
@@ -81,9 +81,7 @@ function Drinks(props) {
     </>
   );
 }
-
 Drinks.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
-
 export default Drinks;

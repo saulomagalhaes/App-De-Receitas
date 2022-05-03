@@ -23,11 +23,7 @@ function Routes() {
       <Route exact path="/" render={ (props) => <Login { ...props } /> } />
       <Route exact path="/foods" render={ (props) => <Foods { ...props } /> } />
       <Route exact path="/drinks" render={ (props) => <Drinks { ...props } /> } />
-      <Route
-        exact
-        path="/foods/:id"
-        render={ (props) => <FoodRecipe { ...props } /> }
-      />
+      <Route exact path="/foods/:id" render={ (props) => <FoodRecipe { ...props } /> } />
       <Route
         exact
         path="/drinks/:id"

@@ -44,13 +44,7 @@ function FormBusca(props) {
     }
   };
 
-  const handleSearch = () => {
-    checkButton(false);
-    if (title === 'Drinks') {
-      return searchDrinks();
-    }
-    return searchFoods();
-  };
+  const handleSearch = () => (title === 'Drinks' ? searchDrinks() : searchFoods());
 
   return (
     <form>
@@ -110,5 +104,4 @@ FormBusca.propTypes = {
   title: PropTypes.string.isRequired,
   checkButton: PropTypes.func.isRequired,
 };
-
 export default FormBusca;

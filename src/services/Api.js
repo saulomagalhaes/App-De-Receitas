@@ -15,7 +15,6 @@ export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
   const response = await fetch(URL_FOOD_DETAILS);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
@@ -34,6 +33,7 @@ export const fetchFoodsByIngredient = async (ingredient) => {
 
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
+
 export const fetchDrinksByCategory = async (category) => {
   const URL_BY_CATEGORY = `${API_DRINK_FILTER_BY_CATEGORY}${category}`;
   const response = await fetch(URL_BY_CATEGORY);
@@ -57,7 +57,6 @@ export const fetchFoodsByName = async (name) => {
 
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
-
 export const fetchFoodsByFLetter = async (letter) => {
   const API_LETTER = `${API_FL}${letter}`;
   const response = await fetch(API_LETTER);
@@ -78,7 +77,6 @@ export const fetchDrinksByName = async (name) => {
   const API_NAME = `${API_DRINK_N}${name}`;
   const response = await fetch(API_NAME);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
@@ -86,7 +84,6 @@ export const fetchDrinksByFLetter = async (letter) => {
   const API_LETTER = `${API_DRINK_FL}${letter}`;
   const response = await fetch(API_LETTER);
   const json = await response.json();
-
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
 
