@@ -22,6 +22,7 @@ function FilterButtons(props) {
   const filterDrink = (category) => dispatch(getDrinksByCategory(category));
 
   const handleClick = (category) => {
+    console.log(category);
     const checkDrinks = drinks.some((element) => element.strInstructions);
     if (title === 'Foods') {
       const checkMeals = meals.some((element) => element.strInstructions);
