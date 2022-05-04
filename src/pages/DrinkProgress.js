@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveDrinkInProgress, getFoodById } from '../redux/actions';
+import './DrinksProgress.css';
 
 function DrinkProgress() {
   const { id } = useParams();
@@ -87,6 +88,15 @@ function DrinkProgress() {
     // console.log(localStorage.getItem('inProgressRecipes'));
   };
 
+  const addAndRemoveClass = ({ target }) => {
+    const teste = target;
+    const idClass = '0checkIndex';
+    console.log(teste);
+    // document.querySelector({`.${target.id}`}).classList.add('teste');
+    const idd = document.getElementById(idClass);
+    console.log(idd);
+  };
+
   return (
     <>
       <button type="button" onClick={ () => testeBtn() }>
@@ -117,11 +127,21 @@ function DrinkProgress() {
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
+                    className="checkedItem"
                   >
-                    <input type="checkbox" id={ `${index}checkIndex` } />
-                    <label htmlFor={ `${index}checkIndex` } key={ index }>
-                      {ingredient}
-                    </label>
+                    <input
+                      type="checkbox"
+                      id={ `${index}checkIndex` }
+                      onClick={ (event) => addAndRemoveClass(event) }
+                      // className="checkedItem"
+                    />
+                    {/* <label
+                      htmlFor={ `${index}checkIndex` }
+                      key={ index }
+                      className="checkedItem"
+                    > */}
+                    {ingredient}
+                    {/* </label> */}
                   </p>
                 ))
             }
