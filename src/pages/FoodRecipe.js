@@ -5,54 +5,29 @@ import { useParams } from 'react-router-dom';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import { checkStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
 
 const NINETEEN_MAX_LENGTH = 19;
-const MAX_NUMBER = 20;
 
 function FoodRecipe(props) {
-  const { meals } = useSelector((state) => state.foods.mealdetails);
   const { history } = props;
   const { id } = useParams();
+  const { meals } = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
   const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
+  const [buttonPhrase, setButtonPhrase] = useState(true);
   const [buttonProgress] = useState(false);
-  const [StartOnProgress, setStartOnProgress] = useState('');
   const dispatch = useDispatch();
-
-  function checkStorage() {
-    if (localStorage.getItem('inProgressRecipes')) {
-      const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const previousMeals = previousProgress.meals;
-      const checkedId = Object.keys(previousMeals)
-        .find((element) => element === id);
-      return checkedId
-        ? setStartOnProgress('Continue Recipe')
-        : setStartOnProgress('Start Recipe');
-    }
-    return setStartOnProgress('Start Recipe');
-  }
 
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(getDrinksByName(''));
-    checkStorage();
+    setButtonPhrase(checkStorage(id));
   }, []);
 
-  function concatenateIngredient() {
-    const ingredientMeasure = [];
-    for (let index = 1; index < MAX_NUMBER; index += 1) {
-      if (meals[0][`strIngredient${index}`]) {
-        ingredientMeasure
-          .push(`${meals[0][`strIngredient${index}`]
-          } ${meals[0][`strMeasure${index}`]}`);
-      }
-    }
-    return ingredientMeasure;
-  }
-
   function onSubmitButtonClick() {
-    const ingredientMeasure = concatenateIngredient();
+    const ingredientMeasure = concatenateIngredient(meals);
     let objectRecipe = {};
     if (localStorage.getItem('inProgressRecipes')) {
       const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -107,7 +82,7 @@ function FoodRecipe(props) {
                 <hr />
                 <ul>
                   {
-                    concatenateIngredient()
+                    concatenateIngredient(meals)
                       .map((ingredient, ind) => (
                         <li
                           data-testid={ `${ind}-ingredient-name-and-measure` }
@@ -161,12 +136,11 @@ function FoodRecipe(props) {
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
         >
-          { StartOnProgress }
+          { buttonPhrase }
         </button>
       </>
     );
   }
-
   return null;
 }
 
