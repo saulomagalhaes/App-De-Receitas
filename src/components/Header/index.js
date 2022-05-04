@@ -7,7 +7,7 @@ import profileIcon from '../../images/profileIcon.svg';
 import FormBusca from '../FormBusca';
 
 function Header(props) {
-  const { title } = props;
+  const { title, checkButton } = props;
   const [toogleSearch, setToggleSearch] = useState(false);
   const arrayTitles = [
     'Explore',
@@ -25,11 +25,7 @@ function Header(props) {
     <>
       <header className="header">
         <Link to="/profile">
-          <img
-            src={ profileIcon }
-            alt="profileIcon"
-            data-testid="profile-top-btn"
-          />
+          <img src={ profileIcon } alt="profileIcon" data-testid="profile-top-btn" />
         </Link>
         <h1 data-testid="page-title">{title}</h1>
         {contain ? (
@@ -40,13 +36,17 @@ function Header(props) {
           </button>
         )}
       </header>
-      { toogleSearch ? <FormBusca title={ title } /> : '' }
+      { toogleSearch ? <FormBusca
+        title={ title }
+        checkButton={ checkButton }
+      /> : '' }
     </>
   );
 }
 
 Header.propTypes = {
   title: PropTypes.string.isRequired,
+  checkButton: PropTypes.func.isRequired,
 };
 
 export default Header;
