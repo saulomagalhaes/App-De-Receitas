@@ -58,7 +58,7 @@ const saveDrinkInProgress = (food) => ({
 export const funcSaveFoodInProgress = (idFood) => async (dispatch) => {
   try {
     const data = await fetchFoodById(idFood);
-    console.log(data);
+    // console.log(data);
     dispatch(saveFoodInProgress(data));
   } catch (error) {
     dispatch(failedRequest(error));
@@ -68,7 +68,7 @@ export const funcSaveFoodInProgress = (idFood) => async (dispatch) => {
 export const funcSaveDrinkInProgress = (idFood) => async (dispatch) => {
   try {
     const data = await fetchDrinkById(idFood);
-    console.log(data);
+    // console.log(data);
     dispatch(saveDrinkInProgress(data));
   } catch (error) {
     dispatch(failedRequest(error));

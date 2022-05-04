@@ -93,7 +93,7 @@ function DrinkProgress() {
         aassss
       </button>
       {drinkProgress && drinkProgress.map((element) => (
-        <div key={ element.idMeal }>
+        <div key={ element.idDrink }>
           <img
             src={ element.strDrinkThumb }
             alt="Imagem da bebida"
@@ -118,7 +118,10 @@ function DrinkProgress() {
                     key={ index }
                     id={ index }
                   >
-                    {ingredient}
+                    <input type="checkbox" id={ `${index}checkIndex` } />
+                    <label htmlFor={ `${index}checkIndex` } key={ index }>
+                      {ingredient}
+                    </label>
                   </p>
                 ))
             }

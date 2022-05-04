@@ -103,7 +103,10 @@ function FoodProgress() {
                     key={ index }
                     id={ index }
                   >
-                    {ingredient}
+                    <input type="checkbox" id={ `${index}checkIndex` } />
+                    <label htmlFor={ `${index}checkIndex` } key={ index }>
+                      {ingredient}
+                    </label>
                   </p>
                 ))
             }
