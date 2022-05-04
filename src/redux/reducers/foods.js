@@ -2,6 +2,8 @@ const INITIAL_STATE = {
   meals: [],
   categories: [],
   mealdetails: [],
+  ingredients: [],
+  nationalities: [],
 };
 const foods = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -24,6 +26,16 @@ const foods = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       mealdetails: action.food.meals,
+    };
+  case 'GET_FOOD_INGREDIENTS':
+    return {
+      ...state,
+      ingredients: action.ingredients.meals,
+    };
+  case 'GET_FOOD_NATIONALITIES':
+    return {
+      ...state,
+      nationalities: action.nationalities.meals,
     };
   default:
     return state;

@@ -62,7 +62,7 @@ function Drinks(props) {
           size="sm"
           className="ml-2"
           onClick={ () => dispatch(getDrinksByName('')) }
-          // onClick={ () => setAll('all') }
+          data-testid="All-category-filter"
         >
           All
         </Button>

@@ -12,6 +12,10 @@ const API_FOOD_RANDOM = 'https://www.themealdb.com/api/json/v1/1/random.php';
 const API_DRINK_RANDOM = 'https://www.thecocktaildb.com/api/json/v1/1/random.php';
 const API_FOOD_FILTER_BY_CATEGORY = 'https://www.themealdb.com/api/json/v1/1/filter.php?c=';
 const API_DRINK_FILTER_BY_CATEGORY = 'https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=';
+const API_FOOD_LIST_INGREDIENTS = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
+const API_DRINK_LIST_INGREDIENTS = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
+const API_FOOD_LIST_NATIONALITIES = 'https://www.themealdb.com/api/json/v1/1/list.php?i=list';
+const API_DRINK_LIST_NATIONALITIES = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list';
 
 export const fetchFoodById = async (id) => {
   const URL_FOOD_DETAILS = `${API_FOOD_DETAILS}${id}`;
@@ -109,6 +113,30 @@ export const fetchFoodRandom = async () => {
 
 export const fetchDrinkRandom = async () => {
   const response = await fetch(API_DRINK_RANDOM);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchFoodListNationalities = async () => {
+  const response = await fetch(API_FOOD_LIST_NATIONALITIES);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchDrinksListNationalities = async () => {
+  const response = await fetch(API_DRINK_LIST_NATIONALITIES);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchFoodListIngredients = async () => {
+  const response = await fetch(API_FOOD_LIST_INGREDIENTS);
+  const json = await response.json();
+  return response.ok ? Promise.resolve(json) : Promise.reject(json);
+};
+
+export const fetchDrinksListIngredients = async () => {
+  const response = await fetch(API_DRINK_LIST_INGREDIENTS);
   const json = await response.json();
   return response.ok ? Promise.resolve(json) : Promise.reject(json);
 };
