@@ -34,7 +34,7 @@ function DrinkProgress() {
     history.push('/foods');
   };
 
-  function concatenateIngredient() { // verifica se possui ingrediente no length e o return para ser renderizado
+  function concatenateIngredient() { // verifica se possuui ingrediente no length e o return para ser renderizado
     const ingredientMeasure = [];
     const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
