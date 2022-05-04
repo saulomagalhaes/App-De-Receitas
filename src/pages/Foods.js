@@ -39,8 +39,8 @@ function Foods(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getFoodsByName(''));
     dispatch(getFoodsCategories());
+    if (foods.length === 0) dispatch(getFoodsByName(''));
   }, [dispatch]);
 
   useEffect(() => {
