@@ -11,7 +11,6 @@ const NINETEEN_MAX_LENGTH = 19;
 const MAX_NUMBER = 20;
 
 function DrinkRecipe(props) {
-
   const drinks = useSelector((state) => state.drinks.drinkdetails);
   const foods = useSelector((state) => state.foods.meals);
   const { history } = props;
