@@ -9,8 +9,14 @@ import {
   fetchDrinkById,
   fetchFoodsCategories,
   fetchDrinksCategories,
+  fetchFoodRandom,
+  fetchDrinkRandom,
   fetchFoodsByCategory,
   fetchDrinksByCategory,
+  fetchFoodListIngredients,
+  fetchFoodListNationalities,
+  fetchDrinksListIngredients,
+  fetchDrinksListNationalities,
 } from '../../services/Api';
 
 export const USER_EMAIL = 'USER_EMAIL';
@@ -48,6 +54,23 @@ const saveFoodsCategories = (categories) => ({
 const saveDrinksCategories = (categories) => ({
   type: 'GET_DRINK_CATEGORIES',
   categories,
+});
+const saveFoodIngredients = (ingredients) => ({
+  type: 'GET_FOOD_INGREDIENTS',
+  ingredients,
+});
+const saveDrinkIngredients = (ingredients) => ({
+  type: 'GET_DRINK_INGREDIENTS',
+  ingredients,
+});
+
+const saveFoodNationalities = (nationalities) => ({
+  type: 'GET_FOOD_NATIONALITIES',
+  nationalities,
+});
+const saveDrinkNationalities = (nationalities) => ({
+  type: 'GET_DRINK_NATIONALITIES',
+  nationalities,
 });
 
 export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
@@ -149,6 +172,60 @@ export const getDrinksCategories = () => async (dispatch) => {
   try {
     const data = await fetchDrinksCategories();
     dispatch(saveDrinksCategories(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodRandom = () => async (dispatch) => {
+  try {
+    const data = await fetchFoodRandom();
+    dispatch(saveFoodDetails(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinkRandom = () => async (dispatch) => {
+  try {
+    const data = await fetchDrinkRandom();
+    dispatch(saveDrinkDetails(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodIngredients = () => async (dispatch) => {
+  try {
+    const data = await fetchFoodListIngredients();
+    dispatch(saveFoodIngredients(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getFoodNationalities = () => async (dispatch) => {
+  try {
+    const data = await fetchFoodListNationalities();
+    dispatch(saveFoodNationalities(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinkIngredients = () => async (dispatch) => {
+  try {
+    const data = await fetchDrinksListIngredients();
+    dispatch(saveDrinkIngredients(data));
+  } catch (error) {
+    dispatch(failedRequest(error));
+  }
+};
+
+export const getDrinkNationalities = () => async (dispatch) => {
+  try {
+    const data = await fetchDrinksListNationalities();
+    dispatch(saveDrinkNationalities(data));
   } catch (error) {
     dispatch(failedRequest(error));
   }

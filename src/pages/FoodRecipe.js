@@ -11,9 +11,9 @@ import { getDrinksByName, getFoodById } from '../redux/actions';
 const NINETEEN_MAX_LENGTH = 19;
 
 function FoodRecipe(props) {
+  const meals = useSelector((state) => state.foods.mealdetails);
   const { history } = props;
   const { id } = useParams();
-  const { meals } = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
   const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
@@ -21,8 +21,8 @@ function FoodRecipe(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getFoodById(id));
     dispatch(getDrinksByName(''));
+    dispatch(getFoodById(id));
     setButtonPhrase(checkStorage(id));
   }, []);
 
@@ -56,7 +56,7 @@ function FoodRecipe(props) {
       <>
         {
           meals
-            .map((element, index) => (
+            .map((element) => (
               <div key={ element.idMeal }>
                 <img
                   src={ element.strMealThumb }
@@ -86,7 +86,7 @@ function FoodRecipe(props) {
                       .map((ingredient, ind) => (
                         <li
                           data-testid={ `${ind}-ingredient-name-and-measure` }
-                          key={ index }
+                          key={ ind }
                         >
                           {ingredient}
                         </li>
@@ -97,12 +97,13 @@ function FoodRecipe(props) {
                 <hr />
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{ element.strInstructions }</p>
+
+                <h1>Vídeo</h1>
                 <iframe
                   width="560"
                   height="315"
                   src={ `https://www.youtube.com/embed/${element.strYoutube
                     .substring(element.strYoutube.indexOf('=') + 1)}` }
-                  YsJXZwE5pdY
                   title="YouTube video player"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write;
@@ -111,18 +112,26 @@ function FoodRecipe(props) {
                   data-testid="video"
                 />
                 <div data-testid="recomendation-card">
+                  <h1>Recommended</h1>
                   {
                     drinks
                       .splice(NINETEEN_MAX_LENGTH)
-                      .map((item) => item.strDrinkThumb)
                       .map((img, indexImg) => (
-                        <img
-                          data-testid={ `${indexImg}-recomendation-card` }
-                          key={ indexImg }
-                          src={ img }
-                          style={ { width: '200px', display: 'inline' } }
-                          alt="Recomendação de Bebida"
-                        />
+                        <div key={ indexImg }>
+                          <img
+                            data-testid={ `${indexImg}-recomendation-card` }
+                            src={ img.strDrinkThumb }
+                            style={ { width: '200px' } }
+                            alt="Recomendação de Bebida"
+                          />
+                          <span>
+                            {img.strAlcoholic === 'Alcoholic'
+                              ? img.strAlcoholic : ''}
+                          </span>
+                          <p data-testid={ `${indexImg}-recomendation-title` }>
+                            {img.strDrink}
+                          </p>
+                        </div>
                       ))
                   }
                 </div>

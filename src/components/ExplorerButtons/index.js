@@ -1,23 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import useExplorer from '../../hooks/useExplorer';
 
 function ExplorerButtons(props) {
   const { title, history } = props;
   const isFood = (title === 'Foods');
+  const [idRecipe, surpriseMe] = useExplorer(0);
+
+  useEffect(() => {
+    const pathName = `/${title.toLowerCase()}/${idRecipe}`;
+    if (idRecipe !== 0) history.push(pathName);
+  }, [idRecipe]);
 
   const handleClick = ({ id }) => {
-    console.log(title, id, isFood);
-    if (isFood && (id === 'ingredient')) {
-      history.push('/explore/foods/ingredients');
+    if (id === 'ingredient') {
+      history.push(`/explore/${title.toLowerCase()}/ingredients`);
     }
-    if (isFood && (id === 'nationality')) {
+    if (id === 'nationality') {
       history.push('/explore/foods/nationalities');
     }
-    if (!isFood && (id === 'ingredient')) {
-      history.push('/explore/drinks/ingredients');
-    }
-    if (id === 'surprise') surpriseMe();
+    surpriseMe(isFood);
   };
 
   return (
