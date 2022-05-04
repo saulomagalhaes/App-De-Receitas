@@ -20,7 +20,7 @@ function ExplorerButtons(props) {
     if (id === 'nationality') {
       history.push('/explore/foods/nationalities');
     }
-    if (id === 'surprise') return surpriseMe(isFood);
+    surpriseMe(isFood);
   };
 
   return (
