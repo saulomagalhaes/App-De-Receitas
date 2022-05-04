@@ -38,6 +38,7 @@ function Foods(props) {
 
   const dispatch = useDispatch();
 
+  // Alterado para o requisito 77
   useEffect(() => {
     dispatch(getFoodsCategories());
     if (foods.length === 0) dispatch(getFoodsByName(''));
