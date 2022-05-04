@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFoodsByCategory, getDrinksByCategory, getFoodsByName, getDrinksByName }
@@ -6,6 +6,10 @@ from '../../redux/actions';
 
 function FilterButtons(props) {
   const { title, checkButton } = props;
+
+  const [takeCategory, setTakeCategory] = useState([]);
+
+  console.log(takeCategory);
 
   const meals = useSelector((state) => state.foods.meals);
 
@@ -22,15 +26,30 @@ function FilterButtons(props) {
   const filterDrink = (category) => dispatch(getDrinksByCategory(category));
 
   const handleClick = (category) => {
-    console.log(category);
     const checkDrinks = drinks.some((element) => element.strInstructions);
     if (title === 'Foods') {
       const checkMeals = meals.some((element) => element.strInstructions);
+      if (checkMeals && takeCategory === '') {
+        checkButton(true);
+        return filterFood(category) && setTakeCategory(category);
+      }
+      if (takeCategory.length > 0 && category === takeCategory) {
+        checkButton(true);
+        return getFoods();
+      }
       checkButton(true);
-      return checkMeals ? filterFood(category) : getFoods();
+      return filterFood(category) && setTakeCategory(category);
+    }
+    if (checkDrinks && takeCategory === '') {
+      checkButton(true);
+      return filterDrink(category) && setTakeCategory(category);
+    }
+    if (takeCategory.length > 0 && category === takeCategory) {
+      checkButton(true);
+      return getDrinks();
     }
     checkButton(true);
-    return checkDrinks ? filterDrink(category) : getDrinks();
+    return filterDrink(category) && setTakeCategory(category);
   };
 
   const { categories } = props;
