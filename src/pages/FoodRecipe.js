@@ -135,7 +135,8 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <div>
+                <div data-testid="recomendation-card">
+                {/* <div> */}
                   {
                     drinks
                       .splice(NINETEEN_MAX_LENGTH)
@@ -143,6 +144,7 @@ function FoodRecipe(props) {
                       .map((img, indexImg) => (
                         <img
                           data-testid={ `${indexImg}-recomendation-card` }
+                          // data-testid="${index}-recomendation-card"
                           key={ indexImg }
                           src={ img }
                           style={ { width: '200px', display: 'inline' } }

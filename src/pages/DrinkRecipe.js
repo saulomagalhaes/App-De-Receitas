@@ -56,8 +56,11 @@ function DrinkRecipe(props) {
                   data-testid="recipe-photo"
                 />
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
-                <p data-testid="recipe-category">{element.strCategory}</p>
-                {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
+                {/* <p data-testid="recipe-category">{element.strCategory}</p> */}
+                <p data-testid="recipe-category">
+                  {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
+                </p>
+                {/* {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''} */}
                 <button data-testid="share-btn" type="button">
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
@@ -87,7 +90,8 @@ function DrinkRecipe(props) {
                 </ul>
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{element.strInstructions}</p>
-                <div>
+                {/* <div> */}
+                <div data-testid="recomendation-card">
                   {
                     foods
                       .splice(NINETEEN_MAX_LENGTH)
