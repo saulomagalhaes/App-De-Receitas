@@ -3,6 +3,8 @@ const INITIAL_STATE = {
   categories: [],
   mealdetails: [],
   mealsProgress: [],
+  ingredients: [],
+  nationalities: [],
 };
 
 const foods = (state = INITIAL_STATE, action) => {
@@ -17,10 +19,25 @@ const foods = (state = INITIAL_STATE, action) => {
       ...state,
       categories: action.categories.meals,
     };
+  case 'GET_FOODS_BY_CATEGORY':
+    return {
+      ...state,
+      meals: action.food.meals,
+    };
   case 'GET_FOOD_DETAILS':
     return {
       ...state,
-      mealdetails: action.food,
+      mealdetails: action.food.meals,
+    };
+  case 'GET_FOOD_INGREDIENTS':
+    return {
+      ...state,
+      ingredients: action.ingredients.meals,
+    };
+  case 'GET_FOOD_NATIONALITIES':
+    return {
+      ...state,
+      nationalities: action.nationalities.meals,
     };
   case 'SAVEFOODPROGRESS':
     return {
@@ -31,5 +48,4 @@ const foods = (state = INITIAL_STATE, action) => {
     return state;
   }
 };
-
 export default foods;

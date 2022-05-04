@@ -1,0 +1,17 @@
+.cards {
+  display: flex;
+  div.card {
+    a {
+      img {
+        width: 5rem;
+        height: 5rem;
+      }
+    }
+  }
+}
+
+.tags {
+  display: flex;
+  justify-self: space-between;
+  align-items: center;
+}
