@@ -62,6 +62,7 @@ function Foods(props) {
           size="sm"
           className="ml-2"
           onClick={ () => dispatch(getFoodsByName('')) }
+          data-testid="All-category-filter"
         >
           All
         </Button>
