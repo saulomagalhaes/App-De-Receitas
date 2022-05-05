@@ -1,7 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-// import waitForExpect from 'wait-for-expect';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import {
@@ -84,13 +83,18 @@ describe('2. Validação dos filtros de categoria ', () => {
 });
 
 describe('3. Validação dos cards de receitas concluidas', () => {
+  const originalClipboard = { ...global.navigator.clipboard };
   beforeEach(() => {
     const key = 'doneRecipes';
     window.localStorage.setItem(key, JSON.stringify(LOCAL_STORAGE));
+    const mockClipboard = { writeText: jest.fn() };
+    global.navigator.clipboard = mockClipboard;
   });
 
   afterEach(() => {
+    jest.resetAllMocks();
     window.localStorage.clear();
+    global.navigator.clipboard = originalClipboard;
   });
 
   it('3.1 - Verifica se cada card possui uma imagem', () => {
@@ -119,16 +123,14 @@ describe('3. Validação dos cards de receitas concluidas', () => {
     expect(card2Date).toBeInTheDocument();
   });
 
-  // it(`3.3 - Verifica se ao clicar para compartilhar o link para os detalhes
-  // da receita é copiado para o clipboard e aparece uma mensagem
-  // Link Copied!`, async () => {
-  //   renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_DONE_RECIPES] });
-  //   const card1 = screen.getByTestId('0-btn-click');
-  //   const linkCopied = await screen.findByRole('button', {
-  //     name: / link copied!/i,
-  //   });
+  it(`3.3 - Verifica se ao clicar para compartilhar o link para os detalhes
+  da receita é copiado para o clipboard e aparece uma mensagem
+  Link Copied!`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_DONE_RECIPES] });
+    const card1 = screen.getByTestId('0-btn-click');
+    userEvent.click(card1);
 
-  //   userEvent.click(card1);
-  //   expect(linkCopied).toBeInTheDocument();
-  // });
+    const linkCopied = await screen.findByText(/link copied/i);
+    expect(linkCopied).toBeInTheDocument();
+  });
 });
