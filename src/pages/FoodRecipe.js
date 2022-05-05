@@ -6,7 +6,8 @@ import Slider from 'react-slick';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
+import { checkLocalStorage,
+  concatenateIngredient, saveOrDeleteFavorites } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,9 +19,10 @@ function FoodRecipe(props) {
   const { id } = useParams();
   const meals = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
-  const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
+  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
   const [buttonProgress] = useState(false);
+  const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ function FoodRecipe(props) {
     infinite: true,
     speed: 500,
     slidesToShow: 2,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
   };
 
   function onSubmitButtonClick() {
@@ -60,6 +62,11 @@ function FoodRecipe(props) {
     history.push(`/foods/${id}/in-progress`);
   }
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+    setCopied('Link copied!');
+  };
+
   if (meals !== undefined) {
     return (
       <>
@@ -72,18 +79,21 @@ function FoodRecipe(props) {
                   alt="Imagem da Comida"
                   data-testid="recipe-photo"
                 />
-                <h1 data-testid="recipe-title">{ element.strMeal }</h1>
+                <h1 data-testid="recipe-title">{element.strMeal}</h1>
                 <p data-testid="recipe-category">{element.strCategory}</p>
-                <button data-testid="share-btn" type="button">
+                <button data-testid="share-btn" type="button" onClick={ handleCopy }>
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
+                {copied}
                 <button
                   data-testid="favorite-btn"
                   type="button"
-                  onClick={ () => setOnFavoriteHeart(!onFavoriteHeart) }
+                  onClick={ () => setOnFavoriteHeart(
+                    saveOrDeleteFavorites(meals, id, buttonFavorite),
+                  ) }
                 >
                   <img
-                    src={ onFavoriteHeart ? whiteHeartIcon : blackHeartIcon }
+                    src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
                     alt="Butão de Favoritar"
                   />
                 </button>
@@ -92,10 +102,10 @@ function FoodRecipe(props) {
                 <ul>
                   {
                     concatenateIngredient(meals)
-                      .map((ingredient, ind) => (
+                      .map((ingredient, index) => (
                         <li
-                          data-testid={ `${ind}-ingredient-name-and-measure` }
-                          key={ ind }
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                          key={ index }
                         >
                           {ingredient}
                         </li>
@@ -156,7 +166,7 @@ function FoodRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
-          style={ { bottom: '0px' } }
+          style={ { position: 'fixed', bottom: '0' } }
         >
           { buttonPhrase }
         </button>
