@@ -28,4 +28,3 @@ describe('1. Validação do componente Header ', () => {
     expect(title).toBeInTheDocument();
   });
 });
-// TESTE
