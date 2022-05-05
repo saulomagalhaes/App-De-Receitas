@@ -157,7 +157,7 @@ function FoodRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
-          style={ { position: 'fixed' } }
+          style={ { bottom: '0px' } }
         >
           { buttonPhrase }
         </button>
