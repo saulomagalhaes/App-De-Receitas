@@ -4,15 +4,12 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveDrinkInProgress, getFoodById } from '../redux/actions';
 import './DrinksProgress.css';
-// import { Link } from 'react-router-dom';
 
 function DrinkProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { drinkProgress } = useSelector((state) => state.drinks);
   const [activeButton, setActiveButton] = useState(true);
-  // const allCheckers = document.querySelectorAll('input');
-  // const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
 
   useEffect(() => {
     dispatch(getFoodById(id));
@@ -20,7 +17,6 @@ function DrinkProgress({ history }) {
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    // const { history } = props;
     history.push('/done-recipes');
   };
 
@@ -39,32 +35,8 @@ function DrinkProgress({ history }) {
   }
 
   const testeBtn = () => {
-    // const storagePadrao = {
-    //   cocktails: {
-    //     'id-da-bebida': ['listadeingredientesutilizados'],
-    //   },
-    //   meals: {
-    //     'id-da-comida': ['listadeingredientesutilizados'],
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(storagePadrao));
-
-    // const chaveJaExistente = localStorage.getItem('inProgressRecipes');
-    // const { meals } = localStorage.getItem('inProgressRecipes');
-    // const ingredientMeasure = concatenateIngredient();
-    // const objectRecipe = {
-    //   ...chaveJaExistente,
-    //   meals: {
-    //     ...meals,
-    //     [id]: ingredientMeasure,
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    // console.log(localStorage.getItem('inProgressRecipes'));
-
     const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const { meals } = chaveJaExistente;
-    // const ingredientMeasure = concatenateIngredient();
     const objectRecipe = {
       ...chaveJaExistente,
       meals: {
@@ -74,7 +46,6 @@ function DrinkProgress({ history }) {
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     console.log(localStorage.getItem('inProgressRecipes'));
-    // console.log(localStorage.getItem('inProgressRecipes'));
   };
 
   const toggleButton = () => {
@@ -90,7 +61,6 @@ function DrinkProgress({ history }) {
 
   const addAndRemoveClass = ({ target }) => {
     const ingredient = target.parentNode;
-    // const allCheckers = document.querySelectorAll('input');
 
     if (ingredient.classList.contains('checkedItem')) {
       ingredient.classList.remove('checkedItem');
@@ -98,9 +68,6 @@ function DrinkProgress({ history }) {
       ingredient.classList.add('checkedItem');
     }
 
-    // const ValuesChekers = Object.values(allCheckers);
-
-    // console.log(ValuesChekers.every((checkBoxCurrent) => checkBoxCurrent.checked)); // testa se todos os checkers estao checados para abb button
     toggleButton();
   };
   console.log(history);
@@ -134,7 +101,6 @@ function DrinkProgress({ history }) {
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
-                    // className="checkedItem"
                   >
                     <input
                       type="checkbox"

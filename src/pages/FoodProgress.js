@@ -9,8 +9,6 @@ function FoodProgress({ history }) {
   const dispatch = useDispatch();
   const { mealsProgress } = useSelector((state) => state.foods);
   const [activeButton, setActiveButton] = useState(true);
-  // const allCheckers = document.querySelectorAll('input');
-  // const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
 
   useEffect(() => {
     dispatch(getFoodById(id));
@@ -18,7 +16,6 @@ function FoodProgress({ history }) {
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    // const { history } = props;
     history.push('/done-recipes');
   };
 
@@ -37,32 +34,8 @@ function FoodProgress({ history }) {
   }
 
   const testeBtn = () => {
-    // const storagePadrao = {
-    //   cocktails: {
-    //     'id-da-bebida': ['listadeingredientesutilizados'],
-    //   },
-    //   meals: {
-    //     'id-da-comida': ['listadeingredientesutilizados'],
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(storagePadrao));
-
-    // const chaveJaExistente = localStorage.getItem('inProgressRecipes');
-    // const { meals } = localStorage.getItem('inProgressRecipes');
-    // const ingredientMeasure = concatenateIngredient();
-    // const objectRecipe = {
-    //   ...chaveJaExistente,
-    //   meals: {
-    //     ...meals,
-    //     [id]: ingredientMeasure,
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    // console.log(localStorage.getItem('inProgressRecipes'));
-
     const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const { meals } = chaveJaExistente;
-    // const ingredientMeasure = concatenateIngredient();
     const objectRecipe = {
       ...chaveJaExistente,
       meals: {
@@ -72,7 +45,6 @@ function FoodProgress({ history }) {
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     console.log(localStorage.getItem('inProgressRecipes'));
-    // console.log(localStorage.getItem('inProgressRecipes'));
   };
 
   const toggleButton = () => {
