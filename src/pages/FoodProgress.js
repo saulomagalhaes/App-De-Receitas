@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveFoodInProgress, getFoodById } from '../redux/actions';
 
-function FoodProgress() {
+function FoodProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { mealsProgress } = useSelector((state) => state.foods);
+  const [activeButton, setActiveButton] = useState(true);
+  // const allCheckers = document.querySelectorAll('input');
+  // const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
 
   useEffect(() => {
     dispatch(getFoodById(id));
@@ -15,8 +18,8 @@ function FoodProgress() {
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    const { history } = props;
-    history.push('/foods');
+    // const { history } = props;
+    history.push('/done-recipes');
   };
 
   function concatenateIngredient() { // verifica se possui ingrediente no length e o return para ser renderizado
@@ -72,6 +75,29 @@ function FoodProgress() {
     // console.log(localStorage.getItem('inProgressRecipes'));
   };
 
+  const toggleButton = () => {
+    const allCheckers = document.querySelectorAll('input');
+    const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
+    if (ValuesChekers
+      .every((checkBoxCurrent) => checkBoxCurrent.checked)) {
+      setActiveButton(false);
+    } else {
+      setActiveButton(true);
+    }
+  };
+
+  const addAndRemoveClass = ({ target }) => {
+    const ingredient = target.parentNode;
+
+    if (ingredient.classList.contains('checkedItem')) {
+      ingredient.classList.remove('checkedItem');
+    } else {
+      ingredient.classList.add('checkedItem');
+    }
+
+    toggleButton();
+  };
+
   return (
     <>
       <button type="button" onClick={ () => testeBtn() }>
@@ -103,10 +129,14 @@ function FoodProgress() {
                     key={ index }
                     id={ index }
                   >
-                    <input type="checkbox" id={ `${index}checkIndex` } />
-                    <label htmlFor={ `${index}checkIndex` } key={ index }>
-                      {ingredient}
-                    </label>
+                    <input
+                      type="checkbox"
+                      id={ `${index}checkIndex` }
+                      onClick={ (event) => addAndRemoveClass(event) }
+                    />
+                    {/* <label htmlFor={ `${index}checkIndex` } key={ index }> */}
+                    {ingredient}
+                    {/* </label> */}
                   </p>
                 ))
             }
@@ -134,7 +164,7 @@ function FoodProgress() {
         src=""
         alt="Botão de finalizar"
         type="button"
-        disabled
+        disabled={ activeButton }
         onClick={ onSubmitButtonClick }
         data-testid="finish-recipe-btn"
       >
