@@ -35,7 +35,7 @@ function DrinkRecipe(props) {
 
       objectRecipe = {
         ...previousProgress,
-        meals: {
+        cocktails: {
           ...previousMeals,
           [id]: ingredientMeasure,
         },
@@ -137,6 +137,7 @@ function DrinkRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
+          style={ { position: 'fixed' } }
         >
           { buttonPhrase }
         </button>
