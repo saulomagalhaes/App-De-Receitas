@@ -37,7 +37,7 @@ describe('2. Validação dos filtros de categoria ', () => {
   afterEach(() => {
     window.localStorage.clear();
   });
-  it('2.1 - Verifica se existe um filtro para categoria', () => {
+  it('2.1 - Verifica se existe um filtro para cada categoria', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_DONE_RECIPES] });
     const inputAll = screen.getByTestId('filter-by-all-btn');
     const inputFood = screen.getByTestId('filter-by-food-btn');

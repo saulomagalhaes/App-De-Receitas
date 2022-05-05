@@ -30,14 +30,14 @@ describe('1. Validação do Header ', () => {
 
 describe('2. Validação dos filtros de categoria ', () => {
   beforeEach(() => {
-    const key = 'doneRecipes';
+    const key = 'favoriteRecipes';
     window.localStorage.setItem(key, JSON.stringify(LOCAL_STORAGE_FAVORITES));
   });
 
   afterEach(() => {
     window.localStorage.clear();
   });
-  it('2.1 - Verifica se existe um filtro para categoria', () => {
+  it('2.1 - Verifica se existe um filtro para cada categoria', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_FAVORITE_RECIPES] });
     const inputAll = screen.getByTestId('filter-by-all-btn');
     const inputFood = screen.getByTestId('filter-by-food-btn');
@@ -108,21 +108,17 @@ describe('3. Validação dos cards de receitas concluidas', () => {
     expect(card2).toBeInTheDocument();
   });
 
-  it('3.2 - Verifica se cada card possui um nome, categoria e data', () => {
+  it('3.2 - Verifica se cada card possui um nome e uma categoria ', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_FAVORITE_RECIPES] });
     const card1 = screen.getByTestId('0-horizontal-name');
     const card2 = screen.getByTestId('1-horizontal-name');
     const card1Category = screen.getByTestId('0-horizontal-top-text');
     const card2Category = screen.getByTestId('1-horizontal-top-text');
-    const card1Date = screen.getByTestId('0-horizontal-done-date');
-    const card2Date = screen.getByTestId('1-horizontal-done-date');
 
     expect(card1).toBeInTheDocument();
     expect(card2).toBeInTheDocument();
     expect(card1Category).toBeInTheDocument();
     expect(card2Category).toBeInTheDocument();
-    expect(card1Date).toBeInTheDocument();
-    expect(card2Date).toBeInTheDocument();
   });
 
   it(`3.3 - Verifica se ao clicar para compartilhar o link para os detalhes

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './styles.scss';
 import shareIcon from '../../images/shareIcon.svg';
@@ -21,17 +22,18 @@ function CardsFavorite(props) {
   return (
     <section className="cards">
       <div key={ recipe.id } className="card">
-        <a href={ `http://localhost:3000/${recipe.type}s/${recipe.id}` }>
+        <Link to={ `/${recipe.type}s/${recipe.id}` }>
           <img
             data-testid={ `${index}-horizontal-image` }
             src={ recipe.image }
             alt={ recipe.name }
           />
-        </a>
+        </Link>
         <div className="card-info">
 
           <button
             type="button"
+            data-testid={ `${index}-btn-click` }
             onClick={ () => handleCopy(`http://localhost:3000/foods/${recipe.id}`) }
           >
             <img
@@ -62,12 +64,12 @@ function CardsFavorite(props) {
               {recipe.alcoholicOrNot}
             </p>
           )}
-          <a
-            href={ `http://localhost:3000/${recipe.type}s/${recipe.id}` }
+          <Link
+            to={ `/${recipe.type}s/${recipe.id}` }
             data-testid={ `${index}-horizontal-name` }
           >
             {recipe.name}
-          </a>
+          </Link>
         </div>
       </div>
     </section>
