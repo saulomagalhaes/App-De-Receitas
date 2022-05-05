@@ -1,28 +1,15 @@
-// import React from 'react';
-// import RecipeProgress from '../components/RecipesProgress';
-
-// function DrinkProgress() {
-//   return (
-//     <>
-//       <h1>DrinkProgress</h1>
-//       <RecipeProgress />
-//     </>
-//   );
-// }
-
-// export default DrinkProgress;
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveDrinkInProgress, getFoodById } from '../redux/actions';
+import './DrinksProgress.css';
 
-function DrinkProgress() {
+function DrinkProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { drinkProgress } = useSelector((state) => state.drinks);
-  console.log(drinkProgress);
+  const [activeButton, setActiveButton] = useState(true);
 
   useEffect(() => {
     dispatch(getFoodById(id));
@@ -30,8 +17,7 @@ function DrinkProgress() {
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    const { history } = props;
-    history.push('/foods');
+    history.push('/done-recipes');
   };
 
   function concatenateIngredient() { // verifica se possuui ingrediente no length e o return para ser renderizado
@@ -49,32 +35,8 @@ function DrinkProgress() {
   }
 
   const testeBtn = () => {
-    // const storagePadrao = {
-    //   cocktails: {
-    //     'id-da-bebida': ['listadeingredientesutilizados'],
-    //   },
-    //   meals: {
-    //     'id-da-comida': ['listadeingredientesutilizados'],
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(storagePadrao));
-
-    // const chaveJaExistente = localStorage.getItem('inProgressRecipes');
-    // const { meals } = localStorage.getItem('inProgressRecipes');
-    // const ingredientMeasure = concatenateIngredient();
-    // const objectRecipe = {
-    //   ...chaveJaExistente,
-    //   meals: {
-    //     ...meals,
-    //     [id]: ingredientMeasure,
-    //   },
-    // };
-    // localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    // console.log(localStorage.getItem('inProgressRecipes'));
-
     const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const { meals } = chaveJaExistente;
-    // const ingredientMeasure = concatenateIngredient();
     const objectRecipe = {
       ...chaveJaExistente,
       meals: {
@@ -84,9 +46,31 @@ function DrinkProgress() {
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     console.log(localStorage.getItem('inProgressRecipes'));
-    // console.log(localStorage.getItem('inProgressRecipes'));
   };
 
+  const toggleButton = () => {
+    const allCheckers = document.querySelectorAll('input');
+    const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
+    if (ValuesChekers
+      .every((checkBoxCurrent) => checkBoxCurrent.checked)) {
+      setActiveButton(false);
+    } else {
+      setActiveButton(true);
+    }
+  };
+
+  const addAndRemoveClass = ({ target }) => {
+    const ingredient = target.parentNode;
+
+    if (ingredient.classList.contains('checkedItem')) {
+      ingredient.classList.remove('checkedItem');
+    } else {
+      ingredient.classList.add('checkedItem');
+    }
+
+    toggleButton();
+  };
+  console.log(history);
   return (
     <>
       <button type="button" onClick={ () => testeBtn() }>
@@ -118,10 +102,18 @@ function DrinkProgress() {
                     key={ index }
                     id={ index }
                   >
-                    <input type="checkbox" id={ `${index}checkIndex` } />
-                    <label htmlFor={ `${index}checkIndex` } key={ index }>
-                      {ingredient}
-                    </label>
+                    <input
+                      type="checkbox"
+                      id={ `${index}checkIndex` }
+                      onChange={ (event) => addAndRemoveClass(event) }
+                    />
+                    {/* <label
+                      htmlFor={ `${index}checkIndex` }
+                      key={ index }
+                      className="checkedItem"
+                    > */}
+                    {ingredient}
+                    {/* </label> */}
                   </p>
                 ))
             }
@@ -149,7 +141,7 @@ function DrinkProgress() {
         src=""
         alt="Botão de finalizar"
         type="button"
-        disabled
+        disabled={ activeButton }
         onClick={ onSubmitButtonClick }
         data-testid="finish-recipe-btn"
       >

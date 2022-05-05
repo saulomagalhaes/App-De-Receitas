@@ -1,0 +1,7 @@
+.checkedItem {
+  text-decoration: line-through;
+}
+
+/* .checkedItem {
+  text-decoration: none solid rgb(0, 0, 0);
+} */
