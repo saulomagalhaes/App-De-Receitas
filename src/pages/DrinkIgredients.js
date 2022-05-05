@@ -14,7 +14,6 @@ function DrinkIgredients() {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(ingredients);
   }, [ingredients]);
 
   const renderCards = () => {
