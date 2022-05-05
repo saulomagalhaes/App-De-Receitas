@@ -5,15 +5,16 @@ import { useParams } from 'react-router-dom';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
+import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NINETEEN_MAX_LENGTH = 19;
 
 function FoodRecipe(props) {
-  const meals = useSelector((state) => state.foods.mealdetails);
   const { history } = props;
   const { id } = useParams();
+  const meals = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
   const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
@@ -23,14 +24,14 @@ function FoodRecipe(props) {
   useEffect(() => {
     dispatch(getDrinksByName(''));
     dispatch(getFoodById(id));
-    setButtonPhrase(checkStorage(id));
+    setButtonPhrase(checkLocalStorage(id));
   }, []);
 
   function onSubmitButtonClick() {
     const ingredientMeasure = concatenateIngredient(meals);
+    const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let objectRecipe = {};
-    if (localStorage.getItem('inProgressRecipes')) {
-      const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (previousProgress) {
       const previousMeals = previousProgress.meals;
 
       objectRecipe = {
@@ -42,7 +43,6 @@ function FoodRecipe(props) {
       };
     } else {
       objectRecipe = {
-        cocktails: {},
         meals: { [id]: ingredientMeasure },
       };
     }
@@ -57,7 +57,7 @@ function FoodRecipe(props) {
         {
           meals
             .map((element) => (
-              <div key={ element.idMeal }>
+              <section key={ element.idMeal }>
                 <img
                   src={ element.strMealThumb }
                   alt="Imagem da Comida"
@@ -111,31 +111,44 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <div data-testid="recomendation-card">
-                  <h1>Recommended</h1>
-                  {
-                    drinks
-                      .splice(NINETEEN_MAX_LENGTH)
-                      .map((img, indexImg) => (
-                        <div key={ indexImg }>
-                          <img
-                            data-testid={ `${indexImg}-recomendation-card` }
-                            src={ img.strDrinkThumb }
-                            style={ { width: '200px' } }
-                            alt="Recomendação de Bebida"
-                          />
-                          <span>
-                            {img.strAlcoholic === 'Alcoholic'
-                              ? img.strAlcoholic : ''}
-                          </span>
-                          <p data-testid={ `${indexImg}-recomendation-title` }>
-                            {img.strDrink}
-                          </p>
-                        </div>
-                      ))
-                  }
+                <h1>Recommended</h1>
+                <div
+                  data-testid="recomendation-card"
+                  id="carouselExampleSlidesOnly"
+                  className="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    {
+                      drinks
+                        .splice(NINETEEN_MAX_LENGTH)
+                        .map((img, indexImg) => (
+                          <div
+                            key={ indexImg }
+                            className={ indexImg === 0
+                              ? 'carousel-item active'
+                              : 'carousel-item' }
+                          >
+                            <img
+                              data-testid={ `${indexImg}-recomendation-card` }
+                              src={ img.strDrinkThumb }
+                              className="d-block w-20"
+                              style={ { width: '200px' } }
+                              alt="Recomendação de Bebida"
+                            />
+                            <span>
+                              {img.strAlcoholic === 'Alcoholic'
+                                ? img.strAlcoholic : ''}
+                            </span>
+                            <p data-testid={ `${indexImg}-recomendation-title` }>
+                              {img.strDrink}
+                            </p>
+                          </div>
+                        ))
+                    }
+                  </div>
                 </div>
-              </div>
+              </section>
             ))
         }
         <button
@@ -144,6 +157,7 @@ function FoodRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
+          style={ { bottom: '0px' } }
         >
           { buttonPhrase }
         </button>

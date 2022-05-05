@@ -6,9 +6,40 @@ export const LOGIN_SUBMIT_BTN_ID = 'login-submit-btn';
 export const USER_ADDRESS_EMAIL = 'email@email.com';
 export const USER_ADDRESS_PASSWORD = '1234567';
 export const USER_ADDRESS_EMAIL_OBJ = 'user';
-
-// HEADER
+// HEADER DATA-TESTID
 export const HEADER_PROFILE_TOP_BTN_ID = 'profile-top-btn';
 export const HEADER_SEARCH_TOP_BTN_ID = 'search-top-btn';
 export const HEADER_SEARCH_INPUT_ID = 'search-input';
 export const PAGE_TITLE_ID = 'page-title';
+
+// ROUTES
+export const ROUTE_DONE_RECIPES = '/done-recipes';
+
+// NAMES
+export const SPICY_ARRABBIATA_PENNE = 'Spicy Arrabiata Penne';
+export const AQUAMARINE = 'Aquamarine';
+// LOCAL STORAGE DATA
+export const LOCAL_STORAGE = [
+  {
+    id: '52771',
+    type: 'food',
+    nationality: 'Italian',
+    category: 'Vegetarian',
+    alcoholicOrNot: '',
+    name: 'Spicy Arrabiata Penne',
+    image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
+    doneDate: '23/06/2020',
+    tags: ['Pasta', 'Curry'],
+  },
+  {
+    id: '178319',
+    type: 'drink',
+    nationality: '',
+    category: 'Cocktail',
+    alcoholicOrNot: 'Alcoholic',
+    name: 'Aquamarine',
+    image: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
+    doneDate: '23/06/2020',
+    tags: [],
+  },
+];

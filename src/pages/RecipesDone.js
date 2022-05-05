@@ -8,7 +8,6 @@ function RecipesDone() {
     ? JSON.parse(localStorage.getItem('doneRecipes'))
     : '';
 
-  const [copied, setCopied] = useState('');
   const [data, setData] = useState(doneRecipes);
 
   const handleFood = () => {
@@ -23,11 +22,6 @@ function RecipesDone() {
     setData(doneRecipes);
   };
 
-  const handleCopy = (url) => {
-    navigator.clipboard.writeText(url);
-    setCopied('Link copied!');
-  };
-
   return (
     <>
       <Header title="Done Recipes" />
@@ -36,7 +30,12 @@ function RecipesDone() {
         handleDrink={ handleDrink }
         handleAll={ handleAll }
       />
-      <CardsDone handleCopy={ handleCopy } data={ data } copied={ copied } />
+
+      {data === ''
+        ? <h1>Não há receitas finalizadas</h1>
+        : data.map((recipe, index) => (
+          <CardsDone key={ recipe.id } recipe={ recipe } index={ index } />
+        ))}
     </>
   );
 }

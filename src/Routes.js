@@ -16,6 +16,7 @@ import FoodNationalities from './pages/FoodNationalities';
 import Profile from './pages/Profile';
 import RecipesDone from './pages/RecipesDone';
 import FavoriteRecipes from './pages/FavoriteRecipes';
+import NotFound from './pages/NotFound';
 
 function Routes() {
   return (
@@ -65,6 +66,12 @@ function Routes() {
         path="/explore/foods/nationalities"
         render={ (props) => <FoodNationalities { ...props } /> }
       />
+      <Route path="/explore/drinks/nationalities" component={ NotFound } />
+      {/* <Route
+        exact
+        path="/explore/drinks/nationalities"
+        render={ (props) => <NotFound { ...props } /> }
+      /> */}
       <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
       <Route
         exact
