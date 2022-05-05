@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const NINETEEN_MAX_LENGTH = 19;
 
@@ -26,6 +28,13 @@ function FoodRecipe(props) {
     dispatch(getFoodById(id));
     setButtonPhrase(checkLocalStorage(id));
   }, []);
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+  };
 
   function onSubmitButtonClick() {
     const ingredientMeasure = concatenateIngredient(meals);
@@ -112,42 +121,32 @@ function FoodRecipe(props) {
                   data-testid="video"
                 />
                 <h1>Recommended</h1>
-                <div
+                <Slider
+                  { ...settings }
                   data-testid="recomendation-card"
-                  id="carouselExampleSlidesOnly"
-                  className="carousel slide"
-                  data-bs-ride="carousel"
                 >
-                  <div className="carousel-inner">
-                    {
-                      drinks
-                        .splice(NINETEEN_MAX_LENGTH)
-                        .map((img, indexImg) => (
-                          <div
-                            key={ indexImg }
-                            className={ indexImg === 0
-                              ? 'carousel-item active'
-                              : 'carousel-item' }
-                          >
-                            <img
-                              data-testid={ `${indexImg}-recomendation-card` }
-                              src={ img.strDrinkThumb }
-                              className="d-block w-20"
-                              style={ { width: '200px' } }
-                              alt="Recomendação de Bebida"
-                            />
-                            <span>
-                              {img.strAlcoholic === 'Alcoholic'
-                                ? img.strAlcoholic : ''}
-                            </span>
-                            <p data-testid={ `${indexImg}-recomendation-title` }>
-                              {img.strDrink}
-                            </p>
-                          </div>
-                        ))
-                    }
-                  </div>
-                </div>
+                  {
+                    drinks
+                      .splice(NINETEEN_MAX_LENGTH)
+                      .map((img, indexImg) => (
+                        <div key={ indexImg }>
+                          <img
+                            data-testid={ `${indexImg}-recomendation-card` }
+                            src={ img.strDrinkThumb }
+                            style={ { width: '200px' } }
+                            alt="Recomendação de Bebida"
+                          />
+                          <span>
+                            {img.strAlcoholic === 'Alcoholic'
+                              ? img.strAlcoholic : ''}
+                          </span>
+                          <p data-testid={ `${indexImg}-recomendation-title` }>
+                            {img.strDrink}
+                          </p>
+                        </div>
+                      ))
+                  }
+                </Slider>
               </section>
             ))
         }
