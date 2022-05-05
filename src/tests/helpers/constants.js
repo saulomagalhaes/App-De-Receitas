@@ -15,6 +15,8 @@ export const PAGE_TITLE_ID = 'page-title';
 // ROUTES
 export const ROUTE_DONE_RECIPES = '/done-recipes';
 export const ROUTE_FAVORITE_RECIPES = '/favorite-recipes';
+export const ROUTE_EXPLORE_FOODS = '/explore/foods';
+export const ROUTE_EXPLORE_DRINKS = '/explore/drinks';
 
 // NAMES
 export const SPICY_ARRABBIATA_PENNE = 'Spicy Arrabiata Penne';
