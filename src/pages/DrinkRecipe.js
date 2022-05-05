@@ -5,42 +5,49 @@ import PropTypes from 'prop-types';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
+import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinkById, getFoodsByName } from '../redux/actions';
 
 const NINETEEN_MAX_LENGTH = 19;
-const MAX_NUMBER = 20;
 
 function DrinkRecipe(props) {
-  const drinks = useSelector((state) => state.drinks.drinkdetails);
-  const foods = useSelector((state) => state.foods.meals);
   const { history } = props;
   const { id } = useParams();
+  const drinks = useSelector((state) => state.drinks.drinkdetails);
+  const foods = useSelector((state) => state.foods.meals);
   const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
+  const [buttonPhrase, setButtonPhrase] = useState(true);
+  const [buttonProgress] = useState(false);
   const dispatch = useDispatch();
 
-  console.log(foods);
-
   useEffect(() => {
-    dispatch(getDrinkById(id));
     dispatch(getFoodsByName(''));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    dispatch(getDrinkById(id));
+    setButtonPhrase(checkLocalStorage(id));
   }, []);
 
-  const onSubmitButtonClick = () => {
-    const idProgress = Number(drinks[0].idDrink);
-    return history.push(`/drinks/${idProgress}/in-progress`);
-  };
+  function onSubmitButtonClick() {
+    const ingredientMeasure = concatenateIngredient(drinks);
+    const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    let objectRecipe = {};
+    if (previousProgress) {
+      const previousMeals = previousProgress.cocktails;
 
-  function concatenateIngredient() {
-    const ingredientMeasure = [];
-    for (let index = 1; index < MAX_NUMBER; index += 1) {
-      if (drinks[0][`strMeasure${index}`]) {
-        ingredientMeasure
-          .push(`${drinks[0][`strIngredient${index}`]
-          } ${drinks[0][`strMeasure${index}`]}`);
-      }
+      objectRecipe = {
+        ...previousProgress,
+        cocktails: {
+          ...previousMeals,
+          [id]: ingredientMeasure,
+        },
+      };
+    } else {
+      objectRecipe = {
+        cocktails: { [id]: ingredientMeasure },
+      };
     }
-    return ingredientMeasure;
+
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+    history.push(`/drinks/${id}/in-progress`);
   }
 
   if (drinks !== undefined) {
@@ -56,8 +63,9 @@ function DrinkRecipe(props) {
                   data-testid="recipe-photo"
                 />
                 <h1 data-testid="recipe-title">{ element.strDrink }</h1>
-                <p data-testid="recipe-category">{element.strCategory}</p>
-                {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
+                <p data-testid="recipe-category">
+                  {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
+                </p>
                 <button data-testid="share-btn" type="button">
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
@@ -74,7 +82,7 @@ function DrinkRecipe(props) {
                 <hr />
                 <ul>
                   {
-                    concatenateIngredient()
+                    concatenateIngredient(drinks)
                       .map((ingredient, index) => (
                         <li
                           data-testid={ `${index}-ingredient-name-and-measure` }
@@ -87,34 +95,51 @@ function DrinkRecipe(props) {
                 </ul>
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{element.strInstructions}</p>
-                <div>
-                  {
-                    foods
-                      .splice(NINETEEN_MAX_LENGTH)
-                      .map((item) => item.strMealThumb)
-                      .map((img, indexImg) => (
-                        <img
-                          data-testid={ `${indexImg}-recomendation-card` }
-                          key={ indexImg }
-                          src={ img }
-                          style={ { width: '200px', display: 'inline' } }
-                          alt="Recomendação de Comida"
-                        />
-                      ))
-                  }
+                <div
+                  data-testid="recomendation-card"
+                  id="carouselExampleSlidesOnly"
+                  className="carousel slide"
+                  data-ride="carousel"
+                >
+                  <div className="carousel-inner">
+                    {
+                      foods
+                        .splice(NINETEEN_MAX_LENGTH)
+                        .map((img, indexImg) => (
+                          <div
+                            key={ indexImg }
+                            className={ indexImg === 0
+                              ? 'carousel-item active'
+                              : 'carousel-item' }
+                          >
+                            <img
+                              data-testid={ `${indexImg}-recomendation-card` }
+                              className="d-block w-20"
+                              src={ img.strMealThumb }
+                              style={ { width: '200px', display: 'inline' } }
+                              alt="Recomendação de Comida"
+                            />
+                            <span>{img.strCategory}</span>
+                            <p data-testid={ `${indexImg}-recomendation-title` }>
+                              {img.strMeal}
+                            </p>
+                          </div>
+                        ))
+                    }
+                  </div>
                 </div>
               </div>
             ))
         }
         <button
-          src=""
           alt="Botão de inciar"
           type="button"
-          disabled
+          disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
+          style={ { bottom: '0px' } }
         >
-          Start Recipe
+          { buttonPhrase }
         </button>
       </>
     );
