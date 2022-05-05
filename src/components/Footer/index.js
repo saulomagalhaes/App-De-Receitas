@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import './style.css';
 import drinkIcon from '../../images/drinkIcon.svg';
 import exploreIcon from '../../images/exploreIcon.svg';
@@ -8,15 +8,15 @@ import mealIcon from '../../images/mealIcon.svg';
 function Footer() {
   return (
     <footer data-testid="footer" className="footer">
-      <a href="http://localhost:3000/drinks">
+      <Link to="/drinks">
         <img src={ drinkIcon } alt="imgDrink" data-testid="drinks-bottom-btn" />
-      </a>
-      <a href="http://localhost:3000/explore">
+      </Link>
+      <Link to="/explore">
         <img src={ exploreIcon } alt="imgDrink" data-testid="explore-bottom-btn" />
-      </a>
-      <a href="http://localhost:3000/foods">
+      </Link>
+      <Link to="/foods">
         <img src={ mealIcon } alt="imgDrink" data-testid="food-bottom-btn" />
-      </a>
+      </Link>
     </footer>
   );
 }
