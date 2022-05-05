@@ -81,7 +81,7 @@ function CardsDone(props) {
 CardsDone.propTypes = {
   index: PropTypes.number.isRequired,
   recipe: PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     nationality: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
