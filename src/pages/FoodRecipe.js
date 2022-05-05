@@ -7,6 +7,7 @@ import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const NINETEEN_MAX_LENGTH = 19;
 
@@ -115,7 +116,7 @@ function FoodRecipe(props) {
                   data-testid="recomendation-card"
                   id="carouselExampleSlidesOnly"
                   className="carousel slide"
-                  data-ride="carousel"
+                  data-bs-ride="carousel"
                 >
                   <div className="carousel-inner">
                     {
@@ -156,6 +157,7 @@ function FoodRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
+          style={ { bottom: '0px' } }
         >
           { buttonPhrase }
         </button>
