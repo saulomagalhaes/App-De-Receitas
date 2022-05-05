@@ -9,8 +9,6 @@ function FilterButtons(props) {
 
   const [takeCategory, setTakeCategory] = useState([]);
 
-  console.log(takeCategory);
-
   const meals = useSelector((state) => state.foods.meals);
 
   const drinks = useSelector((state) => state.drinks.drinks);

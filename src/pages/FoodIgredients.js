@@ -29,7 +29,7 @@ function FoodIgredients() {
   return (
     <>
       <Header
-        title="Explore Food Ingredients"
+        title="Explore Ingredients"
       />
       {ingredients && renderCards()}
       <Footer />

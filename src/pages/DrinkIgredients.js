@@ -33,7 +33,7 @@ function DrinkIgredients() {
   return (
     <>
       <Header
-        title="Explore Drink Ingredients"
+        title="Explore Ingredients"
       />
       {ingredients && renderCards()}
       <Footer />
