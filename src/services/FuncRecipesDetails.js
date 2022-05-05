@@ -1,6 +1,6 @@
 const TWENTY_MAX_LENGTH = 20;
 
-export function checkStorage(id) {
+export function checkLocalStorage(id) {
   const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (previousProgress) {
     const checkedId = Object.keys(previousProgress.meals)
