@@ -136,6 +136,34 @@ describe('2. Validação dos cards e dos filtros de categoria ', () => {
 
     expect(global.fetch).toHaveBeenCalled();
   });
+
+  it(`2.4 - Verifica se ao clicar na categoria Beef faz uma nova
+  chamada na API`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
+    const btn2 = await screen.findByTestId('Beef-category-filter');
+    userEvent.click(btn2);
+
+    expect(global.fetch).toHaveBeenCalled();
+  });
+
+  it(`2.5 - Verifica se ao clicar na categoria Breakfast faz uma nova
+  chamada na API`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
+    const btn3 = await screen.findByTestId('Breakfast-category-filter');
+
+    userEvent.click(btn3);
+
+    expect(global.fetch).toHaveBeenCalled();
+  });
+
+  it(`2.6 - Verifica se ao clicar na categoria Chicken faz uma nova
+  chamada na API`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
+    const btn4 = await screen.findByTestId('Chicken-category-filter');
+    userEvent.click(btn4);
+
+    expect(global.fetch).toHaveBeenCalled();
+  });
 });
 
 describe('3. Validação do footer ', () => {
