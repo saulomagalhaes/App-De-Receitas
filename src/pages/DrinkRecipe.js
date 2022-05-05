@@ -28,9 +28,9 @@ function DrinkRecipe(props) {
 
   function onSubmitButtonClick() {
     const ingredientMeasure = concatenateIngredient(drinks);
+    const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let objectRecipe = {};
-    if (localStorage.getItem('inProgressRecipes')) {
-      const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (previousProgress) {
       const previousMeals = previousProgress.cocktails;
 
       objectRecipe = {
@@ -43,12 +43,11 @@ function DrinkRecipe(props) {
     } else {
       objectRecipe = {
         cocktails: { [id]: ingredientMeasure },
-        meals: {},
       };
     }
 
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    history.push(`/foods/${id}/in-progress`);
+    history.push(`/drinks/${id}/in-progress`);
   }
 
   if (drinks !== undefined) {
