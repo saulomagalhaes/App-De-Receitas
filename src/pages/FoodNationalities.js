@@ -26,7 +26,6 @@ function FoodNationalities() {
       const newArr = [...new Set(nationalities
         .reduce((areas, { strArea }) => [...areas, strArea], ['All']))];
       setArrayNat(newArr);
-      console.log(newArr);
     }
   }, [nationalities]);
 

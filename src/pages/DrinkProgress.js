@@ -45,7 +45,6 @@ function DrinkProgress({ history }) {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    console.log(localStorage.getItem('inProgressRecipes'));
   };
 
   const toggleButton = () => {
@@ -70,7 +69,6 @@ function DrinkProgress({ history }) {
 
     toggleButton();
   };
-  console.log(history);
   return (
     <>
       <button type="button" onClick={ () => testeBtn() }>

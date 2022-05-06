@@ -10,7 +10,6 @@ function useIngredient() {
   // const history = useHistory();
 
   const setIngredient = (title, ingredient) => {
-    console.log(title, ingredient);
     if (title === 'foods') dispatch(getFoodsByIngredient(ingredient));
     dispatch(getDrinksByIngredient(ingredient));
     // history.push(`/${title}`);

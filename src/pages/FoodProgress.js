@@ -44,7 +44,6 @@ function FoodProgress({ history }) {
       },
     };
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    console.log(localStorage.getItem('inProgressRecipes'));
   };
 
   const toggleButton = () => {

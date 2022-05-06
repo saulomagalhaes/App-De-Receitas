@@ -94,7 +94,6 @@ export const getFoodsByName = (name) => async (dispatch) => {
   try {
     const data = await fetchFoodsByName(name);
     dispatch(saveFoods(data));
-    console.log(data);
   } catch (error) {
     dispatch(failedRequest(error));
   }

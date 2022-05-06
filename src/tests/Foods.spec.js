@@ -95,14 +95,40 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     userEvent.click(radioIngredient);
     userEvent.click(execSearchBtn);
 
-    const nCards = 8;
     const card1 = await screen.findByTestId('0-recipe-card');
+    waitForExpect(() => (card1).toBeInTheDocument());
 
+    const nCards = 7;
     for (let i = 1; i <= nCards; i += 1) {
       const card = screen.getByTestId(`${i}-recipe-card`);
       expect(card).toBeInTheDocument();
     }
-    expect(card1).toBeInTheDocument();
+
+    const { pathname } = history.location;
+    waitForExpect(() => expect(pathname).toBe('/foods'));
+  });
+
+  it('1.6 - Pesquisa por primeira Letra', async () => {
+    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId('search-input');
+    const radioIngredient = screen.getByTestId('first-letter-search-radio');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'a');
+    userEvent.click(radioIngredient);
+    userEvent.click(execSearchBtn);
+
+    const card1 = await screen.findByTestId('0-recipe-card');
+    waitForExpect(() => (card1).toBeInTheDocument());
+
+    const nCards = 3;
+    for (let i = 1; i <= nCards; i += 1) {
+      const card = screen.getByTestId(`${i}-recipe-card`);
+      expect(card).toBeInTheDocument();
+    }
 
     const { pathname } = history.location;
     waitForExpect(() => expect(pathname).toBe('/foods'));
