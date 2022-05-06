@@ -37,4 +37,13 @@ describe('1 - Food Recipe', () => {
     userEvent.click(startBtn);
     waitForExpect(() => expect(pathname).toBe('/foods/52977/in-progress'));
   });
+
+  it(`1.3 - Verifica se ao clicar no botao favoritar 
+  altera o src da imagem`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods/52977'] });
+    const favoriteBtn = await screen.findByAltText('Butão de Favoritar');
+    userEvent.click(favoriteBtn);
+    expect(favoriteBtn).toHaveAttribute('src',
+      'blackHeartIcon.svg');
+  });
 });

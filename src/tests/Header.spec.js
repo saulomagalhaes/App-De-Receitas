@@ -27,4 +27,11 @@ describe('1. Validação do componente Header ', () => {
 
     expect(title).toBeInTheDocument();
   });
+
+  it('1.3 - Verifica se ao carregar a pagina não aparece campo de busca', () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
+    const inputSearch = screen.queryByTestId('search-input');
+
+    expect(inputSearch).not.toBeInTheDocument();
+  });
 });

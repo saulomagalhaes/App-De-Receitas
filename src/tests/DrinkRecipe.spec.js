@@ -11,7 +11,7 @@ import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 //   ROUTE_FOODS_INGREDIENTS,
 // } from './helpers/constants';
 
-describe('1 - FoodProgress', () => {
+describe('1 - Drink Recipe', () => {
   beforeEach(() => {
     global.fetch = jest.fn((url) => fetchMock(url));
   });
@@ -21,21 +21,29 @@ describe('1 - FoodProgress', () => {
 
   it(`1.1 - Verifica se existe um botão de compartilhar, 
   um botão de favoritar e um botao de finalizar`, async () => {
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods/52977/in-progress'] });
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks/15997'] });
     const shareBtn = await screen.findByTestId('share-btn');
     const favoriteBtn = await screen.findByTestId('favorite-btn');
-    const finishBtn = await screen.findByTestId('finish-recipe-btn');
+    const finishBtn = await screen.findByTestId('start-recipe-btn');
 
     expect(shareBtn).toBeInTheDocument();
     expect(favoriteBtn).toBeInTheDocument();
     expect(finishBtn).toBeInTheDocument();
   });
 
-  it('1.2 - Verifica se ao clicar em um checkbox uma classe é adicionada', async () => {
-    renderWithRouterAndRedux(<App />, { initialEntries: ['/foods/52977/in-progress'] });
-    const checkbox = await screen.findByTestId('0-ingredient-step');
-    expect(checkbox).not.toHaveClass('checkedItem');
-    userEvent.click(checkbox);
-    waitForExpect(() => expect(checkbox).toHaveClass('checkedItem'));
+  it('1.2 - Verifica se o botão de Iniciar Receita funciona', async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks/15997'] });
+    const startBtn = await screen.findByTestId('start-recipe-btn');
+    userEvent.click(startBtn);
+    waitForExpect(() => expect(pathname).toBe('/drinks/15997/in-progress'));
+  });
+
+  it(`1.3 - Verifica se ao clicar no botao favoritar 
+  altera o src da imagem`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks/15997'] });
+    const favoriteBtn = await screen.findByAltText('Butão de Favoritar');
+    userEvent.click(favoriteBtn);
+    expect(favoriteBtn).toHaveAttribute('src',
+      'blackHeartIcon.svg');
   });
 });
