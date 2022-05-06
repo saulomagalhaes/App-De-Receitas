@@ -23,3 +23,28 @@ export function concatenateIngredient(recipe) {
   }
   return ingredientMeasure;
 }
+
+export function saveOrDeleteFavoritesCOPIAATTDEPOIS(buttonFavorite, id, infos) {
+  const donesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  let arrayFavoriteRecipe = [];
+  if (buttonFavorite) {
+    if (donesRecipes) { arrayFavoriteRecipe = donesRecipes; }
+    arrayFavoriteRecipe.push(infos);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFavoriteRecipe));
+    return false;
+  }
+  localStorage
+    .setItem('favoriteRecipes', JSON.stringify(donesRecipes
+      .filter((element) => (element.id !== id))));
+  return true;
+}
+
+export function checkedFavoritesCOPIAATTDEPOIS(id) {
+  const favoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  if (favoritesRecipes) {
+    const recipeFavoriteOn = favoritesRecipes
+      .some((element) => (element.id === id));
+    return !recipeFavoriteOn;
+  }
+  return true;
+}

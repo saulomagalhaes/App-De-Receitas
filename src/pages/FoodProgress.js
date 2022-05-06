@@ -3,16 +3,25 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveFoodInProgress, getFoodById } from '../redux/actions';
+import './DrinksProgress.css';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+import { saveOrDeleteFavoritesCOPIAATTDEPOIS,
+  checkedFavoritesCOPIAATTDEPOIS } from '../services/FuncRecipesDetails';
 
 function FoodProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { mealsProgress } = useSelector((state) => state.foods);
   const [activeButton, setActiveButton] = useState(true);
+  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
+  const [copied, setCopied] = useState('');
 
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(funcSaveFoodInProgress(id));
+    setOnFavoriteHeart(checkedFavoritesCOPIAATTDEPOIS(id));
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
@@ -32,20 +41,6 @@ function FoodProgress({ history }) {
     }
     return ingredientMeasure;
   }
-
-  const testeBtn = () => {
-    const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const { meals } = chaveJaExistente;
-    const objectRecipe = {
-      ...chaveJaExistente,
-      meals: {
-        ...meals,
-        novaChave: 'valorDaNovaChave2',
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-    console.log(localStorage.getItem('inProgressRecipes'));
-  };
 
   const toggleButton = () => {
     const allCheckers = document.querySelectorAll('input');
@@ -70,11 +65,13 @@ function FoodProgress({ history }) {
     toggleButton();
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+    setCopied('Link copied!');
+  };
+
   return (
     <>
-      <button type="button" onClick={ () => testeBtn() }>
-        aassss
-      </button>
       {mealsProgress.map((element) => (
         <div key={ element.idMeal }>
           <img
@@ -84,11 +81,33 @@ function FoodProgress({ history }) {
           />
           <h1 data-testid="recipe-title">{element.strMeal}</h1>
           <p data-testid="recipe-category">{element.strCategory}</p>
-          <button data-testid="share-btn" type="button">
-            Compartilhar
+          <button data-testid="share-btn" type="button" onClick={ handleCopy }>
+            <img src={ shareIcon } alt="Butão de Compartilhar" />
           </button>
-          <button data-testid="favorite-btn" type="button">
-            Favoritar
+          { copied }
+          <button
+            data-testid="favorite-btn"
+            type="button"
+            src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
+            onClick={ () => setOnFavoriteHeart(
+              saveOrDeleteFavoritesCOPIAATTDEPOIS(
+                buttonFavorite, id,
+                {
+                  id,
+                  type: 'food',
+                  nationality: element.strArea,
+                  category: element.strCategory,
+                  alcoholicOrNot: '',
+                  name: element.strMeal,
+                  image: element.strMealThumb,
+                },
+              ),
+            ) }
+          >
+            {/* <img
+              src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
+              alt="Butão de Favoritar"
+            /> */}
           </button>
           <hr />
           <h1>Ingredients</h1>

@@ -164,35 +164,35 @@ describe.only('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica 
     cy.get('[data-testid="favorite-btn"]').should('exist');
   });
 
-  // it('verifica a mensagem "Link copied!" e se o link da receita da comida foi copiado para o clipboard', () => {
-  //   cy.visit('http://localhost:3000/foods/52771/in-progress', {
-  //     onBeforeLoad(win) {
-  //       win.fetch = fetchMock;
+  it('verifica a mensagem "Link copied!" e se o link da receita da comida foi copiado para o clipboard', () => {
+    cy.visit('http://localhost:3000/foods/52771/in-progress', {
+      onBeforeLoad(win) {
+        win.fetch = fetchMock;
 
-  //       cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
-  //     },
-  //   });
+        cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
+      },
+    });
 
-  //   cy.get('[data-testid="share-btn"]').click();
-  //   cy.contains('Link copied!');
-  //   cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/foods/52771`);
-  // });
+    cy.get('[data-testid="share-btn"]').click();
+    cy.contains('Link copied!');
+    cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/foods/52771`);
+  });
 
-  // it('verifica a mensagem "Link copied!" e se o link da receita da bebida foi copiado para o clipboard', () => {
-  //   cy.visit('http://localhost:3000/drinks/178319/in-progress', {
-  //     onBeforeLoad(win) {
-  //       win.fetch = fetchMock;
+  it('verifica a mensagem "Link copied!" e se o link da receita da bebida foi copiado para o clipboard', () => {
+    cy.visit('http://localhost:3000/drinks/178319/in-progress', {
+      onBeforeLoad(win) {
+        win.fetch = fetchMock;
 
-  //       cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
-  //     },
-  //   });
+        cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
+      },
+    });
 
-  //   cy.get('[data-testid="share-btn"]').click();
-  //   cy.contains('Link copied!');
-  //   cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/drinks/178319`);
-  // });
+    cy.get('[data-testid="share-btn"]').click();
+    cy.contains('Link copied!');
+    cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/drinks/178319`);
+  });
 
-  it('verifica comida favoritada', () => {
+  it('verifica comida favoritada', () => { //verifica comida favorita e nao fav
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
       onBeforeLoad(win) {
         const favoriteRecipes = [{
@@ -245,7 +245,7 @@ describe.only('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica 
 
     cy.get('[data-testid="favorite-btn"]')
       .should('have.attr', 'src')
-      .should('include', 'blackHeartIcon');
+      .should('include', 'blackHeartIcon'); // verifica se possui o icone
   });
 
   it('verifica bebida não favoritada', () => {
