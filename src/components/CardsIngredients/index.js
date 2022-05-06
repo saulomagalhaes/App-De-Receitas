@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
@@ -7,13 +7,17 @@ import useIngredient from '../../hooks/useIngredient';
 function CardsIngredients(props) {
   const history = useHistory();
   const { ingredient, index, URL, title } = props;
-  const [done, setIngredient] = useIngredient();
+  const [ingredientSelected, setIngredient] = useIngredient(false);
+  const [isSelected, setSelected] = useState(false);
 
-  const handleClick = () => setIngredient(title, ingredient);
+  const handleClick = () => {
+    setIngredient(title, ingredient);
+    setSelected(true);
+  };
 
   useEffect(() => {
-    if (done) history.push(`/${title}`);
-  }, [done]);
+    if (ingredientSelected && isSelected) history.push(`/${title}`);
+  }, [isSelected, ingredientSelected]);
 
   return (
     <Card
@@ -41,7 +45,7 @@ function CardsIngredients(props) {
 }
 
 CardsIngredients.propTypes = {
-  ingredient: PropTypes.arrayOf(PropTypes.any).isRequired,
+  ingredient: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   URL: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import Cards from '../components/Cards';
@@ -12,8 +11,8 @@ function Foods(props) {
   const { history } = props;
   const foods = useSelector((state) => state.foods.meals);
   const categories = useSelector((state) => state.foods.categories);
+  const checkClick = useSelector((state) => state.foods.checkClick);
   const [arrayCats, setArrayCats] = useState([]);
-  const [checkClickFood, setCheckClickFood] = useState(false);
 
   const redirectDetails = () => {
     const id = Number(foods[0].idMeal);
@@ -21,24 +20,15 @@ function Foods(props) {
   };
 
   const checkCard = () => {
-    if (checkClickFood === false
+    if (checkClick === false
       && foods.length === 1) {
       return redirectDetails();
-    }
-    if (checkClickFood === false
-      && foods.length > 1) {
-      return <Cards foods={ foods } />;
-    }
-    if (checkClickFood === true
-      && foods.length === 1) {
-      return <Cards foods={ foods } />;
     }
     return <Cards foods={ foods } />;
   };
 
   const dispatch = useDispatch();
 
-  // Alterado para o requisito 77
   useEffect(() => {
     dispatch(getFoodsCategories());
     if (foods.length === 0) dispatch(getFoodsByName(''));
@@ -56,21 +46,11 @@ function Foods(props) {
 
   return (
     <>
-      <Header title="Foods" checkButton={ setCheckClickFood } />
+      <Header title="Foods" />
       <div>
-        <Button
-          variant="secondary"
-          size="sm"
-          className="ml-2"
-          onClick={ () => dispatch(getFoodsByName('')) }
-          data-testid="All-category-filter"
-        >
-          All
-        </Button>
         <FilterButtons
           categories={ arrayCats }
           title="Foods"
-          checkButton={ setCheckClickFood }
         />
       </div>
       {foods !== null

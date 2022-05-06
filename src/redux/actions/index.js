@@ -10,6 +10,7 @@ import {
 export const USER_EMAIL = 'USER_EMAIL';
 export const GET_EMPTY_SIZE = 'GET_EMPTY_SIZE';
 export const saveEmail = (email) => ({ type: USER_EMAIL, email });
+export const checkClickSearch = (payload) => ({ type: 'CHECK_CLICK', payload });
 const failedRequest = (payload) => ({ type: 'FAILED_REQUEST', payload });
 const saveFoods = (foods) => ({ type: 'GET_FOODS', foods });
 const saveDrinks = (drinks) => ({ type: 'GET_DRINKS', drinks });
