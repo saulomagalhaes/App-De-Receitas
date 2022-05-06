@@ -99,7 +99,7 @@ function DrinkRecipe(props) {
                         id,
                         type: 'drink',
                         nationality: '',
-                        category: strCategory,
+                        category: element.strCategory,
                         alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
                           ? element.strAlcoholic : '',
                         name: element.strDrink,
