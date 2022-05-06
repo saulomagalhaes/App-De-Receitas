@@ -141,7 +141,7 @@ describe('50 - Salve o estado do progresso, que deve ser mantido caso a pessoa a
   });
 });
 
-describe('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da tela de detalhes de uma receita se aplica aqui', () => {
+describe.only('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da tela de detalhes de uma receita se aplica aqui', () => {
   it('verifica se os botões estão disponíveis na tela de detalhes de uma comida', () => {
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
       onBeforeLoad(win) {
@@ -164,33 +164,33 @@ describe('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da te
     cy.get('[data-testid="favorite-btn"]').should('exist');
   });
 
-  it('verifica a mensagem "Link copied!" e se o link da receita da comida foi copiado para o clipboard', () => {
-    cy.visit('http://localhost:3000/foods/52771/in-progress', {
-      onBeforeLoad(win) {
-        win.fetch = fetchMock;
+  // it('verifica a mensagem "Link copied!" e se o link da receita da comida foi copiado para o clipboard', () => {
+  //   cy.visit('http://localhost:3000/foods/52771/in-progress', {
+  //     onBeforeLoad(win) {
+  //       win.fetch = fetchMock;
 
-        cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
-      },
-    });
+  //       cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
+  //     },
+  //   });
 
-    cy.get('[data-testid="share-btn"]').click();
-    cy.contains('Link copied!');
-    cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/foods/52771`);
-  });
+  //   cy.get('[data-testid="share-btn"]').click();
+  //   cy.contains('Link copied!');
+  //   cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/foods/52771`);
+  // });
 
-  it('verifica a mensagem "Link copied!" e se o link da receita da bebida foi copiado para o clipboard', () => {
-    cy.visit('http://localhost:3000/drinks/178319/in-progress', {
-      onBeforeLoad(win) {
-        win.fetch = fetchMock;
+  // it('verifica a mensagem "Link copied!" e se o link da receita da bebida foi copiado para o clipboard', () => {
+  //   cy.visit('http://localhost:3000/drinks/178319/in-progress', {
+  //     onBeforeLoad(win) {
+  //       win.fetch = fetchMock;
 
-        cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
-      },
-    });
+  //       cy.stub(win.navigator.clipboard, 'writeText').resolves('URL').as('clipboard');
+  //     },
+  //   });
 
-    cy.get('[data-testid="share-btn"]').click();
-    cy.contains('Link copied!');
-    cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/drinks/178319`);
-  });
+  //   cy.get('[data-testid="share-btn"]').click();
+  //   cy.contains('Link copied!');
+  //   cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/drinks/178319`);
+  // });
 
   it('verifica comida favoritada', () => {
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
@@ -405,7 +405,7 @@ describe('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da te
   });
 });
 
-describe.only('52 - Implemente a solução de maneira que o botão de finalizar receita ("Finish Recipe") só pode estar habilitado quando todos os ingredientes estiverem _"checkados"_ (marcados)', () => {
+describe('52 - Implemente a solução de maneira que o botão de finalizar receita ("Finish Recipe") só pode estar habilitado quando todos os ingredientes estiverem _"checkados"_ (marcados)', () => {
   it('verifica se botão para finalizar está desabilitado em receitas de comidas', () => {
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
       onBeforeLoad(win) {
@@ -461,7 +461,7 @@ describe.only('52 - Implemente a solução de maneira que o botão de finalizar 
   });
 });
 
-describe.only('53 - Redirecione a pessoa usuária após clicar no botão de finalizar receita ("Finish Recipe"), para a página de receitas feitas, cuja rota deve ser `/done-recipes`', () => {
+describe('53 - Redirecione a pessoa usuária após clicar no botão de finalizar receita ("Finish Recipe"), para a página de receitas feitas, cuja rota deve ser `/done-recipes`', () => {
   it('redireciona após concluir uma receita de comida', () => {
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
       onBeforeLoad(win) {
