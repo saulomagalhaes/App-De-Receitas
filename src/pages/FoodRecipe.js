@@ -21,21 +21,22 @@ function FoodRecipe(props) {
   const drinks = useSelector((state) => state.drinks.drinks);
   const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
-  const [buttonProgress, setButtonProgress] = useState(false);
+  const [buttonProgress, setButtonProgress] = useState(true);
   const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
 
   const settings = {
-    infinite: true,
+    dots: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 2,
-    slidesToScroll: 1,
+    slidesToScroll: 2,
   };
 
   useEffect(() => {
     dispatch(getDrinksByName(''));
     dispatch(getFoodById(id));
-    setButtonPhrase(checkedLocalStorage(id));
+    setButtonPhrase(checkedLocalStorage(id, 'food'));
     setOnFavoriteHeart(checkedFavorites(id));
     setButtonProgress(checkedDonesRecipes(id));
   }, []);
@@ -141,45 +142,46 @@ function FoodRecipe(props) {
                   data-testid="video"
                 />
                 <h1>Recommended</h1>
-                <Slider
-                  { ...settings }
-                  data-testid="recomendation-card"
-                >
-                  {
-                    drinks
-                      .splice(NINETEEN_MAX_LENGTH)
-                      .map((img, indexImg) => (
-                        <div key={ indexImg }>
-                          <img
+                <div>
+                  <Slider { ...settings }>
+                    {
+                      drinks && drinks
+                        .splice(NINETEEN_MAX_LENGTH)
+                        .map((img, indexImg) => (
+                          <div
+                            key={ indexImg }
                             data-testid={ `${indexImg}-recomendation-card` }
-                            src={ img.strDrinkThumb }
-                            style={ { width: '200px' } }
-                            alt="Recomendação de Bebida"
-                          />
-                          <span>
-                            {img.strAlcoholic === 'Alcoholic'
-                              ? img.strAlcoholic : ''}
-                          </span>
-                          <p data-testid={ `${indexImg}-recomendation-title` }>
-                            {img.strDrink}
-                          </p>
-                        </div>
-                      ))
-                  }
-                </Slider>
+                          >
+                            <img
+                              src={ img.strDrinkThumb }
+                              style={ { width: '200px' } }
+                              alt="Recomendação de Bebida"
+                            />
+                            <span>
+                              {img.strAlcoholic === 'Alcoholic'
+                                ? img.strAlcoholic : ''}
+                            </span>
+                            <p data-testid={ `${indexImg}-recomendation-title` }>
+                              {img.strDrink}
+                            </p>
+                          </div>
+                        ))
+                    }
+                  </Slider>
+                </div>
               </section>
             ))
         }
-        <button
-          alt="Botão de inciar"
-          type="button"
-          disabled={ buttonProgress }
-          onClick={ onSubmitButtonClick }
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0' } }
-        >
-          { buttonPhrase }
-        </button>
+        { !buttonProgress && (
+          <button
+            alt="Botão de inciar"
+            type="button"
+            onClick={ onSubmitButtonClick }
+            data-testid="start-recipe-btn"
+            style={ { position: 'fixed', bottom: '0' } }
+          >
+            { buttonPhrase }
+          </button>)}
       </>
     );
   }
