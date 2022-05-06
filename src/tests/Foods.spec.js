@@ -185,8 +185,16 @@ describe('2. Validação dos cards e dos filtros de categoria ', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
     const btn1 = await screen.findByTestId('All-category-filter');
     userEvent.click(btn1);
+    expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=');
 
-    expect(global.fetch).toHaveBeenCalled();
+    const card1 = await screen.findByTestId('0-recipe-card');
+    waitForExpect(() => (card1).toBeInTheDocument());
+
+    const nCards = 11;
+    for (let i = 1; i <= nCards; i += 1) {
+      const card = screen.getByTestId(`${i}-recipe-card`);
+      expect(card).toBeInTheDocument();
+    }
   });
 
   it(`2.4 - Verifica se ao clicar na categoria Beef faz uma nova
