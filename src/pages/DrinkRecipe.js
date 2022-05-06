@@ -28,14 +28,14 @@ function DrinkRecipe(props) {
   const settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: 2,
+    slidesToShow: 6,
     slidesToScroll: 2,
   };
 
   useEffect(() => {
     dispatch(getFoodsByName(''));
     dispatch(getDrinkById(id));
-    setButtonPhrase(checkedLocalStorage(id));
+    setButtonPhrase(checkedLocalStorage(id, 'drink'));
     setOnFavoriteHeart(checkedFavorites(id));
     setButtonProgress(checkedDonesRecipes(id));
   }, []);
@@ -48,11 +48,11 @@ function DrinkRecipe(props) {
       const previousMeals = previousProgress.cocktails;
 
       objectRecipe = {
+        ...previousProgress,
         cocktails: {
           ...previousMeals,
           [id]: ingredientMeasure,
         },
-        ...previousProgress,
       };
     } else {
       objectRecipe = {
@@ -99,7 +99,7 @@ function DrinkRecipe(props) {
                         id,
                         type: 'drink',
                         nationality: '',
-                        category: strCategory,
+                        category: element.strCategory,
                         alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
                           ? element.strAlcoholic : '',
                         name: element.strDrink,
@@ -133,40 +133,44 @@ function DrinkRecipe(props) {
                 <h1>Recommended</h1>
                 <Slider
                   { ...settings }
-                  data-testid="recomendation-card"
                 >
-                  {
-                    foods
-                      .splice(NINETEEN_MAX_LENGTH)
-                      .map((img, indexImg) => (
-                        <div key={ indexImg }>
-                          <img
+                  <div data-testid="recomendation-card">
+                    {
+                      foods
+                        .splice(NINETEEN_MAX_LENGTH)
+                        .map((img, indexImg) => (
+                          <div
+                            key={ indexImg }
                             data-testid={ `${indexImg}-recomendation-card` }
-                            src={ img.strMealThumb }
-                            style={ { width: '200px' } }
-                            alt="Recomendação de Comida"
-                          />
-                          <span>{img.strCategory}</span>
-                          <p data-testid={ `${indexImg}-recomendation-title` }>
-                            {img.strMeal}
-                          </p>
-                        </div>
-                      ))
-                  }
+                          >
+                            <img
+                              src={ img.strMealThumb }
+                              style={ { width: '200px' } }
+                              alt="Recomendação de Comida"
+                            />
+                            <span>{img.strCategory}</span>
+                            <p data-testid={ `${indexImg}-recomendation-title` }>
+                              {img.strMeal}
+                            </p>
+                          </div>
+                        ))
+                    }
+                  </div>
                 </Slider>
               </section>
             ))
         }
-        <button
-          alt="Botão de inciar"
-          type="button"
-          disabled={ buttonProgress }
-          onClick={ onSubmitButtonClick }
-          data-testid="start-recipe-btn"
-          style={ { position: 'fixed', bottom: '0' } }
-        >
-          { buttonPhrase }
-        </button>
+        { !buttonProgress && (
+          <button
+            alt="Botão de inciar"
+            type="button"
+            disabled={ buttonProgress }
+            onClick={ onSubmitButtonClick }
+            data-testid="start-recipe-btn"
+            style={ { position: 'fixed', bottom: '0' } }
+          >
+            { buttonPhrase }
+          </button>)}
       </>
     );
   }
