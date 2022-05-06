@@ -48,11 +48,11 @@ function DrinkRecipe(props) {
       const previousMeals = previousProgress.cocktails;
 
       objectRecipe = {
-        ...previousProgress,
         cocktails: {
           ...previousMeals,
           [id]: ingredientMeasure,
         },
+        ...previousProgress,
       };
     } else {
       objectRecipe = {
