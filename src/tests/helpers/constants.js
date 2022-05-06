@@ -23,7 +23,7 @@ export const ROUTE_EXPLORE_FOODS = '/explore/foods';
 export const ROUTE_EXPLORE_DRINKS = '/explore/drinks';
 export const ROUTE_FOODS_INGREDIENTS = '/explore/foods/ingredients';
 export const ROUTE_DRINKS_INGREDIENTS = '/explore/drinks/ingredients';
-export const ROUTE_TEST_FOOD = '/foods/52977';
+export const ROUTE_TEST_FOOD = '/foods/52771';
 export const ROUTE_TEST_DRINK = '/drinks/15997';
 
 // NAMES

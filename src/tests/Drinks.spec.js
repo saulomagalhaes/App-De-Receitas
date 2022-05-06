@@ -8,6 +8,9 @@ import {
   HEADER_PROFILE_TOP_BTN_ID,
   HEADER_SEARCH_TOP_BTN_ID,
   PAGE_TITLE_ID,
+  INPUT_SEARCH,
+  EXEC_SEARCH_BUTTON,
+  RECIPE_CARD_0,
 } from './helpers/constants';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
@@ -45,9 +48,9 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
 
     userEvent.type(searchInput, 'Aquamarine');
     userEvent.click(radioName);
@@ -64,25 +67,98 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
 
-    userEvent.type(searchInput, 'vodka');
+    userEvent.type(searchInput, 'gin');
     userEvent.click(radioName);
     userEvent.click(execSearchBtn);
 
-    const nCards = 11;
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
+    waitForExpect(() => expect(card1).toBeInTheDocument());
 
+    const nCards = 11;
     for (let i = 1; i <= nCards; i += 1) {
       const card = screen.getByTestId(`${i}-recipe-card`);
       expect(card).toBeInTheDocument();
     }
-    expect(card1).toBeInTheDocument();
 
     const { pathname } = history.location;
     waitForExpect(() => expect(pathname).toBe('/drinks'));
+  });
+
+  it('1.5 - Pesquisa por Ingrediente', async () => {
+    const { history } = renderWithRouterAndRedux(<App />,
+      { initialEntries: ['/drinks'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
+    const radioIngredient = screen.getByTestId('ingredient-search-radio');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
+
+    userEvent.type(searchInput, 'lemon');
+    userEvent.click(radioIngredient);
+    userEvent.click(execSearchBtn);
+
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
+    waitForExpect(() => (card1).toBeInTheDocument());
+
+    const nCards = 11;
+    for (let i = 1; i <= nCards; i += 1) {
+      const card = screen.getByTestId(`${i}-recipe-card`);
+      expect(card).toBeInTheDocument();
+    }
+
+    const { pathname } = history.location;
+    waitForExpect(() => expect(pathname).toBe('/foods'));
+  });
+
+  it('1.6 - Pesquisa por primeira Letra', async () => {
+    const { history } = renderWithRouterAndRedux(<App />,
+      { initialEntries: ['/drinks'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
+    const radioIngredient = screen.getByTestId('first-letter-search-radio');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'a');
+    userEvent.click(radioIngredient);
+    userEvent.click(execSearchBtn);
+
+    const card1 = await screen.findByTestId('0-recipe-card');
+    waitForExpect(() => (card1).toBeInTheDocument());
+
+    const nCards = 3;
+    for (let i = 1; i <= nCards; i += 1) {
+      const card = screen.getByTestId(`${i}-recipe-card`);
+      expect(card).toBeInTheDocument();
+    }
+
+    const { pathname } = history.location;
+    waitForExpect(() => expect(pathname).toBe('/foods'));
+  });
+
+  it(`1.7 - Exibe um Alerta caso fazer uma pesquisa 
+  com first letter com mais de uma letra`, async () => {
+    global.alert = jest.fn();
+    renderWithRouterAndRedux(<App />,
+      { initialEntries: ['/drinks'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId('search-input');
+    const radioIngredient = screen.getByTestId('first-letter-search-radio');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'aaa');
+    userEvent.click(radioIngredient);
+    userEvent.click(execSearchBtn);
+
+    expect(global.alert).toHaveBeenCalledTimes(1);
   });
 });
 

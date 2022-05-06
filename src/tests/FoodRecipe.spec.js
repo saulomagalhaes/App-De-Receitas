@@ -33,7 +33,7 @@ describe('1 - Food Recipe', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_TEST_FOOD] });
     const startBtn = await screen.findByTestId('start-recipe-btn');
     userEvent.click(startBtn);
-    waitForExpect(() => expect(pathname).toBe('/foods/52977/in-progress'));
+    waitForExpect(() => expect(pathname).toBe('/foods/52771/in-progress'));
   });
 
   it(`1.3 - Verifica se ao clicar no botao favoritar 

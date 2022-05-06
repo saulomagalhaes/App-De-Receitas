@@ -5,12 +5,9 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import fetchMock from '../../cypress/mocks/fetch';
 import {
-  HEADER_PROFILE_TOP_BTN_ID,
-  HEADER_SEARCH_TOP_BTN_ID,
-  PAGE_TITLE_ID,
-  RECIPE_CARD_0,
-  EXEC_SEARCH_BUTTON,
-  INPUT_SEARCH,
+  HEADER_PROFILE_TOP_BTN_ID, HEADER_SEARCH_TOP_BTN_ID,
+  PAGE_TITLE_ID, RECIPE_CARD_0,
+  EXEC_SEARCH_BUTTON, INPUT_SEARCH,
 } from './helpers/constants';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
@@ -21,39 +18,31 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-
   it(`1.1 - Verifica se existe botão para ir para a página de perfil e 
   botão para ir para a página de busca`, () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
     const inputProfile = screen.getByTestId(HEADER_PROFILE_TOP_BTN_ID);
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
-
     expect(inputProfile).toBeInTheDocument();
     expect(inputSearch).toBeInTheDocument();
   });
-
   it('1.2 - Verifica se existe título da página', () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
     const title = screen.getByTestId(PAGE_TITLE_ID);
-
     expect(title).toBeInTheDocument();
   });
 
   it(`1.3 - Verifica se ao fazer uma pesquisa e vier somente uma receita 
   redireciona direto para página de detalhes da receita`, async () => {
     const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
-
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
-
     const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
     const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
-
     userEvent.type(searchInput, 'Arrabiata');
     userEvent.click(radioName);
     userEvent.click(execSearchBtn);
-
     const { pathname } = history.location;
     waitForExpect(() => expect(pathname).toBe('/foods/52771'));
   });
@@ -63,15 +52,12 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
-
     const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
     const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
-
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(radioName);
     userEvent.click(execSearchBtn);
-
     const nCards = 11;
     const card1 = await screen.findByTestId(RECIPE_CARD_0);
 
@@ -90,9 +76,9 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioIngredient = screen.getByTestId('ingredient-search-radio');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
 
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(radioIngredient);
@@ -116,7 +102,7 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioIngredient = screen.getByTestId('first-letter-search-radio');
     const execSearchBtn = screen.getByTestId('exec-search-btn');
 
@@ -135,6 +121,25 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
 
     const { pathname } = history.location;
     waitForExpect(() => expect(pathname).toBe('/foods'));
+  });
+
+  it(`1.7 - Exibe um Alerta caso fazer uma pesquisa 
+  com first letter com mais de uma letra`, async () => {
+    global.alert = jest.fn();
+    renderWithRouterAndRedux(<App />,
+      { initialEntries: ['/foods'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId('search-input');
+    const radioIngredient = screen.getByTestId('first-letter-search-radio');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'aaa');
+    userEvent.click(radioIngredient);
+    userEvent.click(execSearchBtn);
+
+    expect(global.alert).toHaveBeenCalledTimes(1);
   });
 });
 
