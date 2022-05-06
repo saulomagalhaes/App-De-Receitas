@@ -56,6 +56,7 @@ function FoodRecipe(props) {
       };
     } else {
       objectRecipe = {
+        cocktails: {},
         meals: { [id]: ingredientMeasure },
       };
     }

@@ -57,6 +57,7 @@ function DrinkRecipe(props) {
     } else {
       objectRecipe = {
         cocktails: { [id]: ingredientMeasure },
+        meals: {},
       };
     }
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
@@ -98,7 +99,7 @@ function DrinkRecipe(props) {
                         id,
                         type: 'drink',
                         nationality: '',
-                        category: '',
+                        category: strCategory,
                         alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
                           ? element.strAlcoholic : '',
                         name: element.strDrink,
