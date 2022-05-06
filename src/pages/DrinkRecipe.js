@@ -6,7 +6,8 @@ import Slider from 'react-slick';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
+import { checkedDonesRecipes, checkedFavorites, saveOrDeleteFavorites,
+  checkedLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinkById, getFoodsByName } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,9 +19,10 @@ function DrinkRecipe(props) {
   const { id } = useParams();
   const drinks = useSelector((state) => state.drinks.drinkdetails);
   const foods = useSelector((state) => state.foods.meals);
-  const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
+  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
-  const [buttonProgress] = useState(false);
+  const [buttonProgress, setButtonProgress] = useState(false);
+  const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
 
   const settings = {
@@ -33,7 +35,9 @@ function DrinkRecipe(props) {
   useEffect(() => {
     dispatch(getFoodsByName(''));
     dispatch(getDrinkById(id));
-    setButtonPhrase(checkLocalStorage(id));
+    setButtonPhrase(checkedLocalStorage(id));
+    setOnFavoriteHeart(checkedFavorites(id));
+    setButtonProgress(checkedDonesRecipes(id));
   }, []);
 
   function onSubmitButtonClick() {
@@ -55,10 +59,14 @@ function DrinkRecipe(props) {
         cocktails: { [id]: ingredientMeasure },
       };
     }
-
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     history.push(`/drinks/${id}/in-progress`);
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    setCopied('Link copied!');
+  };
 
   if (drinks !== undefined) {
     return (
@@ -76,16 +84,31 @@ function DrinkRecipe(props) {
                 <p data-testid="recipe-category">
                   {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
                 </p>
-                <button data-testid="share-btn" type="button">
+                <button data-testid="share-btn" type="button" onClick={ handleCopy }>
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
+                {copied}
                 <button
                   data-testid="favorite-btn"
                   type="button"
-                  onClick={ () => setOnFavoriteHeart(!onFavoriteHeart) }
+                  onClick={ () => setOnFavoriteHeart(
+                    saveOrDeleteFavorites(
+                      buttonFavorite, id,
+                      {
+                        id,
+                        type: 'drink',
+                        nationality: '',
+                        category: '',
+                        alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
+                          ? element.strAlcoholic : '',
+                        name: element.strDrink,
+                        image: element.strDrinkThumb,
+                      },
+                    ),
+                  ) }
                 >
                   <img
-                    src={ onFavoriteHeart ? whiteHeartIcon : blackHeartIcon }
+                    src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
                     alt="Butão de Favoritar"
                   />
                 </button>
@@ -103,8 +126,10 @@ function DrinkRecipe(props) {
                       ))
                   }
                 </ul>
+                <hr />
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{element.strInstructions}</p>
+                <h1>Recommended</h1>
                 <Slider
                   { ...settings }
                   data-testid="recomendation-card"
@@ -137,7 +162,7 @@ function DrinkRecipe(props) {
           disabled={ buttonProgress }
           onClick={ onSubmitButtonClick }
           data-testid="start-recipe-btn"
-          style={ { bottom: '0px' } }
+          style={ { position: 'fixed', bottom: '0' } }
         >
           { buttonPhrase }
         </button>

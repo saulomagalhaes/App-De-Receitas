@@ -1,6 +1,6 @@
 const TWENTY_MAX_LENGTH = 20;
 
-export function checkLocalStorage(id) {
+export function checkedLocalStorage(id) {
   const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (previousProgress) {
     const checkedId = Object.keys(previousProgress.meals)
@@ -24,32 +24,36 @@ export function concatenateIngredient(recipe) {
   return ingredientMeasure;
 }
 
-export const handleCopy = (id, setCopied) => {
-  navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
-  setCopied('Link copied!');
-};
-
-export function saveOrDeleteFavorites(meals, id, buttonFavorite) {
+export function saveOrDeleteFavorites(buttonFavorite, id, infos) {
   const donesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-  const { strArea, strCategory, strMealThumb, strMeal } = meals;
   let arrayFavoriteRecipe = [];
   if (buttonFavorite) {
     if (donesRecipes) { arrayFavoriteRecipe = donesRecipes; }
-    arrayFavoriteRecipe.push({
-      id,
-      type: 'food',
-      nationality: strArea,
-      category: strCategory,
-      alcoholicOrNot: '',
-      name: strMeal,
-      image: strMealThumb,
-    });
+    arrayFavoriteRecipe.push(infos);
     localStorage.setItem('favoriteRecipes', JSON.stringify(arrayFavoriteRecipe));
     return false;
   }
-  const positionDelete = donesRecipes
-    .find((element, index) => (element.id === id ? index : null));
-  arrayFavoriteRecipe
-    .push(donesRecipes.slice(positionDelete));
+  localStorage
+    .setItem('favoriteRecipes', JSON.stringify(donesRecipes
+      .filter((element) => (element.id !== id))));
   return true;
+}
+
+export function checkedFavorites(id) {
+  const favoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+  if (favoritesRecipes) {
+    const recipeFavoriteOn = favoritesRecipes
+      .some((element) => (element.id === id));
+    return !recipeFavoriteOn;
+  }
+  return true;
+}
+
+export function checkedDonesRecipes(id) {
+  const donesRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  if (donesRecipes) {
+    return donesRecipes
+      .some((element) => (element.id === id));
+  }
+  return false;
 }

@@ -6,7 +6,7 @@ import Slider from 'react-slick';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkLocalStorage,
+import { checkedDonesRecipes, checkedFavorites, checkedLocalStorage,
   concatenateIngredient, saveOrDeleteFavorites } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
@@ -21,15 +21,9 @@ function FoodRecipe(props) {
   const drinks = useSelector((state) => state.drinks.drinks);
   const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
-  const [buttonProgress] = useState(false);
+  const [buttonProgress, setButtonProgress] = useState(false);
   const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getDrinksByName(''));
-    dispatch(getFoodById(id));
-    setButtonPhrase(checkLocalStorage(id));
-  }, []);
 
   const settings = {
     infinite: true,
@@ -37,6 +31,14 @@ function FoodRecipe(props) {
     slidesToShow: 2,
     slidesToScroll: 1,
   };
+
+  useEffect(() => {
+    dispatch(getDrinksByName(''));
+    dispatch(getFoodById(id));
+    setButtonPhrase(checkedLocalStorage(id));
+    setOnFavoriteHeart(checkedFavorites(id));
+    setButtonProgress(checkedDonesRecipes(id));
+  }, []);
 
   function onSubmitButtonClick() {
     const ingredientMeasure = concatenateIngredient(meals);
@@ -57,7 +59,6 @@ function FoodRecipe(props) {
         meals: { [id]: ingredientMeasure },
       };
     }
-
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     history.push(`/foods/${id}/in-progress`);
   }
@@ -89,7 +90,18 @@ function FoodRecipe(props) {
                   data-testid="favorite-btn"
                   type="button"
                   onClick={ () => setOnFavoriteHeart(
-                    saveOrDeleteFavorites(meals, id, buttonFavorite),
+                    saveOrDeleteFavorites(
+                      buttonFavorite, id,
+                      {
+                        id,
+                        type: 'food',
+                        nationality: element.strArea,
+                        category: element.strCategory,
+                        alcoholicOrNot: '',
+                        name: element.strMeal,
+                        image: element.strMealThumb,
+                      },
+                    ),
                   ) }
                 >
                   <img
@@ -97,7 +109,6 @@ function FoodRecipe(props) {
                     alt="Butão de Favoritar"
                   />
                 </button>
-
                 <hr />
                 <ul>
                   {
@@ -112,11 +123,9 @@ function FoodRecipe(props) {
                       ))
                   }
                 </ul>
-
                 <hr />
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{ element.strInstructions }</p>
-
                 <h1>Vídeo</h1>
                 <iframe
                   width="560"
