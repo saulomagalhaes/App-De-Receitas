@@ -11,6 +11,10 @@ export const HEADER_PROFILE_TOP_BTN_ID = 'profile-top-btn';
 export const HEADER_SEARCH_TOP_BTN_ID = 'search-top-btn';
 export const HEADER_SEARCH_INPUT_ID = 'search-input';
 export const PAGE_TITLE_ID = 'page-title';
+// INPUTS DATA-TESTID
+export const INPUT_SEARCH = 'search-input';
+export const EXEC_SEARCH_BUTTON = 'exec-search-btn';
+export const RECIPE_CARD_0 = '0-recipe-card';
 
 // ROUTES
 export const ROUTE_DONE_RECIPES = '/done-recipes';

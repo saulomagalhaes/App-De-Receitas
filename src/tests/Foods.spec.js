@@ -8,6 +8,9 @@ import {
   HEADER_PROFILE_TOP_BTN_ID,
   HEADER_SEARCH_TOP_BTN_ID,
   PAGE_TITLE_ID,
+  RECIPE_CARD_0,
+  EXEC_SEARCH_BUTTON,
+  INPUT_SEARCH,
 } from './helpers/constants';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
@@ -43,9 +46,9 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
 
     userEvent.type(searchInput, 'Arrabiata');
     userEvent.click(radioName);
@@ -61,16 +64,16 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
     userEvent.click(inputSearch);
 
-    const searchInput = await screen.findByTestId('search-input');
+    const searchInput = await screen.findByTestId(INPUT_SEARCH);
     const radioName = screen.getByTestId('name-search-radio');
-    const execSearchBtn = screen.getByTestId('exec-search-btn');
+    const execSearchBtn = screen.getByTestId(EXEC_SEARCH_BUTTON);
 
     userEvent.type(searchInput, 'Chicken');
     userEvent.click(radioName);
     userEvent.click(execSearchBtn);
 
     const nCards = 11;
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
 
     for (let i = 1; i <= nCards; i += 1) {
       const card = screen.getByTestId(`${i}-recipe-card`);
@@ -95,7 +98,7 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     userEvent.click(radioIngredient);
     userEvent.click(execSearchBtn);
 
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
     waitForExpect(() => (card1).toBeInTheDocument());
 
     const nCards = 7;
@@ -121,7 +124,7 @@ describe('1. Validação do Header e do campo de pesquisa ', () => {
     userEvent.click(radioIngredient);
     userEvent.click(execSearchBtn);
 
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
     waitForExpect(() => (card1).toBeInTheDocument());
 
     const nCards = 3;
@@ -145,7 +148,7 @@ describe('2. Validação dos cards e dos filtros de categoria ', () => {
   it('2.1 - Verifica se existe 12 cards na página foods', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
     const nCards = 11;
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
 
     for (let i = 1; i <= nCards; i += 1) {
       const card = screen.getByTestId(`${i}-recipe-card`);
@@ -187,7 +190,7 @@ describe('2. Validação dos cards e dos filtros de categoria ', () => {
     userEvent.click(btn1);
     expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/search.php?s=');
 
-    const card1 = await screen.findByTestId('0-recipe-card');
+    const card1 = await screen.findByTestId(RECIPE_CARD_0);
     waitForExpect(() => (card1).toBeInTheDocument());
 
     const nCards = 11;
