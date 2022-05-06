@@ -11,6 +11,13 @@ function DrinkProgress({ history }) {
   const { drinkProgress } = useSelector((state) => state.drinks);
   const [activeButton, setActiveButton] = useState(true);
 
+  const favoriteRecipes = localStorage.getItem('favoriteRecipes')
+    ? JSON.parse(localStorage.getItem('favoriteRecipes'))
+    : ['dataInitial'];
+
+  // const [copied, setCopied] = useState('');
+  const [data, setData] = useState(favoriteRecipes);
+
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(funcSaveDrinkInProgress(id));
@@ -48,6 +55,44 @@ function DrinkProgress({ history }) {
     console.log(localStorage.getItem('inProgressRecipes'));
   };
 
+  // console.log(drinkProgress[0]);
+
+  // const handleCopy = (url) => {
+  //   navigator.clipboard.writeText(url);
+  //   setCopied('Link copied!');
+  // };
+
+  // const handleFavorites = () => {
+  //   const copyData = [...data];
+  //   const newData = copyData.filter((item) => item.id !== id);
+  //   setData(newData);
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+  // };
+
+  const handleFavorites = () => {
+    const copyData = [...data];
+    // const newData = copyData.filter((item) => item.id !== id);
+
+    const { idDrink, strCategory, strAlcoholic,
+      strDrink, strDrinkThumb } = drinkProgress[0];
+
+    const dataIngredient = {
+      id: idDrink,
+      type: 'drink',
+      category: strCategory,
+      alcoholicOrNot: strAlcoholic,
+      name: strDrink,
+      image: strDrinkThumb,
+    };
+
+    const newData = copyData.push(dataIngredient);
+    // setData(newData);
+    // localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+    console.log(data);
+    console.log(favoriteRecipes);
+    localStorage.setItem('favoriteRecipes', JSON.stringify(copyData));
+  };
+
   const toggleButton = () => {
     const allCheckers = document.querySelectorAll('input');
     const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
@@ -70,7 +115,7 @@ function DrinkProgress({ history }) {
 
     toggleButton();
   };
-  console.log(history);
+  // console.log(history);
   return (
     <>
       <button type="button" onClick={ () => testeBtn() }>
@@ -85,10 +130,18 @@ function DrinkProgress({ history }) {
           />
           <h1 data-testid="recipe-title">{element.strMeal}</h1>
           <p data-testid="recipe-category">{element.strCategory}</p>
-          <button data-testid="share-btn" type="button">
+          <button
+            data-testid="share-btn"
+            type="button"
+            // onClick={ () => handleCopy() }
+          >
             Compartilhar
           </button>
-          <button data-testid="favorite-btn" type="button">
+          <button
+            data-testid="favorite-btn"
+            type="button"
+            onClick={ () => handleFavorites() }
+          >
             Favoritar
           </button>
           <hr />
