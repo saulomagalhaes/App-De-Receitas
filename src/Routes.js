@@ -67,11 +67,6 @@ function Routes() {
         render={ (props) => <FoodNationalities { ...props } /> }
       />
       <Route path="/explore/drinks/nationalities" component={ NotFound } />
-      {/* <Route
-        exact
-        path="/explore/drinks/nationalities"
-        render={ (props) => <NotFound { ...props } /> }
-      /> */}
       <Route exact path="/profile" render={ (props) => <Profile { ...props } /> } />
       <Route
         exact

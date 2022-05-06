@@ -8,7 +8,7 @@ import {
   getDrinksByIngredient,
   getDrinksByName,
   getDrinksByFLetter,
-
+  checkClickSearch,
 } from '../../redux/actions';
 // import './styles.css';
 
@@ -19,6 +19,7 @@ function FormBusca(props) {
   const dispatch = useDispatch();
 
   const searchDrinks = () => {
+    dispatch(checkClickSearch(false));
     if (searchType === 'ingredient') {
       dispatch(getDrinksByIngredient(textSearch));
     } else if (searchType === 'name') {
@@ -32,6 +33,7 @@ function FormBusca(props) {
   };
 
   const searchFoods = () => {
+    dispatch(checkClickSearch(false));
     if (searchType === 'ingredient') {
       dispatch(getFoodsByIngredient(textSearch));
     } else if (searchType === 'name') {

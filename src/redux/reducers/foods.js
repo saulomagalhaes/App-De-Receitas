@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   mealsProgress: [],
   ingredients: [],
   nationalities: [],
+  checkClick: true,
 };
 
 const foods = (state = INITIAL_STATE, action) => {
@@ -43,6 +44,11 @@ const foods = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       mealsProgress: action.food.meals,
+    };
+  case 'CHECK_CLICK':
+    return {
+      ...state,
+      checkClick: action.payload,
     };
   default:
     return state;

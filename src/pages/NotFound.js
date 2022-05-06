@@ -5,7 +5,7 @@ import Header from '../components/Header';
 function NotFound() {
   return (
     <>
-      <Header title="Explore Foods" />
+      <Header title="Not Found" />
       <h1>Not Found</h1>
       <Footer />
     </>

@@ -9,6 +9,7 @@ function ExplorerButtons(props) {
   const [idRecipe, surpriseMe] = useExplorer(0);
 
   useEffect(() => {
+    console.log(idRecipe);
     const pathName = `/${title.toLowerCase()}/${idRecipe}`;
     if (idRecipe !== 0) history.push(pathName);
   }, [idRecipe]);
@@ -20,7 +21,10 @@ function ExplorerButtons(props) {
     if (id === 'nationality') {
       history.push('/explore/foods/nationalities');
     }
-    surpriseMe(isFood);
+    console.log(id, 'Passou aqui, chama surprise-me');
+    if (id === 'surprise') {
+      surpriseMe(isFood);
+    }
   };
 
   return (
