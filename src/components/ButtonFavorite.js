@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import { checkedFavorites, saveOrDeleteFavorites } from '../services/FuncRecipesDetails';
 
 function ButtonFavorite(props) {
   const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const { id, element } = props;
-  const whiteHeartIcon = 'src/images/whiteHeartIcon.svg';
-  const blackHeartIcon = 'src/images/blackHeartIcon.svg';
 
   useEffect(() => {
     setOnFavoriteHeart(checkedFavorites(id));
