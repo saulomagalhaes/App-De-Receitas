@@ -7,8 +7,8 @@ import './DrinksProgress.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { saveOrDeleteFavoritesCOPIAATTDEPOIS,
-  checkedFavoritesCOPIAATTDEPOIS } from '../services/FuncRecipesDetails';
+import { saveOrDeleteFavorites,
+  checkedFavorites } from '../services/FuncRecipesDetails';
 
 function FoodProgress({ history }) {
   const { id } = useParams();
@@ -21,7 +21,7 @@ function FoodProgress({ history }) {
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(funcSaveFoodInProgress(id));
-    setOnFavoriteHeart(checkedFavoritesCOPIAATTDEPOIS(id));
+    setOnFavoriteHeart(checkedFavorites(id));
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
@@ -90,7 +90,7 @@ function FoodProgress({ history }) {
             type="button"
             src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
             onClick={ () => setOnFavoriteHeart(
-              saveOrDeleteFavoritesCOPIAATTDEPOIS(
+              saveOrDeleteFavorites(
                 buttonFavorite, id,
                 {
                   id,
