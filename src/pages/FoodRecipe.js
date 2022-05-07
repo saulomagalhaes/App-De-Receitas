@@ -3,23 +3,22 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Slider from 'react-slick';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkedDonesRecipes, checkedFavorites, checkedLocalStorage,
-  concatenateIngredient, saveOrDeleteFavorites } from '../services/FuncRecipesDetails';
+import { checkedDonesRecipes, checkedLocalStorage,
+  concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ButtonFavorite from '../components/ButtonFavorite';
 
-const NINETEEN_MAX_LENGTH = 19;
+const MAX_LENGTH = 6;
 
 function FoodRecipe(props) {
   const { history } = props;
   const { id } = useParams();
   const meals = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
-  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
+  // const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
   const [buttonProgress, setButtonProgress] = useState(true);
   const [copied, setCopied] = useState('');
@@ -37,7 +36,6 @@ function FoodRecipe(props) {
     dispatch(getDrinksByName(''));
     dispatch(getFoodById(id));
     setButtonPhrase(checkedLocalStorage(id, 'food'));
-    setOnFavoriteHeart(checkedFavorites(id));
     setButtonProgress(checkedDonesRecipes(id));
   }, []);
 
@@ -70,7 +68,8 @@ function FoodRecipe(props) {
     setCopied('Link copied!');
   };
 
-  if (meals !== undefined) {
+  if ((meals.length > 0) && (drinks.length > 0)) {
+    console.log(meals, drinks);
     return (
       <>
         {
@@ -88,29 +87,18 @@ function FoodRecipe(props) {
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
                 {copied}
-                <button
-                  data-testid="favorite-btn"
-                  type="button"
-                  onClick={ () => setOnFavoriteHeart(
-                    saveOrDeleteFavorites(
-                      buttonFavorite, id,
-                      {
-                        id,
-                        type: 'food',
-                        nationality: element.strArea,
-                        category: element.strCategory,
-                        alcoholicOrNot: '',
-                        name: element.strMeal,
-                        image: element.strMealThumb,
-                      },
-                    ),
-                  ) }
-                >
-                  <img
-                    src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-                    alt="Butão de Favoritar"
-                  />
-                </button>
+                <ButtonFavorite
+                  id={ id }
+                  element={ {
+                    id: element.idMeal,
+                    type: 'food',
+                    nationality: element.strArea,
+                    category: element.strCategory,
+                    alcoholicOrNot: '',
+                    name: element.strMeal,
+                    image: element.strMealThumb,
+                  } }
+                />
                 <hr />
                 <ul>
                   {
@@ -141,12 +129,12 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <h1>Recommended</h1>
                 <div>
+                  <h1>Recommended</h1>
                   <Slider { ...settings }>
                     {
-                      drinks && drinks
-                        .splice(NINETEEN_MAX_LENGTH)
+                      drinks
+                        .slice(0, MAX_LENGTH)
                         .map((img, indexImg) => (
                           <div
                             key={ indexImg }
