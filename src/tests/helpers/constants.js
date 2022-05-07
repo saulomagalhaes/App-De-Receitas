@@ -25,6 +25,7 @@ export const ROUTE_FOODS_INGREDIENTS = '/explore/foods/ingredients';
 export const ROUTE_DRINKS_INGREDIENTS = '/explore/drinks/ingredients';
 export const ROUTE_TEST_FOOD = '/foods/52771';
 export const ROUTE_TEST_DRINK = '/drinks/15997';
+export const ROUTE_IN_PROGRESS = '/foods/52771/in-progress';
 
 // NAMES
 export const SPICY_ARRABBIATA_PENNE = 'Spicy Arrabiata Penne';
