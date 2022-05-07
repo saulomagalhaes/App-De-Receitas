@@ -4,16 +4,31 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { funcSaveDrinkInProgress, getFoodById } from '../redux/actions';
 import './DrinksProgress.css';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+import { saveOrDeleteFavorites,
+  checkedFavorites } from '../services/FuncRecipesDetails';
 
 function DrinkProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { drinkProgress } = useSelector((state) => state.drinks);
   const [activeButton, setActiveButton] = useState(true);
+  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
+  const [copied, setCopied] = useState('');
+
+  // const favoriteRecipes = localStorage.getItem('favoriteRecipes')
+  //   ? JSON.parse(localStorage.getItem('favoriteRecipes'))
+  //   : ['dataInitial'];
+
+  // const [copied, setCopied] = useState('');
+  // const [data, setData] = useState(favoriteRecipes);
 
   useEffect(() => {
     dispatch(getFoodById(id));
     dispatch(funcSaveDrinkInProgress(id));
+    setOnFavoriteHeart(checkedFavorites(id));
   }, []);
 
   const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
@@ -34,18 +49,43 @@ function DrinkProgress({ history }) {
     return ingredientMeasure;
   }
 
-  const testeBtn = () => {
-    const chaveJaExistente = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const { meals } = chaveJaExistente;
-    const objectRecipe = {
-      ...chaveJaExistente,
-      meals: {
-        ...meals,
-        novaChave: 'valorDaNovaChave2',
-      },
-    };
-    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
-  };
+  // console.log(drinkProgress[0]);
+
+  // const handleCopy = (url) => {
+  //   navigator.clipboard.writeText(url);
+  //   setCopied('Link copied!');
+  // };
+
+  // const handleFavorites = () => {
+  //   const copyData = [...data];
+  //   const newData = copyData.filter((item) => item.id !== id);
+  //   setData(newData);
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+  // };
+
+  // const handleFavorites = () => {
+  //   const copyData = [...data];
+  //   // const newData = copyData.filter((item) => item.id !== id);
+
+  //   const { idDrink, strCategory, strAlcoholic,
+  //     strDrink, strDrinkThumb } = drinkProgress[0];
+
+  //   const dataIngredient = {
+  //     id: idDrink,
+  //     type: 'drink',
+  //     category: strCategory,
+  //     alcoholicOrNot: strAlcoholic,
+  //     name: strDrink,
+  //     image: strDrinkThumb,
+  //   };
+
+  //   const newData = copyData.push(dataIngredient);
+  //   // setData(newData);
+  //   // localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
+  //   console.log(data);
+  //   console.log(favoriteRecipes);
+  //   localStorage.setItem('favoriteRecipes', JSON.stringify(copyData));
+  // };
 
   const toggleButton = () => {
     const allCheckers = document.querySelectorAll('input');
@@ -69,11 +109,14 @@ function DrinkProgress({ history }) {
 
     toggleButton();
   };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    setCopied('Link copied!');
+  };
+
   return (
     <>
-      <button type="button" onClick={ () => testeBtn() }>
-        aassss
-      </button>
       {drinkProgress && drinkProgress.map((element) => (
         <div key={ element.idDrink }>
           <img
@@ -83,11 +126,34 @@ function DrinkProgress({ history }) {
           />
           <h1 data-testid="recipe-title">{element.strMeal}</h1>
           <p data-testid="recipe-category">{element.strCategory}</p>
-          <button data-testid="share-btn" type="button">
-            Compartilhar
+          <button data-testid="share-btn" type="button" onClick={ handleCopy }>
+            <img src={ shareIcon } alt="Butão de Compartilhar" />
           </button>
-          <button data-testid="favorite-btn" type="button">
-            Favoritar
+          { copied }
+          <button
+            data-testid="favorite-btn"
+            type="button"
+            onClick={ () => setOnFavoriteHeart(
+              saveOrDeleteFavorites(
+                buttonFavorite, id,
+                {
+                  id,
+                  type: 'drink',
+                  nationality: '',
+                  category: element.strCategory,
+                  alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
+                    ? element.strAlcoholic : '',
+                  name: element.strDrink,
+                  image: element.strDrinkThumb,
+                },
+              ),
+            ) }
+            src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
+          >
+            <img
+              src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
+              alt="Butão de Favoritar"
+            />
           </button>
           <hr />
           <h1>Ingredients</h1>

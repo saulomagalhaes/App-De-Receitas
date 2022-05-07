@@ -192,7 +192,7 @@ describe('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da te
     cy.get('@clipboard').should('be.calledWithExactly', `http://localhost:3000/drinks/178319`);
   });
 
-  it('verifica comida favoritada', () => {
+  it('verifica comida favoritada', () => { //verifica comida favorita e nao fav
     cy.visit('http://localhost:3000/foods/52771/in-progress', {
       onBeforeLoad(win) {
         const favoriteRecipes = [{
@@ -245,7 +245,7 @@ describe('51 - Desenvolva a lógica de favoritar e compartilhar, a lógica da te
 
     cy.get('[data-testid="favorite-btn"]')
       .should('have.attr', 'src')
-      .should('include', 'blackHeartIcon');
+      .should('include', 'blackHeartIcon'); // verifica se possui o icone
   });
 
   it('verifica bebida não favoritada', () => {
