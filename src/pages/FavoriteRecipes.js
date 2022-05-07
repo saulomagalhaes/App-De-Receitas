@@ -6,9 +6,8 @@ import CardsFavorite from '../components/CardsFavorite';
 function FavoriteRecipes() {
   const favoriteRecipes = localStorage.getItem('favoriteRecipes')
     ? JSON.parse(localStorage.getItem('favoriteRecipes'))
-    : '';
+    : [];
 
-  const [copied, setCopied] = useState('');
   const [data, setData] = useState(favoriteRecipes);
 
   const handleFood = () => {
@@ -21,11 +20,6 @@ function FavoriteRecipes() {
 
   const handleAll = () => {
     setData(favoriteRecipes);
-  };
-
-  const handleCopy = (url) => {
-    navigator.clipboard.writeText(url);
-    setCopied('Link copied!');
   };
 
   const handleFavorites = (id) => {
@@ -43,12 +37,16 @@ function FavoriteRecipes() {
         handleDrink={ handleDrink }
         handleAll={ handleAll }
       />
-      <CardsFavorite
-        data={ data }
-        handleCopy={ handleCopy }
-        copied={ copied }
-        handleFavorites={ handleFavorites }
-      />
+      {data.length === 0
+        ? <h1>Não há receitas favoritas</h1>
+        : data.map((recipe, index) => (
+          <CardsFavorite
+            key={ recipe.id }
+            recipe={ recipe }
+            index={ index }
+            handleFavorites={ handleFavorites }
+          />
+        ))}
     </>
   );
 }

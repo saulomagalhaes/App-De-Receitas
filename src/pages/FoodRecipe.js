@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import Slider from 'react-slick';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { checkLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
+import { checkedDonesRecipes, checkedFavorites, checkedLocalStorage,
+  concatenateIngredient, saveOrDeleteFavorites } from '../services/FuncRecipesDetails';
 import { getDrinksByName, getFoodById } from '../redux/actions';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const NINETEEN_MAX_LENGTH = 19;
 
@@ -16,15 +19,26 @@ function FoodRecipe(props) {
   const { id } = useParams();
   const meals = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
-  const [onFavoriteHeart, setOnFavoriteHeart] = useState(true);
+  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
-  const [buttonProgress] = useState(false);
+  const [buttonProgress, setButtonProgress] = useState(true);
+  const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+  };
 
   useEffect(() => {
     dispatch(getDrinksByName(''));
     dispatch(getFoodById(id));
-    setButtonPhrase(checkLocalStorage(id));
+    setButtonPhrase(checkedLocalStorage(id, 'food'));
+    setOnFavoriteHeart(checkedFavorites(id));
+    setButtonProgress(checkedDonesRecipes(id));
   }, []);
 
   function onSubmitButtonClick() {
@@ -43,13 +57,18 @@ function FoodRecipe(props) {
       };
     } else {
       objectRecipe = {
+        cocktails: {},
         meals: { [id]: ingredientMeasure },
       };
     }
-
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     history.push(`/foods/${id}/in-progress`);
   }
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
+    setCopied('Link copied!');
+  };
 
   if (meals !== undefined) {
     return (
@@ -63,41 +82,52 @@ function FoodRecipe(props) {
                   alt="Imagem da Comida"
                   data-testid="recipe-photo"
                 />
-                <h1 data-testid="recipe-title">{ element.strMeal }</h1>
+                <h1 data-testid="recipe-title">{element.strMeal}</h1>
                 <p data-testid="recipe-category">{element.strCategory}</p>
-                <button data-testid="share-btn" type="button">
+                <button data-testid="share-btn" type="button" onClick={ handleCopy }>
                   <img src={ shareIcon } alt="Butão de Compartilhar" />
                 </button>
+                {copied}
                 <button
                   data-testid="favorite-btn"
                   type="button"
-                  onClick={ () => setOnFavoriteHeart(!onFavoriteHeart) }
+                  onClick={ () => setOnFavoriteHeart(
+                    saveOrDeleteFavorites(
+                      buttonFavorite, id,
+                      {
+                        id,
+                        type: 'food',
+                        nationality: element.strArea,
+                        category: element.strCategory,
+                        alcoholicOrNot: '',
+                        name: element.strMeal,
+                        image: element.strMealThumb,
+                      },
+                    ),
+                  ) }
                 >
                   <img
-                    src={ onFavoriteHeart ? whiteHeartIcon : blackHeartIcon }
+                    src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
                     alt="Butão de Favoritar"
                   />
                 </button>
-
                 <hr />
                 <ul>
                   {
                     concatenateIngredient(meals)
-                      .map((ingredient, ind) => (
+                      .map((ingredient, index) => (
                         <li
-                          data-testid={ `${ind}-ingredient-name-and-measure` }
-                          key={ ind }
+                          data-testid={ `${index}-ingredient-name-and-measure` }
+                          key={ index }
                         >
                           {ingredient}
                         </li>
                       ))
                   }
                 </ul>
-
                 <hr />
                 <h1>Instructions</h1>
                 <p data-testid="instructions">{ element.strInstructions }</p>
-
                 <h1>Vídeo</h1>
                 <iframe
                   width="560"
@@ -112,27 +142,18 @@ function FoodRecipe(props) {
                   data-testid="video"
                 />
                 <h1>Recommended</h1>
-                <div
-                  data-testid="recomendation-card"
-                  id="carouselExampleSlidesOnly"
-                  className="carousel slide"
-                  data-bs-ride="carousel"
-                >
-                  <div className="carousel-inner">
+                <div>
+                  <Slider { ...settings }>
                     {
-                      drinks
+                      drinks && drinks
                         .splice(NINETEEN_MAX_LENGTH)
                         .map((img, indexImg) => (
                           <div
                             key={ indexImg }
-                            className={ indexImg === 0
-                              ? 'carousel-item active'
-                              : 'carousel-item' }
+                            data-testid={ `${indexImg}-recomendation-card` }
                           >
                             <img
-                              data-testid={ `${indexImg}-recomendation-card` }
                               src={ img.strDrinkThumb }
-                              className="d-block w-20"
                               style={ { width: '200px' } }
                               alt="Recomendação de Bebida"
                             />
@@ -146,21 +167,21 @@ function FoodRecipe(props) {
                           </div>
                         ))
                     }
-                  </div>
+                  </Slider>
                 </div>
               </section>
             ))
         }
-        <button
-          alt="Botão de inciar"
-          type="button"
-          disabled={ buttonProgress }
-          onClick={ onSubmitButtonClick }
-          data-testid="start-recipe-btn"
-          style={ { bottom: '0px' } }
-        >
-          { buttonPhrase }
-        </button>
+        { !buttonProgress && (
+          <button
+            alt="Botão de inciar"
+            type="button"
+            onClick={ onSubmitButtonClick }
+            data-testid="start-recipe-btn"
+            style={ { position: 'fixed', bottom: '0' } }
+          >
+            { buttonPhrase }
+          </button>)}
       </>
     );
   }

@@ -11,13 +11,14 @@ import {
 } from './helpers/constants';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
-describe('1. Validação do componente Header na página principal de comidas ', () => {
+describe('1. Validação do Header e do campo de pesquisa ', () => {
   beforeEach(() => {
     global.fetch = jest.fn((url) => fetchMock(url));
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it(`1.1 - Verifica se existe botão para ir para a página de perfil e 
   botão para ir para a página de busca`, () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks'] });
@@ -55,15 +56,44 @@ describe('1. Validação do componente Header na página principal de comidas ',
     const { pathname } = history.location;
     waitForExpect(() => expect(pathname).toBe('/drinks/178319'));
   });
+
+  it(`1.4 - Verifica se ao fazer uma pesquisa e vier mais de uma bebida
+  renderiza as bebidas na tela`, async () => {
+    const { history } = renderWithRouterAndRedux(<App />,
+      { initialEntries: ['/drinks'] });
+    const inputSearch = screen.getByTestId(HEADER_SEARCH_TOP_BTN_ID);
+    userEvent.click(inputSearch);
+
+    const searchInput = await screen.findByTestId('search-input');
+    const radioName = screen.getByTestId('name-search-radio');
+    const execSearchBtn = screen.getByTestId('exec-search-btn');
+
+    userEvent.type(searchInput, 'vodka');
+    userEvent.click(radioName);
+    userEvent.click(execSearchBtn);
+
+    const nCards = 11;
+    const card1 = await screen.findByTestId('0-recipe-card');
+
+    for (let i = 1; i <= nCards; i += 1) {
+      const card = screen.getByTestId(`${i}-recipe-card`);
+      expect(card).toBeInTheDocument();
+    }
+    expect(card1).toBeInTheDocument();
+
+    const { pathname } = history.location;
+    waitForExpect(() => expect(pathname).toBe('/drinks'));
+  });
 });
 
-describe('2. Validação dos cards ', () => {
+describe('2. Validação dos cards e dos filtros de categoria ', () => {
   beforeEach(() => {
     global.fetch = jest.fn((url) => fetchMock(url));
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
+
   it('2.1 - Verifica se existe 12 cards na página foods', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks'] });
     const nCards = 11;
@@ -100,6 +130,15 @@ describe('2. Validação dos cards ', () => {
     expect(btn4).toBeInTheDocument();
     expect(btn5).toBeInTheDocument();
     expect(btn6).toBeInTheDocument();
+  });
+
+  it(`2.3 - Verifica se ao clicar na categoria All faz uma nova 
+  chamada na API`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: ['/drinks'] });
+    const btn1 = await screen.findByTestId('All-category-filter');
+    userEvent.click(btn1);
+
+    expect(global.fetch).toHaveBeenCalled();
   });
 });
 

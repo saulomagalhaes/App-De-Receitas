@@ -1,9 +1,12 @@
 const TWENTY_MAX_LENGTH = 20;
 
-export function checkLocalStorage(id) {
+export function checkedLocalStorage(id, type) {
   const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (previousProgress) {
-    const checkedId = Object.keys(previousProgress.meals)
+    const checkedId = (
+      (type === 'food')
+        ? Object.keys(previousProgress.meals)
+        : Object.keys(previousProgress.cocktails))
       .find((element) => element === id);
     return checkedId
       ? 'Continue Recipe'
@@ -24,7 +27,7 @@ export function concatenateIngredient(recipe) {
   return ingredientMeasure;
 }
 
-export function saveOrDeleteFavoritesCOPIAATTDEPOIS(buttonFavorite, id, infos) {
+export function saveOrDeleteFavorites(buttonFavorite, id, infos) {
   const donesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
   let arrayFavoriteRecipe = [];
   if (buttonFavorite) {
@@ -39,7 +42,7 @@ export function saveOrDeleteFavoritesCOPIAATTDEPOIS(buttonFavorite, id, infos) {
   return true;
 }
 
-export function checkedFavoritesCOPIAATTDEPOIS(id) {
+export function checkedFavorites(id) {
   const favoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
   if (favoritesRecipes) {
     const recipeFavoriteOn = favoritesRecipes
@@ -47,4 +50,13 @@ export function checkedFavoritesCOPIAATTDEPOIS(id) {
     return !recipeFavoriteOn;
   }
   return true;
+}
+
+export function checkedDonesRecipes(id) {
+  const donesRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+  if (donesRecipes) {
+    return donesRecipes
+      .some((element) => (element.id === id));
+  }
+  return false;
 }

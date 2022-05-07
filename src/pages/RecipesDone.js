@@ -6,7 +6,7 @@ import CardsDone from '../components/CardsDone';
 function RecipesDone() {
   const doneRecipes = localStorage.getItem('doneRecipes')
     ? JSON.parse(localStorage.getItem('doneRecipes'))
-    : '';
+    : [];
 
   const [data, setData] = useState(doneRecipes);
 
@@ -31,7 +31,7 @@ function RecipesDone() {
         handleAll={ handleAll }
       />
 
-      {data === ''
+      {data.length === 0
         ? <h1>Não há receitas finalizadas</h1>
         : data.map((recipe, index) => (
           <CardsDone key={ recipe.id } recipe={ recipe } index={ index } />

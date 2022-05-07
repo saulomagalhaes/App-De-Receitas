@@ -5,15 +5,14 @@ import { getFoodsByIngredient, getDrinksByIngredient } from '../redux/actions';
 function useIngredient() {
   const foods = useSelector((state) => state.foods.meals);
   const drinks = useSelector((state) => state.drinks.drinks);
-  const [done, setDone] = useState(false);
+  const [ingredientSelected, setDone] = useState(false);
   const dispatch = useDispatch();
-  // const history = useHistory();
 
   const setIngredient = (title, ingredient) => {
+    console.log('Hook para Id da receita');
     console.log(title, ingredient);
     if (title === 'foods') dispatch(getFoodsByIngredient(ingredient));
     dispatch(getDrinksByIngredient(ingredient));
-    // history.push(`/${title}`);
   };
 
   useEffect(() => {
@@ -25,7 +24,7 @@ function useIngredient() {
     }
   }, [foods, drinks]);
 
-  return [done, setIngredient];
+  return [ingredientSelected, setIngredient];
 }
 
 export default useIngredient;
