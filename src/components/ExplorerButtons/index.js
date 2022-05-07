@@ -28,7 +28,7 @@ function ExplorerButtons(props) {
   };
 
   return (
-    <Container className="w-75 mb-2 bg-light rounded-3">
+    <Container className="w-50 mt-2 bg-dark rounded-3">
       <Button
         id="ingredient"
         data-testid="explore-by-ingredient"
