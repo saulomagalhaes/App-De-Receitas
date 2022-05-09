@@ -131,4 +131,12 @@ describe('3. Validação dos cards de receitas concluidas', () => {
     const linkCopied = await screen.findByText(/link copied/i);
     expect(linkCopied).toBeInTheDocument();
   });
+
+  it('3.4 - Verifica o botão de remover da lista de favoritos', async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_FAVORITE_RECIPES] });
+    const card1 = screen.getByTestId('0-horizontal-favorite-btn');
+    userEvent.click(card1);
+
+    expect(JSON.parse(window.localStorage.getItem('favoriteRecipes')).length).toBe(1);
+  });
 });

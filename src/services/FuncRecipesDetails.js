@@ -1,9 +1,12 @@
 const TWENTY_MAX_LENGTH = 20;
 
-export function checkedLocalStorage(id) {
+export function checkedLocalStorage(id, type) {
   const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (previousProgress) {
-    const checkedId = Object.keys(previousProgress.meals)
+    const checkedId = (
+      (type === 'food')
+        ? Object.keys(previousProgress.meals)
+        : Object.keys(previousProgress.cocktails))
       .find((element) => element === id);
     return checkedId
       ? 'Continue Recipe'
