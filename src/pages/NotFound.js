@@ -6,7 +6,7 @@ function NotFound() {
   return (
     <>
       <Header title="Not Found" />
-      <h1>Not Found</h1>
+      <h1>Página não encontrada</h1>
       <Footer />
     </>
   );

@@ -161,10 +161,12 @@ function DrinkProgress({ history }) {
             {
               concatenateIngredient()
                 .map((ingredient, index) => (
-                  <p
+                  <label
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
+                    htmlFor={ `${index}checkIndex` }
+
                   >
                     <input
                       type="checkbox"
@@ -178,7 +180,7 @@ function DrinkProgress({ history }) {
                     > */}
                     {ingredient}
                     {/* </label> */}
-                  </p>
+                  </label>
                 ))
             }
           </div>

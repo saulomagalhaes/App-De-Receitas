@@ -11,10 +11,22 @@ export const HEADER_PROFILE_TOP_BTN_ID = 'profile-top-btn';
 export const HEADER_SEARCH_TOP_BTN_ID = 'search-top-btn';
 export const HEADER_SEARCH_INPUT_ID = 'search-input';
 export const PAGE_TITLE_ID = 'page-title';
+// INPUTS DATA-TESTID
+export const INPUT_SEARCH = 'search-input';
+export const EXEC_SEARCH_BUTTON = 'exec-search-btn';
+export const RECIPE_CARD_0 = '0-recipe-card';
 
 // ROUTES
 export const ROUTE_DONE_RECIPES = '/done-recipes';
 export const ROUTE_FAVORITE_RECIPES = '/favorite-recipes';
+export const ROUTE_EXPLORE_FOODS = '/explore/foods';
+export const ROUTE_EXPLORE_DRINKS = '/explore/drinks';
+export const ROUTE_FOODS_INGREDIENTS = '/explore/foods/ingredients';
+export const ROUTE_DRINKS_INGREDIENTS = '/explore/drinks/ingredients';
+export const ROUTE_TEST_FOOD = '/foods/52771';
+export const ROUTE_TEST_DRINK = '/drinks/15997';
+export const ROUTE_IN_PROGRESS = '/foods/52771/in-progress';
+export const DRINK_IN_PROGRESS = '/drinks/178319/in-progress';
 
 // NAMES
 export const SPICY_ARRABBIATA_PENNE = 'Spicy Arrabiata Penne';

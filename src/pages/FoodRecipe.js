@@ -69,7 +69,6 @@ function FoodRecipe(props) {
   };
 
   if ((meals.length > 0) && (drinks.length > 0)) {
-    console.log(meals, drinks);
     return (
       <>
         {

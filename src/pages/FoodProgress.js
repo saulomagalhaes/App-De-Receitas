@@ -24,11 +24,11 @@ function FoodProgress({ history }) {
     setOnFavoriteHeart(checkedFavorites(id));
   }, []);
 
-  const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
+  const onSubmitButtonClick = () => {
     history.push('/done-recipes');
   };
 
-  function concatenateIngredient() { // verifica se possui ingrediente no length e o return para ser renderizado
+  function concatenateIngredient() {
     const ingredientMeasure = [];
     const MAX_NUMBER = 20;
     for (let index = 1; index < MAX_NUMBER; index += 1) {
@@ -44,7 +44,7 @@ function FoodProgress({ history }) {
 
   const toggleButton = () => {
     const allCheckers = document.querySelectorAll('input');
-    const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
+    const ValuesChekers = Object.values(allCheckers);
     if (ValuesChekers
       .every((checkBoxCurrent) => checkBoxCurrent.checked)) {
       setActiveButton(false);
@@ -115,20 +115,19 @@ function FoodProgress({ history }) {
             {
               concatenateIngredient()
                 .map((ingredient, index) => (
-                  <p
+                  <label
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
+                    htmlFor={ `${index}checkIndex` }
                   >
                     <input
                       type="checkbox"
                       id={ `${index}checkIndex` }
                       onClick={ (event) => addAndRemoveClass(event) }
                     />
-                    {/* <label htmlFor={ `${index}checkIndex` } key={ index }> */}
                     {ingredient}
-                    {/* </label> */}
-                  </p>
+                  </label>
                 ))
             }
           </div>

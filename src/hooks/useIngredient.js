@@ -9,8 +9,6 @@ function useIngredient() {
   const dispatch = useDispatch();
 
   const setIngredient = (title, ingredient) => {
-    console.log('Hook para Id da receita');
-    console.log(title, ingredient);
     if (title === 'foods') dispatch(getFoodsByIngredient(ingredient));
     dispatch(getDrinksByIngredient(ingredient));
   };
