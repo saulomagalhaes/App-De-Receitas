@@ -1,6 +1,7 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+// import waitForExpect from 'wait-for-expect';
+// import userEvent from '@testing-library/user-event';
 import App from '../App';
 import {
   HEADER_PROFILE_TOP_BTN_ID,
@@ -11,6 +12,12 @@ import {
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 
 describe('1. Validação do componente Header ', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn((url) => fetchMock(url));
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it(`1.1 - Verifica se existe botão para ir para a página de perfil e 
   botão para ir para a página de busca`, () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/foods'] });
@@ -37,6 +44,12 @@ describe('1. Validação do componente Header ', () => {
 });
 
 describe('2. Validação do dropdown', () => {
+  beforeEach(() => {
+    global.fetch = jest.fn((url) => fetchMock(url));
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('2.1 - Verifica se existe um dropdown', () => {
     renderWithRouterAndRedux(<App />, { initialEntries:
       ['/explore/foods/nationalities'] });
@@ -45,46 +58,17 @@ describe('2. Validação do dropdown', () => {
     expect(dropdown).toBeInTheDocument();
   });
 
-  it('2.2 - Verifica os valores de options', async () => {
-    renderWithRouterAndRedux(<App />, { initialEntries:
-      ['/explore/foods/nationalities'] });
-    const options = [
-      'All-option',
-      'American-option',
-      'British-option',
-      'Canadian-option',
-      'Chinese-option',
-      'Croatian-option',
-      'Dutch-option',
-      'Egyptian-option',
-      'French-option',
-      'Greek-option',
-      'Indian-option',
-      'Irish-option',
-      'Italian-option',
-      'Jamaican-option',
-      'Japanese-option',
-      'Kenyan-option',
-      'Malaysian-option',
-      'Mexican-option',
-      'Moroccan-option',
-      'Polish-option',
-      'Portuguese-option',
-      'Russian-option',
-      'Spanish-option',
-      'Thai-option',
-      'Tunisian-option',
-      'Turkish-option',
-      'Unknown-option',
-      'Vietnamese-option',
-    ];
+  // it('2.2 - Verifica se ao selecionar uma opcao é feita uma chamada na API', async () => {
+  //   renderWithRouterAndRedux(<App />, { initialEntries:
+  //     ['/explore/foods/nationalities'] });
 
-    options.forEach(async (option) => {
-      userEvent.selectOptions(
-        screen.getByRole('combobox'),
-        await screen.findByRole('option', { name: option }),
-      );
-      expect(screen.getByRole('option', { name: option })).toBe(true);
-    });
-  });
+  //   userEvent.selectOptions(
+  //     // Find the select element, like a real user would.
+  //     screen.getByRole('combobox'),
+  //     // Find and select the Ireland option, like a real user would.
+  //     await screen.findByRole('option', { name: 'Portuguese' }),
+  //   );
+  //   waitForExpect(() => expect(screen.getByRole('option',
+  //     { name: 'Portuguese' }).selected).toBe(true));
+  // });
 });

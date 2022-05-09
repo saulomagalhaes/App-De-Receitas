@@ -12,10 +12,25 @@ import {
 const BTN0_ID = '0-ingredient-step';
 
 describe('1 - FoodProgress', () => {
+  const originalClipboard = { ...global.navigator.clipboard };
+
   beforeEach(() => {
     global.fetch = jest.fn((url) => fetchMock(url));
+
+    let clipboardData = '';
+    const mockClipboard = {
+      writeText: jest.fn(
+        (data) => { clipboardData = data; },
+      ),
+      readText: jest.fn(
+        () => clipboardData,
+      ),
+    };
+    global.navigator.clipboard = mockClipboard;
   });
   afterEach(() => {
+    window.localStorage.clear();
+    global.navigator.clipboard = originalClipboard;
     jest.clearAllMocks();
   });
 
@@ -45,28 +60,52 @@ describe('1 - FoodProgress', () => {
   it('1.2 - Verifica se ao clicar em um checkbox uma classe é adicionada', async () => {
     renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_IN_PROGRESS] });
     const checkbox = await screen.findByTestId(BTN0_ID);
-    expect(checkbox).not.toHaveClass('checkedItem');
     userEvent.click(checkbox);
-    waitForExpect(() => expect(checkbox).toHaveClass('checkedItem'));
+    expect(checkbox).toHaveClass('checkedItem');
+    userEvent.click(checkbox);
+    expect(checkbox).not.toHaveClass('checkedItem');
   });
 
   it('1.3 - Verifica se ao finalizar a receita a pagina é redirecionada', async () => {
     const { history } = renderWithRouterAndRedux(<App />,
       { initialEntries: ['/foods/52771/in-progress'] });
-    const checkbox0 = await screen.findByTestId(BTN0_ID);
-    userEvent.click(checkbox0);
-    const finishBtn = screen.getByTestId('finish-recipe-btn');
 
-    const maxN = 7;
-    for (let i = 1; i <= maxN; i += 1) {
-      const checkbox = screen.getByTestId(`${i}-ingredient-step`);
-      userEvent.click(checkbox);
-      expect(finishBtn).toBeDisabled();
-    }
+    waitForExpect(() => {
+      expect(global.fetch).toHaveBeenCalled();
+      expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771');
+    });
 
-    waitForExpect(() => expect(finishBtn).not.toBeDisabled());
+    userEvent.click(await screen.findByTestId(BTN0_ID));
+    userEvent.click(screen.getByTestId('1-ingredient-step'));
+    userEvent.click(screen.getByTestId('2-ingredient-step'));
+    userEvent.click(screen.getByTestId('3-ingredient-step'));
+    userEvent.click(screen.getByTestId('4-ingredient-step'));
+    userEvent.click(screen.getByTestId('5-ingredient-step'));
+    userEvent.click(screen.getByTestId('6-ingredient-step'));
+    userEvent.click(screen.getByTestId('7-ingredient-step'));
 
-    userEvent.click(finishBtn);
-    waitForExpect(() => expect(history.location.pathname).toBe('/done-recipes'));
+    userEvent.click(screen.getByTestId('finish-recipe-btn'));
+    expect(history.location.pathname).toBe('/done-recipes');
+
+    expect(await screen.findByTestId('page-title')).toBeInTheDocument();
+  });
+
+  it(`1.4 - Verifica se ao clicar para compartilhar o link para os detalhes
+  da receita é copiado para o clipboard e aparece uma mensagem
+  Link Copied!`, async () => {
+    renderWithRouterAndRedux(<App />, { initialEntries: [ROUTE_IN_PROGRESS] });
+    const share = await screen.findByTestId('share-btn');
+    userEvent.click(share);
+
+    const string = 'http://localhost:3000/foods/52771';
+
+    expect(navigator.clipboard.readText()).toBe(string);
+    expect(navigator.clipboard.writeText).toBeCalledTimes(1);
+    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(string);
+
+    const linkCopied = await screen.findByText(/link copied!/i);
+    waitForExpect(() => expect(linkCopied).toBeInTheDocument());
   });
 });
+
+// REFERENCIAS: https://localcoder.org/how-to-mock-navigator-clipboard-writetext-in-jest
