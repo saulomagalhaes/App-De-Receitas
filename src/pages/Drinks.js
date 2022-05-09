@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Cards from '../components/Cards';
 import { getDrinksByName, getDrinksCategories } from '../redux/actions';
 import FilterButtons from '../components/FilterButtons';
+import '../styles/Drinks.scss';
 
 function Drinks(props) {
   const { history } = props;
@@ -47,17 +48,19 @@ function Drinks(props) {
   return (
     <>
       <Header title="Drinks" />
-      <div>
+      <div className="btn_filters-drinks">
         <FilterButtons
           categories={ arrayCats }
           title="Drinks"
         />
       </div>
-      {drinks !== null
-        ? checkCard()
-        : global.alert(
-          'Sorry, we haven\'t found any recipes for these filters.',
-        )}
+      <div className="container-cards_drinks">
+        {drinks !== null
+          ? checkCard()
+          : global.alert(
+            'Sorry, we haven\'t found any recipes for these filters.',
+          )}
+      </div>
       <Footer />
     </>
   );

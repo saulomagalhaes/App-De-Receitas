@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { getFoodsByCategory, getDrinksByCategory, getFoodsByName,
   getDrinksByName, checkClickSearch } from '../../redux/actions';
@@ -32,27 +31,22 @@ function FilterButtons(props) {
 
   return (
     <>
-      <Button
-        variant="secondary"
-        size="sm"
-        className="ml-2"
+      <button
         onClick={ () => handleClick('All') }
         data-testid="All-category-filter"
+        type="button"
       >
         All
-      </Button>
+      </button>
       { categories.map((cat, index) => (
-        <Button
+        <button
           key={ index }
           data-testid={ `${cat}-category-filter` }
           type="button"
           onClick={ () => handleClick(cat) }
-          variant="secondary"
-          size="sm"
-          className="ml-2"
         >
           {cat}
-        </Button>
+        </button>
       )) }
     </>
   );

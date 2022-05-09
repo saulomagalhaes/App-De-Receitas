@@ -6,6 +6,7 @@ import Header from '../components/Header';
 import Cards from '../components/Cards';
 import { getFoodsByName, getFoodsCategories } from '../redux/actions';
 import FilterButtons from '../components/FilterButtons';
+import '../styles/Foods.scss';
 
 function Foods(props) {
   const { history } = props;
@@ -47,17 +48,19 @@ function Foods(props) {
   return (
     <>
       <Header title="Foods" />
-      <div>
+      <div className="btn_filters-foods">
         <FilterButtons
           categories={ arrayCats }
           title="Foods"
         />
       </div>
-      {foods !== null
-        ? checkCard()
-        : global.alert(
-          'Sorry, we haven\'t found any recipes for these filters.',
-        )}
+      <div className="container-cards">
+        {foods !== null
+          ? checkCard()
+          : global.alert(
+            'Sorry, we haven\'t found any recipes for these filters.',
+          )}
+      </div>
       <Footer />
     </>
   );

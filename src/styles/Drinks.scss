@@ -1,0 +1,57 @@
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  background: var(--primary);
+  color: var(--text-title);
+
+  button {
+    background: transparent;
+    border: 0;
+  }
+}
+
+.btn_filters-drinks{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 20px;
+
+  button {
+    background: var(--secondary);
+    border: 0;
+    color: var(--text-title);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
+.container-cards_drinks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  div {
+    margin-top: 0.5rem;
+    width:170px !important;
+    background: var(--card-background)!important;
+    color: var(--card-title) !important;
+  }
+}
+
+.footer{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background: var(--primary);
+  color: var(--text-title);
+}

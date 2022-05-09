@@ -28,11 +28,7 @@ function Cards(props) {
             <Card.Body>
               <Card.Title data-testid={ `${index}-card-name` }>
                 {food.strMeal}
-
               </Card.Title>
-              {/* <Card.Text>
-                XXX
-              </Card.Text> */}
             </Card.Body>
           </Card>
         );
@@ -59,9 +55,6 @@ function Cards(props) {
           />
           <Card.Body>
             <Card.Title data-testid={ `${index}-card-name` }>{drink.strDrink}</Card.Title>
-            {/* <Card.Text>
-              XXX
-            </Card.Text> */}
           </Card.Body>
         </Card>
       );
