@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Satisfy&display=swap');
+
+html, body { overflow-x: hidden; }
+
+.login-container {
+  align-items: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
+  width: 100vw;
+}
+
+.background-animation {
+  animation: moveBackgrond 10s infinite ease-in-out alternate;
+  background-color: #0000000f;
+  background-image: url('../images/i-like-food.svg');
+  height: 100vh;
+  position: absolute;
+  width: 105vw;
+  z-index: -1;
+}
+
+.form-login {
+  align-items: center;
+  background: white;
+  border-radius: 25px;
+  box-shadow: 0 0 12px #adadad;
+  display: flex;
+  flex-direction: column;
+  height: 45vh;
+  justify-content: space-evenly;
+  padding: 0 5vw;
+}
+
+::placeholder {
+  color: #9d9494;
+  font-family: sans-serif;
+  font-weight: 700;
+}
+
+.form-login input {
+  border: none;
+  border-bottom: 2px solid var(--primary);
+  color: #9d9494;
+  font-weight: 700;
+  outline: none;
+  width: 15rem;
+}
+
+.button-login {
+  background: linear-gradient(#f29e62, var(--primary));
+  border: 1px solid #ff8e3c;
+  /* background: linear-gradient(#fa5246, var(--secondary)); */
+  /* border: 1px solid #ed3434; */
+  border-radius: 5px;
+  box-shadow: 0 3px 4px 0 #292629;
+  color: #fafafa;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Helvetica , Arial , Verdana , Tahoma , sans-serif;
+  font-size: 17px;
+  padding: 5px 75px;
+  text-decoration: none;
+  text-shadow: 0 0 2px #f17821;
+  transition: 300ms ease-in-out;
+}
+
+.button-login:disabled { opacity: 0.5; }
+
+.button-login:hover {
+  background: linear-gradient(#f29e62, #ff8e3c);
+  background-color: var(--primary);
+  border-radius: 15px;
+}
+
+.title-conteiner {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  width: 280px;
+}
+
+.title-conteiner h3 {
+  font-family: 'Satisfy', cursive;
+  font-size: xxx-large;
+}
+
+.title-conteiner hr {
+  border-bottom: 2px solid var(--tertlary);
+  border-radius: 5px;
+  width: 80px;
+}
+
+@keyframes moveBackgrond {
+  from {
+    overflow: hidden;
+    transform: translateX(-50px);
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .background-animation {
+    width: 110%;
+    height: 100%;
+  }
+
+  @keyframes moveBackgrond {
+    from { transform: translateX(-25px); }
+  }
+}
