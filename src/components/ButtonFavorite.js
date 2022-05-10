@@ -20,6 +20,7 @@ function ButtonFavorite(props) {
           buttonFavorite, id, element,
         ),
       ) }
+      className="favorite-btn"
     >
       <img
         src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }

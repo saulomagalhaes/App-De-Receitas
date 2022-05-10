@@ -9,6 +9,7 @@ import { checkedDonesRecipes, checkedLocalStorage,
 import { getDrinksByName, getFoodById } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../styles/FoodRecipe.css';
 import ButtonFavorite from '../components/ButtonFavorite';
 
 const MAX_LENGTH = 6;
@@ -18,7 +19,6 @@ function FoodRecipe(props) {
   const { id } = useParams();
   const meals = useSelector((state) => state.foods.mealdetails);
   const drinks = useSelector((state) => state.drinks.drinks);
-  // const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [buttonPhrase, setButtonPhrase] = useState(true);
   const [buttonProgress, setButtonProgress] = useState(true);
   const [copied, setCopied] = useState('');
@@ -64,8 +64,13 @@ function FoodRecipe(props) {
   }
 
   const handleCopy = () => {
+    const timeOut = 3000;
     navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopied('Link copied!');
+    setTimeout(() => {
+      setCopied('');
+    },
+    timeOut);
   };
 
   if ((meals.length > 0) && (drinks.length > 0)) {
@@ -74,32 +79,46 @@ function FoodRecipe(props) {
         {
           meals
             .map((element) => (
-              <section key={ element.idMeal }>
+              <section key={ element.idMeal } className="recipe-container">
                 <img
                   src={ element.strMealThumb }
                   alt="Imagem da Comida"
                   data-testid="recipe-photo"
+                  className="recipe-photo"
                 />
-                <h1 data-testid="recipe-title">{element.strMeal}</h1>
-                <p data-testid="recipe-category">{element.strCategory}</p>
-                <button data-testid="share-btn" type="button" onClick={ handleCopy }>
-                  <img src={ shareIcon } alt="Butão de Compartilhar" />
-                </button>
-                {copied}
-                <ButtonFavorite
-                  id={ id }
-                  element={ {
-                    id: element.idMeal,
-                    type: 'food',
-                    nationality: element.strArea,
-                    category: element.strCategory,
-                    alcoholicOrNot: '',
-                    name: element.strMeal,
-                    image: element.strMealThumb,
-                  } }
-                />
+                <div className="title-container">
+                  <h1 data-testid="recipe-title">{element.strMeal}</h1>
+                  <button
+                    data-testid="share-btn"
+                    type="button"
+                    className="share-btn"
+                    onClick={ handleCopy }
+                  >
+                    <img src={ shareIcon } alt="Butão de Compartilhar" />
+                  </button>
+                  {copied}
+                  <ButtonFavorite
+                    id={ id }
+                    element={ {
+                      id: element.idMeal,
+                      type: 'food',
+                      nationality: element.strArea,
+                      category: element.strCategory,
+                      alcoholicOrNot: '',
+                      name: element.strMeal,
+                      image: element.strMealThumb,
+                    } }
+                  />
+                </div>
+                <p
+                  data-testid="recipe-category"
+                  className="recipe-category"
+                >
+                  {element.strCategory}
+                </p>
                 <hr />
-                <ul>
+                <h2>Ingredientes</h2>
+                <ul className="ingredient-list">
                   {
                     concatenateIngredient(meals)
                       .map((ingredient, index) => (
@@ -113,9 +132,14 @@ function FoodRecipe(props) {
                   }
                 </ul>
                 <hr />
-                <h1>Instructions</h1>
-                <p data-testid="instructions">{ element.strInstructions }</p>
-                <h1>Vídeo</h1>
+                <h2>Instruções</h2>
+                <p
+                  data-testid="instructions"
+                  className="instructions"
+                >
+                  { element.strInstructions }
+                </p>
+                <h2>Vídeo</h2>
                 <iframe
                   width="560"
                   height="315"
@@ -128,8 +152,9 @@ function FoodRecipe(props) {
                   allowFullScreen
                   data-testid="video"
                 />
-                <div>
-                  <h1>Recommended</h1>
+                <hr />
+                <div className="recommended-card">
+                  <h2>Recommended</h2>
                   <Slider { ...settings }>
                     {
                       drinks
@@ -138,19 +163,20 @@ function FoodRecipe(props) {
                           <div
                             key={ indexImg }
                             data-testid={ `${indexImg}-recomendation-card` }
+                            className="recomendation-card"
                           >
                             <img
                               src={ img.strDrinkThumb }
                               style={ { width: '200px' } }
                               alt="Recomendação de Bebida"
                             />
+                            <p data-testid={ `${indexImg}-recomendation-title` }>
+                              {img.strDrink}
+                            </p>
                             <span>
                               {img.strAlcoholic === 'Alcoholic'
                                 ? img.strAlcoholic : ''}
                             </span>
-                            <p data-testid={ `${indexImg}-recomendation-title` }>
-                              {img.strDrink}
-                            </p>
                           </div>
                         ))
                     }
@@ -166,6 +192,7 @@ function FoodRecipe(props) {
             onClick={ onSubmitButtonClick }
             data-testid="start-recipe-btn"
             style={ { position: 'fixed', bottom: '0' } }
+            className="button-login"
           >
             { buttonPhrase }
           </button>)}
