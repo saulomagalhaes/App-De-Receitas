@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import FiltersFavorite from '../components/FiltersFavorite';
 import CardsFavorite from '../components/CardsFavorite';
+import '../styles/Favorite.scss';
 
 function FavoriteRecipes() {
   const favoriteRecipes = localStorage.getItem('favoriteRecipes')

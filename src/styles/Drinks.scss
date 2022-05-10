@@ -1,6 +1,6 @@
 .btn_filters-drinks{
   display: flex;
-  justify-content: space-evenly;
+  justify-content: left;
   align-items: center;
   flex-wrap: wrap;
   padding: 0 20px;
@@ -12,6 +12,7 @@
     padding: 0.3rem 0.6rem;
     border-radius: 0.5rem;
     margin-top: 0.5rem;
+    margin-right: 0.8rem;
   }
 }
 
@@ -28,3 +29,7 @@
   }
 }
 
+div.card-title{
+  width: 100% !important;
+  text-align: center;
+}
