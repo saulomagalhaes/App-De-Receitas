@@ -40,11 +40,6 @@ const foods = (state = INITIAL_STATE, action) => {
       ...state,
       nationalities: action.nationalities.meals,
     };
-  case 'SAVEFOODPROGRESS':
-    return {
-      ...state,
-      mealsProgress: action.food.meals,
-    };
   case 'CHECK_CLICK':
     return {
       ...state,
