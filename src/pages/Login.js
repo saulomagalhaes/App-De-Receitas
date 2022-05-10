@@ -36,42 +36,44 @@ function Login(props) {
       setIsButtonDisabled(true);
     }
   }, [email, password]);
-
+  // w-100 h-100 d-flex justify-content-start align-items-center
   return (
-    <div className="Login">
-      <h3 className="text-center">Login</h3>
-      <section className="login-inputs">
-        <form>
-          <input
-            type="text"
-            data-testid="email-input"
-            name="email"
-            value={ email }
-            onChange={ (e) => setEmail(e.target.value) }
-            placeholder="E-mail"
-          />
-          <input
-            type="password"
-            data-testid="password-input"
-            name="password"
-            value={ password }
-            onChange={ (e) => setPassword(e.target.value) }
-            placeholder="Senha"
-            autoComplete="off"
-          />
-        </form>
-      </section>
-      <div className="link">
+    <section className="login-container">
+      <div className="background-animation" />
+      <form className="form-login">
+        <div className="title-conteiner">
+          <hr />
+          <h3 className="text-center">Login</h3>
+          <hr />
+        </div>
+        <input
+          type="text"
+          data-testid="email-input"
+          name="email"
+          value={ email }
+          onChange={ (e) => setEmail(e.target.value) }
+          placeholder="E-mail"
+        />
+        <input
+          type="password"
+          data-testid="password-input"
+          name="password"
+          value={ password }
+          onChange={ (e) => setPassword(e.target.value) }
+          placeholder="Senha"
+          autoComplete="off"
+        />
         <button
           type="button"
+          className="button-login"
           data-testid="login-submit-btn"
           disabled={ isButtonDisabled }
           onClick={ onSubmitButtonClick }
         >
-          Enter
+          Entrar
         </button>
-      </div>
-    </div>
+      </form>
+    </section>
   );
 }
 
