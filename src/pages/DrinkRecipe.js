@@ -3,15 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
-import shareIcon from '../images/shareIcon.svg';
 import { checkedDonesRecipes,
   checkedLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinkById, getFoodsByName } from '../redux/actions';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import ButtonFavorite from '../components/ButtonFavorite';
+import shareIcon from '../images/shareIcon.svg';
 import '../images/whiteHeartIcon.svg';
 import '../images/blackHeartIcon.svg';
+import '../styles/DetailsRecipes.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const MAX_LENGTH = 6;
 

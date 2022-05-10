@@ -5,7 +5,17 @@
   padding: 10px 20px;
   margin-bottom: 10px;
   background: var(--primary);
-  color: var(--text-title);
+  color: var(--card-title);
+  font-family: 'Satisfy', cursive;
+
+  img {
+    opacity: 0.5;
+  }
+
+  h1 {
+    margin: 0 auto;
+    opacity: 0.5;
+  }
 
   button {
     background: transparent;

@@ -9,7 +9,7 @@ import { checkedDonesRecipes, checkedLocalStorage,
 import { getDrinksByName, getFoodById } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import '../styles/FoodRecipe.css';
+import '../styles/DetailsRecipes.css';
 import ButtonFavorite from '../components/ButtonFavorite';
 
 const MAX_LENGTH = 6;
