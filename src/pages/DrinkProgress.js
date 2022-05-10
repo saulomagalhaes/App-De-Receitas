@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { getDrinkById } from '../redux/actions';
 import './DrinksProgress.css';
 import shareIcon from '../images/shareIcon.svg';
-import { concatenateIngredient } from '../services/FuncRecipesDetails';
+import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
 import ButtonFavorite from '../components/ButtonFavorite';
 
 function DrinkProgress({ history }) {
@@ -68,6 +68,25 @@ function DrinkProgress({ history }) {
 
   const getClass = (ingredient) => (arrayIngredients
     .includes(ingredient) ? 'checkedItem' : '');
+
+  const finishRecipe = () => {
+    const data = new Date();
+    const dataFinal = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+    const finishedRecipe = {
+      id: drinkProgress[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drinkProgress[0].strCategory,
+      alcoholicOrNot: drinkProgress[0].strAlcoholic, // alcoholic-ou-non-alcoholic-ou-texto-vazio,
+      name: drinkProgress[0].strDrink,
+      image: drinkProgress[0].strDrinkThumb,
+      doneDate: dataFinal,
+      tags: (drinkProgress[0].strTags) ? drinkProgress[0].strTags.split(',') : [],
+    };
+
+    doneRecipes(finishedRecipe);
+    history.push('/done-recipes');
+  };
 
   return (
     <>
@@ -146,7 +165,7 @@ function DrinkProgress({ history }) {
         alt="Botão de finalizar"
         type="button"
         disabled={ activeButton }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
       >
         finish Recipe

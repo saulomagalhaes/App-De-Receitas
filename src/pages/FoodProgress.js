@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { getFoodById } from '../redux/actions';
 import './DrinksProgress.css';
 import shareIcon from '../images/shareIcon.svg';
-import { concatenateIngredient } from '../services/FuncRecipesDetails';
+import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
 import ButtonFavorite from '../components/ButtonFavorite';
 
 function FoodProgress({ history }) {
@@ -69,6 +69,25 @@ function FoodProgress({ history }) {
 
   const getClass = (ingredient) => (arrayIngredients
     .includes(ingredient) ? 'checkedItem' : '');
+
+  const finishRecipe = () => {
+    const data = new Date();
+    const dataFinal = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+    const finishedRecipe = {
+      id: mealsProgress[0].idMeal,
+      type: 'food',
+      nationality: mealsProgress[0].strArea,
+      category: mealsProgress[0].strCategory,
+      alcoholicOrNot: '', // alcoholic-ou-non-alcoholic-ou-texto-vazio,
+      name: mealsProgress[0].strMeal,
+      image: mealsProgress[0].strMealThumb,
+      doneDate: dataFinal,
+      tags: mealsProgress[0].strTags.split(','),
+    };
+
+    doneRecipes(finishedRecipe);
+    history.push('/done-recipes');
+  };
 
   return (
     <>
@@ -146,7 +165,7 @@ function FoodProgress({ history }) {
         alt="Botão de finalizar"
         type="button"
         disabled={ activeButton }
-        onClick={ () => history.push('/done-recipes') }
+        onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
       >
         finish Recipe
