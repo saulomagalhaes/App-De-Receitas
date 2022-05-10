@@ -54,7 +54,7 @@ function Drinks(props) {
           title="Drinks"
         />
       </div>
-      <div className="container-cards_drinks">
+      <div className="container-cards">
         {drinks !== null
           ? checkCard()
           : global.alert(

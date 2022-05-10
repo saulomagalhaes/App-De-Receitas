@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import './styles.scss';
 import { useDispatch } from 'react-redux';
 import { getFoodsByCategory, getDrinksByCategory, getFoodsByName,
   getDrinksByName, checkClickSearch } from '../../redux/actions';

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './styles.css';
+import './styles.scss';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import searchIcon from '../../images/searchIcon.svg';
