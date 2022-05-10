@@ -1,0 +1,103 @@
+.recipe-photo {
+  box-shadow: 0px 5px 10px rgb(211, 211, 211);
+}
+
+@media only screen and (max-width: 900px) {
+  .recipe-photo {
+    width: 100%;
+    box-shadow: 0px 5px 10px rgb(211, 211, 211);
+    margin-bottom: 5px;
+  }
+
+  .title-container { display: flex; }
+
+  .title-container h1 {
+    flex: 1;
+    font-family: 'Satisfy', cursive;
+    margin: 0;
+  }
+
+  .favorite-btn img {
+    width: 26px;
+  }
+
+  .favorite-btn, .share-btn {
+    background: transparent;
+    outline: none;
+    border: none;
+  }
+  
+  .favorite-btn, .share-btn, .title-container h1 {
+    padding: 0 10px;
+  }
+
+  .recipe-container h2, .title-container h1, .recipe-category {
+    padding: 0 20px;
+  }
+
+  .ingredient-list {
+    padding-left: 40px;
+  }
+
+  ::marker {
+    color: var(--secondary);
+    font-size: 18px;
+  }
+
+  .instructions {
+   padding: 0 10px 0 20px;
+   text-align: justify;
+   text-indent: 20px;
+   height: 50vh;
+   overflow-y: scroll;
+   margin-right: 20px;
+  }
+
+  .instructions::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  .instructions::-webkit-scrollbar-track {
+    background: var(--tertlary);
+    opacity: 0.8;
+    border-radius: 10px;
+  }
+  
+  .instructions::-webkit-scrollbar-thumb {
+    background-color: #2ce9a3;
+    border-radius: 10px;
+  }
+
+  iframe {
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    border-radius: 20px;
+  }
+
+  .recommended-card {
+    margin-bottom: 70px;
+    text-align: center;
+  }
+
+  .recomendation-card p {
+    margin: 0;
+    font-weight: 700;
+  }
+
+  .recomendation-card img {
+    width: 180px !important;
+    border-radius: 10px;
+    margin: 0 auto;
+  }
+  
+  .button-login {
+    width: -webkit-fill-available;
+    border: 5px solid white;
+    box-shadow: none;
+    height: 50px;
+    border-radius: 15px;
+  }
+}
