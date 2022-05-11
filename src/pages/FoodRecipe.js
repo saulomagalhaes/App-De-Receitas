@@ -75,6 +75,7 @@ function FoodRecipe(props) {
   if ((meals.length > 0) && (drinks.length > 0)) {
     return (
       <>
+        <p className="message-copy">{copied}</p>
         {
           meals
             .map((element) => (
@@ -95,7 +96,6 @@ function FoodRecipe(props) {
                   >
                     <img src={ shareIcon } alt="Butão de Compartilhar" />
                   </button>
-                  {copied}
                   <ButtonFavorite
                     id={ id }
                     element={ {

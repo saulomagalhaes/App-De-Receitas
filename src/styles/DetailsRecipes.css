@@ -101,4 +101,17 @@
     height: 50px;
     border-radius: 15px;
   }
+
+  .message-copy {
+    position: absolute;
+    background: gray;
+    color: #d3d3d3;
+    text-align: center;
+    border-radius: 5px;
+    margin: 0;
+    width: 125px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+  }
 }

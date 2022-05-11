@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getFoodById } from '../redux/actions';
 import '../styles/DrinksProgress.css';
+import '../styles/DetailsRecipes.css';
 import shareIcon from '../images/shareIcon.svg';
 import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
 import ButtonFavorite from '../components/ButtonFavorite';
@@ -91,32 +92,45 @@ function FoodProgress({ history }) {
   return (
     <>
       {mealsProgress && mealsProgress.map((element) => (
-        <div key={ element.idMeal }>
+        <div key={ element.idMeal } className="recipe-container">
           <img
             src={ element.strMealThumb }
+            className="recipe-photo"
             alt="Imagem da Comida"
             data-testid="recipe-photo"
           />
-          <h1 data-testid="recipe-title">{element.strMeal}</h1>
-          <p data-testid="recipe-category">{element.strCategory}</p>
-          <button data-testid="share-btn" type="button" onClick={ handleCopy }>
-            <img src={ shareIcon } alt="Butão de Compartilhar" />
-          </button>
-          { copied }
-          <ButtonFavorite
-            id={ id }
-            element={ {
-              id,
-              type: 'food',
-              nationality: element.strArea,
-              category: element.strCategory,
-              alcoholicOrNot: '',
-              name: element.strMeal,
-              image: element.strMealThumb,
-            } }
-          />
+          <div className="title-container">
+            <h1 data-testid="recipe-title" className="recipe-photo">{element.strMeal}</h1>
+            <button
+              data-testid="share-btn"
+              className="share-btn"
+              type="button"
+              onClick={ handleCopy }
+            >
+              <img src={ shareIcon } alt="Butão de Compartilhar" />
+            </button>
+            { copied }
+            <ButtonFavorite
+              id={ id }
+              element={ {
+                id,
+                type: 'food',
+                nationality: element.strArea,
+                category: element.strCategory,
+                alcoholicOrNot: '',
+                name: element.strMeal,
+                image: element.strMealThumb,
+              } }
+            />
+          </div>
+          <p
+            data-testid="recipe-category"
+            className="recipe-category"
+          >
+            {element.strCategory}
+          </p>
           <hr />
-          <h1>Ingredients</h1>
+          <h2>Ingredients</h2>
           <div>
             {
               concatenateIngredient(mealsProgress)
@@ -141,8 +155,13 @@ function FoodProgress({ history }) {
             }
           </div>
           <hr />
-          <h1>Instructions</h1>
-          <p data-testid="instructions">{element.strInstructions}</p>
+          <h2>Instructions</h2>
+          <p
+            data-testid="instructions"
+            className="instructions"
+          >
+            {element.strInstructions}
+          </p>
           <iframe
             width="560"
             height="315"
@@ -164,13 +183,16 @@ function FoodProgress({ history }) {
         disabled={ activeButton }
         onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
+        className="button-login"
       >
         finish Recipe
       </button>
     </>
   );
 }
+
 FoodProgress.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
+
 export default FoodProgress;
