@@ -45,32 +45,6 @@ html, body { overflow-x: hidden; }
   width: 15rem;
 }
 
-.button-login {
-  background: linear-gradient(#f29e62, var(--primary));
-  border: 1px solid #ff8e3c;
-  /* background: linear-gradient(#fa5246, var(--secondary)); */
-  /* border: 1px solid #ed3434; */
-  border-radius: 5px;
-  box-shadow: 0 3px 4px 0 #292629;
-  color: #fafafa;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Helvetica , Arial , Verdana , Tahoma , sans-serif;
-  font-size: 17px;
-  padding: 5px 75px;
-  text-decoration: none;
-  text-shadow: 0 0 2px #f17821;
-  transition: 300ms ease-in-out;
-}
-
-.button-login:disabled { opacity: 0.5; }
-
-.button-login:hover {
-  background: linear-gradient(#f29e62, #ff8e3c);
-  background-color: var(--primary);
-  border-radius: 15px;
-}
-
 .title-conteiner {
   align-items: center;
   display: flex;
@@ -79,7 +53,7 @@ html, body { overflow-x: hidden; }
 }
 
 .title-conteiner h3 {
-  font-family: 'Satisfy', cursive;
+  font-family: Satisfy , cursive;
   font-size: xxx-large;
 }
 
@@ -90,19 +64,22 @@ html, body { overflow-x: hidden; }
 }
 
 @keyframes moveBackgrond {
+
   from {
     overflow: hidden;
     transform: translateX(-50px);
   }
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and ( max-width : 900px ) {
+
   .background-animation {
-    width: 110%;
     height: 100%;
+    width: 110%;
   }
 
   @keyframes moveBackgrond {
+
     from { transform: translateX(-25px); }
   }
 }

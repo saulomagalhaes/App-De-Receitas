@@ -65,7 +65,7 @@ function Login(props) {
         />
         <button
           type="button"
-          className="button-login"
+          className="button"
           data-testid="login-submit-btn"
           disabled={ isButtonDisabled }
           onClick={ onSubmitButtonClick }

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getFoodById } from '../redux/actions';
-import '../styles/DrinksProgress.css';
 import '../styles/DetailsRecipes.css';
 import shareIcon from '../images/shareIcon.svg';
 import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
@@ -63,8 +62,13 @@ function FoodProgress({ history }) {
   };
 
   const handleCopy = () => {
+    const timeOut = 3000;
     navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopied('Link copied!');
+    setTimeout(() => {
+      setCopied('');
+    },
+    timeOut);
   };
 
   const getClass = (ingredient) => (arrayIngredients
@@ -78,7 +82,7 @@ function FoodProgress({ history }) {
       type: 'food',
       nationality: mealsProgress[0].strArea,
       category: mealsProgress[0].strCategory,
-      alcoholicOrNot: '', // alcoholic-ou-non-alcoholic-ou-texto-vazio,
+      alcoholicOrNot: '',
       name: mealsProgress[0].strMeal,
       image: mealsProgress[0].strMealThumb,
       doneDate: dataFinal,
@@ -93,6 +97,7 @@ function FoodProgress({ history }) {
     <>
       {mealsProgress && mealsProgress.map((element) => (
         <div key={ element.idMeal } className="recipe-container">
+          <p className="message-copy">{ copied }</p>
           <img
             src={ element.strMealThumb }
             className="recipe-photo"
@@ -100,7 +105,7 @@ function FoodProgress({ history }) {
             data-testid="recipe-photo"
           />
           <div className="title-container">
-            <h1 data-testid="recipe-title" className="recipe-photo">{element.strMeal}</h1>
+            <h1 data-testid="recipe-title" className="recipe-title">{element.strMeal}</h1>
             <button
               data-testid="share-btn"
               className="share-btn"
@@ -109,7 +114,6 @@ function FoodProgress({ history }) {
             >
               <img src={ shareIcon } alt="Butão de Compartilhar" />
             </button>
-            { copied }
             <ButtonFavorite
               id={ id }
               element={ {
@@ -131,29 +135,30 @@ function FoodProgress({ history }) {
           </p>
           <hr />
           <h2>Ingredients</h2>
-          <div>
+          <ul className="ingredient-list">
             {
               concatenateIngredient(mealsProgress)
                 .map((ingredient, index) => (
-                  <label
-                    data-testid={ `${index}-ingredient-step` }
-                    key={ index }
-                    id={ index }
-                    htmlFor={ `${index}checkIndex` }
-                    className={ getClass(ingredient) }
-                  >
-                    <input
-                      type="checkbox"
-                      id={ `${index}checkIndex` }
-                      onChange={ (event) => addAndRemoveClass(event) }
-                      name={ ingredient }
-                      checked={ arrayIngredients.includes(ingredient) }
-                    />
-                    {ingredient}
-                  </label>
+                  <li key={ index } className="ingredient-step">
+                    <label
+                      data-testid={ `${index}-ingredient-step` }
+                      id={ index }
+                      htmlFor={ `${index}checkIndex` }
+                      className={ getClass(ingredient) }
+                    >
+                      <input
+                        type="checkbox"
+                        id={ `${index}checkIndex` }
+                        onChange={ (event) => addAndRemoveClass(event) }
+                        name={ ingredient }
+                        checked={ arrayIngredients.includes(ingredient) }
+                      />
+                      {ingredient}
+                    </label>
+                  </li>
                 ))
             }
-          </div>
+          </ul>
           <hr />
           <h2>Instructions</h2>
           <p
@@ -183,9 +188,9 @@ function FoodProgress({ history }) {
         disabled={ activeButton }
         onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
-        className="button-login"
+        className="finish-recipe-btn button"
       >
-        finish Recipe
+        Finish Recipe
       </button>
     </>
   );

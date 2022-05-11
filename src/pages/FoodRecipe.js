@@ -122,6 +122,7 @@ function FoodRecipe(props) {
                     concatenateIngredient(meals)
                       .map((ingredient, index) => (
                         <li
+                          className="ingredient-name-and-measure"
                           data-testid={ `${index}-ingredient-name-and-measure` }
                           key={ index }
                         >
@@ -191,7 +192,7 @@ function FoodRecipe(props) {
             onClick={ onSubmitButtonClick }
             data-testid="start-recipe-btn"
             style={ { position: 'fixed', bottom: '0' } }
-            className="button-login"
+            className="start-recipe-btn button"
           >
             { buttonPhrase }
           </button>)}

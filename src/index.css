@@ -39,12 +39,33 @@
   h1, h2, h3, h4, h5, h6, strong{
   font-weight: 600;
   }
-  
-  button{
-  cursor: pointer;
+
+  .button {
+    background: linear-gradient(#f29e62, var(--primary));
+    border: 1px solid #ff8e3c;
+    /* background: linear-gradient(#fa5246, var(--secondary)); */
+    /* border: 1px solid #ed3434; */
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 3px 4px 0 #292629;
+    color: #fafafa;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Helvetica , Arial , Verdana , Tahoma , sans-serif;
+    font-size: 17px;
+    padding: 5px 75px;
+    text-decoration: none;
+    text-shadow: 0 0 2px #f17821;
+    transition: 300ms ease-in-out;
   }
   
-  [disabled]{ 
-  opacity: 0.8;
-  cursor: not-allowed;
-  } 
+  .button:hover {
+    background: linear-gradient(#f29e62, #ff8e3c);
+    background-color: var(--primary);
+    border-radius: 15px;
+  }
+
+  [disabled] { 
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
