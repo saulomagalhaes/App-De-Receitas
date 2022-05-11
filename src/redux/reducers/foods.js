@@ -7,7 +7,6 @@ const INITIAL_STATE = {
   nationalities: [],
   checkClick: true,
 };
-
 const foods = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case 'GET_FOODS':
@@ -39,11 +38,6 @@ const foods = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       nationalities: action.nationalities.meals,
-    };
-  case 'SAVEFOODPROGRESS':
-    return {
-      ...state,
-      mealsProgress: action.food.meals,
     };
   case 'CHECK_CLICK':
     return {

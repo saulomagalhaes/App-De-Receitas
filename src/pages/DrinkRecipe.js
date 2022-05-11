@@ -3,19 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Slider from 'react-slick';
+import shareIcon from '../images/shareIcon.svg';
 import { checkedDonesRecipes,
   checkedLocalStorage, concatenateIngredient } from '../services/FuncRecipesDetails';
 import { getDrinkById, getFoodsByName } from '../redux/actions';
-import ButtonFavorite from '../components/ButtonFavorite';
-import shareIcon from '../images/shareIcon.svg';
-import '../images/whiteHeartIcon.svg';
-import '../images/blackHeartIcon.svg';
-import '../styles/DetailsRecipes.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import ButtonFavorite from '../components/ButtonFavorite';
+import '../images/whiteHeartIcon.svg';
+import '../images/blackHeartIcon.svg';
 
 const MAX_LENGTH = 6;
-
 function DrinkRecipe(props) {
   const { history } = props;
   const { id } = useParams();
@@ -25,7 +23,6 @@ function DrinkRecipe(props) {
   const [buttonProgress, setButtonProgress] = useState(false);
   const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
-
   const settings = {
     dots: true,
     infinite: false,
@@ -33,7 +30,6 @@ function DrinkRecipe(props) {
     slidesToShow: 2,
     slidesToScroll: 2,
   };
-
   useEffect(() => {
     dispatch(getFoodsByName(''));
     dispatch(getDrinkById(id));
@@ -42,34 +38,33 @@ function DrinkRecipe(props) {
   }, []);
 
   function onSubmitButtonClick() {
-    const ingredientMeasure = concatenateIngredient(drinks);
+    // const ingredientMeasure = concatenateIngredient(drinks);
     const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     let objectRecipe = {};
     if (previousProgress) {
       const previousMeals = previousProgress.cocktails;
-
       objectRecipe = {
         ...previousProgress,
         cocktails: {
           ...previousMeals,
-          [id]: ingredientMeasure,
+          [id]: [],
+          // [id]: ingredientMeasure,
         },
       };
     } else {
       objectRecipe = {
-        cocktails: { [id]: ingredientMeasure },
+        // cocktails: { [id]: ingredientMeasure },
+        cocktails: { [id]: [] },
         meals: {},
       };
     }
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     history.push(`/drinks/${id}/in-progress`);
   }
-
   const handleCopy = () => {
     navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
     setCopied('Link copied!');
   };
-
   if (drinks !== undefined) {
     return (
       <>
@@ -186,14 +181,11 @@ function DrinkRecipe(props) {
       </>
     );
   }
-
   return null;
 }
-
 DrinkRecipe.propTypes = {
   history: PropTypes.objectOf(
     PropTypes.any,
   ).isRequired,
 };
-
 export default DrinkRecipe;

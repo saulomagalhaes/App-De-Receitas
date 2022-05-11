@@ -38,31 +38,6 @@ const saveDrinkNationalities = (nationalities) => ({
   type: 'GET_DRINK_NATIONALITIES',
   nationalities,
 });
-const saveFoodInProgress = (food) => ({
-  type: 'SAVEFOODPROGRESS',
-  food,
-});
-const saveDrinkInProgress = (food) => ({
-  type: 'SAVEDRINKPROGRESS',
-  food,
-});
-export const funcSaveFoodInProgress = (idFood) => async (dispatch) => {
-  try {
-    const data = await fetchFoodById(idFood);
-    dispatch(saveFoodInProgress(data));
-  } catch (error) {
-    dispatch(failedRequest(error));
-  }
-};
-
-export const funcSaveDrinkInProgress = (idFood) => async (dispatch) => {
-  try {
-    const data = await fetchDrinkById(idFood);
-    dispatch(saveDrinkInProgress(data));
-  } catch (error) {
-    dispatch(failedRequest(error));
-  }
-};
 
 export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
   try {
@@ -72,7 +47,6 @@ export const getFoodsByIngredient = (ingredient) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinksByCategory = (category) => async (dispatch) => {
   try {
     const data = await fetchDrinksByCategory(category);
@@ -81,7 +55,6 @@ export const getDrinksByCategory = (category) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodsByCategory = (category) => async (dispatch) => {
   try {
     const data = await fetchFoodsByCategory(category);
@@ -90,7 +63,6 @@ export const getFoodsByCategory = (category) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodsByName = (name) => async (dispatch) => {
   try {
     const data = await fetchFoodsByName(name);
@@ -131,7 +103,6 @@ export const getDrinksByFLetter = (letter) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodById = (id) => async (dispatch) => {
   try {
     const data = await fetchFoodById(id);
@@ -140,7 +111,6 @@ export const getFoodById = (id) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinkById = (id) => async (dispatch) => {
   try {
     const data = await fetchDrinkById(id);
@@ -149,7 +119,6 @@ export const getDrinkById = (id) => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodsCategories = () => async (dispatch) => {
   try {
     const data = await fetchFoodsCategories();
@@ -158,7 +127,6 @@ export const getFoodsCategories = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinksCategories = () => async (dispatch) => {
   try {
     const data = await fetchDrinksCategories();
@@ -167,7 +135,6 @@ export const getDrinksCategories = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodRandom = () => async (dispatch) => {
   try {
     const data = await fetchFoodRandom();
@@ -176,7 +143,6 @@ export const getFoodRandom = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinkRandom = () => async (dispatch) => {
   try {
     const data = await fetchDrinkRandom();
@@ -185,7 +151,6 @@ export const getDrinkRandom = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodIngredients = () => async (dispatch) => {
   try {
     const data = await fetchFoodListIngredients();
@@ -194,7 +159,6 @@ export const getFoodIngredients = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodNationalities = () => async (dispatch) => {
   try {
     const data = await fetchFoodListNationalities();
@@ -203,7 +167,6 @@ export const getFoodNationalities = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinkIngredients = () => async (dispatch) => {
   try {
     const data = await fetchDrinksListIngredients();
@@ -212,7 +175,6 @@ export const getDrinkIngredients = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getDrinkNationalities = () => async (dispatch) => {
   try {
     const data = await fetchDrinksListNationalities();
@@ -221,7 +183,6 @@ export const getDrinkNationalities = () => async (dispatch) => {
     dispatch(failedRequest(error));
   }
 };
-
 export const getFoodsByNationality = (nationality) => async (dispatch) => {
   try {
     const data = await fetchFoodsByNationality(nationality);

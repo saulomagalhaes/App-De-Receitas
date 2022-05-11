@@ -52,7 +52,7 @@ function Profile({ history }) {
 }
 
 Profile.propTypes = {
-  history: PropTypes.string.isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default Profile;

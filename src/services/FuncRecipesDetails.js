@@ -1,5 +1,4 @@
 const TWENTY_MAX_LENGTH = 20;
-
 export function checkedLocalStorage(id, type) {
   const previousProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
   if (previousProgress) {
@@ -14,7 +13,6 @@ export function checkedLocalStorage(id, type) {
   }
   return 'Start Recipe';
 }
-
 export function concatenateIngredient(recipe) {
   const ingredientMeasure = [];
   for (let index = 1; index < TWENTY_MAX_LENGTH; index += 1) {
@@ -26,7 +24,6 @@ export function concatenateIngredient(recipe) {
   }
   return ingredientMeasure;
 }
-
 export function saveOrDeleteFavorites(buttonFavorite, id, infos) {
   const donesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
   let arrayFavoriteRecipe = [];
@@ -41,7 +38,6 @@ export function saveOrDeleteFavorites(buttonFavorite, id, infos) {
       .filter((element) => (element.id !== id))));
   return true;
 }
-
 export function checkedFavorites(id) {
   const favoritesRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
   if (favoritesRecipes) {
@@ -51,7 +47,6 @@ export function checkedFavorites(id) {
   }
   return true;
 }
-
 export function checkedDonesRecipes(id) {
   const donesRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
   if (donesRecipes) {
@@ -59,4 +54,13 @@ export function checkedDonesRecipes(id) {
       .some((element) => (element.id === id));
   }
   return false;
+}
+
+export function doneRecipes(finishedRecipe) {
+  const recipesInLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+  const newArrayRecipes = (recipesInLocalStorage)
+    ? [...recipesInLocalStorage, finishedRecipe]
+    : [finishedRecipe];
+
+  localStorage.setItem('doneRecipes', JSON.stringify(newArrayRecipes));
 }

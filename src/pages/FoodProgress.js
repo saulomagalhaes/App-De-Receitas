@@ -2,67 +2,63 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { funcSaveFoodInProgress, getFoodById } from '../redux/actions';
-import '../styles/DetailsRecipes.css';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import { getFoodById } from '../redux/actions';
+import '../styles/DrinksProgress.css';
 import shareIcon from '../images/shareIcon.svg';
-import { saveOrDeleteFavorites,
-  checkedFavorites } from '../services/FuncRecipesDetails';
+import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
+import ButtonFavorite from '../components/ButtonFavorite';
 
 function FoodProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { mealsProgress } = useSelector((state) => state.foods);
+  const mealsProgress = useSelector((state) => state.foods.mealdetails);
   const [activeButton, setActiveButton] = useState(true);
-  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [copied, setCopied] = useState('');
+
+  const progressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const recipe = (progressRecipes) ? Object
+    .values(progressRecipes.meals[id]) : [];
+  const [arrayIngredients, setArrayIngredients] = useState(recipe);
 
   useEffect(() => {
     dispatch(getFoodById(id));
-    dispatch(funcSaveFoodInProgress(id));
-    setOnFavoriteHeart(checkedFavorites(id));
   }, []);
 
-  const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    history.push('/done-recipes');
+  const checkFinishRecipe = () => {
+    const ValuesChekers = Object.values(document.querySelectorAll('input'));
+    setActiveButton(!ValuesChekers.every((checkBoxCurrent) => checkBoxCurrent.checked));
   };
 
-  function concatenateIngredient() { // verifica se possui ingrediente no length e o return para ser renderizado
-    const ingredientMeasure = [];
-    const MAX_NUMBER = 20;
-    for (let index = 1; index < MAX_NUMBER; index += 1) {
-      const ingredient = mealsProgress[0][`strIngredient${index}`];
-      if (ingredient) {
-        ingredientMeasure
-          .push(`${mealsProgress[0][`strIngredient${index}`]
-          } - ${mealsProgress[0][`strMeasure${index}`]}`);
-      }
-    }
-    return ingredientMeasure;
-  }
+  function checkItem(target) {
+    let objectRecipe = {};
+    let newArray = [];
 
-  const toggleButton = () => {
-    const allCheckers = document.querySelectorAll('input');
-    const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
-    if (ValuesChekers
-      .every((checkBoxCurrent) => checkBoxCurrent.checked)) {
-      setActiveButton(false);
+    if (arrayIngredients.includes(target.name)) { // se ja tiver, exclui o ingrediente
+      newArray = arrayIngredients
+        .filter((ingredient) => ingredient !== target.name);
+      console.log('newArray', newArray);
     } else {
-      setActiveButton(true);
+      newArray = [...arrayIngredients, target.name];
     }
-  };
+    setArrayIngredients(newArray);
+    objectRecipe = {
+      ...progressRecipes,
+      meals: {
+        [id]: newArray,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+  }
 
   const addAndRemoveClass = ({ target }) => {
     const ingredient = target.parentNode;
-
     if (ingredient.classList.contains('checkedItem')) {
       ingredient.classList.remove('checkedItem');
     } else {
       ingredient.classList.add('checkedItem');
     }
-
-    toggleButton();
+    checkFinishRecipe();
+    checkItem(target);
   };
 
   const handleCopy = () => {
@@ -70,9 +66,31 @@ function FoodProgress({ history }) {
     setCopied('Link copied!');
   };
 
+  const getClass = (ingredient) => (arrayIngredients
+    .includes(ingredient) ? 'checkedItem' : '');
+
+  const finishRecipe = () => {
+    const data = new Date();
+    const dataFinal = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+    const finishedRecipe = {
+      id: mealsProgress[0].idMeal,
+      type: 'food',
+      nationality: mealsProgress[0].strArea,
+      category: mealsProgress[0].strCategory,
+      alcoholicOrNot: '', // alcoholic-ou-non-alcoholic-ou-texto-vazio,
+      name: mealsProgress[0].strMeal,
+      image: mealsProgress[0].strMealThumb,
+      doneDate: dataFinal,
+      tags: mealsProgress[0].strTags.split(','),
+    };
+
+    doneRecipes(finishedRecipe);
+    history.push('/done-recipes');
+  };
+
   return (
     <>
-      {mealsProgress.map((element) => (
+      {mealsProgress && mealsProgress.map((element) => (
         <div key={ element.idMeal }>
           <img
             src={ element.strMealThumb }
@@ -85,58 +103,46 @@ function FoodProgress({ history }) {
             <img src={ shareIcon } alt="Butão de Compartilhar" />
           </button>
           { copied }
-          <button
-            data-testid="favorite-btn"
-            type="button"
-            src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-            onClick={ () => setOnFavoriteHeart(
-              saveOrDeleteFavorites(
-                buttonFavorite, id,
-                {
-                  id,
-                  type: 'food',
-                  nationality: element.strArea,
-                  category: element.strCategory,
-                  alcoholicOrNot: '',
-                  name: element.strMeal,
-                  image: element.strMealThumb,
-                },
-              ),
-            ) }
-          >
-            {/* <img
-              src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-              alt="Butão de Favoritar"
-            /> */}
-          </button>
+          <ButtonFavorite
+            id={ id }
+            element={ {
+              id,
+              type: 'food',
+              nationality: element.strArea,
+              category: element.strCategory,
+              alcoholicOrNot: '',
+              name: element.strMeal,
+              image: element.strMealThumb,
+            } }
+          />
           <hr />
           <h1>Ingredients</h1>
           <div>
             {
-              concatenateIngredient()
+              concatenateIngredient(mealsProgress)
                 .map((ingredient, index) => (
-                  <p
+                  <label
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
+                    htmlFor={ `${index}checkIndex` }
+                    className={ getClass(ingredient) }
                   >
                     <input
                       type="checkbox"
                       id={ `${index}checkIndex` }
-                      onClick={ (event) => addAndRemoveClass(event) }
+                      onChange={ (event) => addAndRemoveClass(event) }
+                      name={ ingredient }
+                      checked={ arrayIngredients.includes(ingredient) }
                     />
-                    {/* <label htmlFor={ `${index}checkIndex` } key={ index }> */}
                     {ingredient}
-                    {/* </label> */}
-                  </p>
+                  </label>
                 ))
             }
           </div>
           <hr />
-
           <h1>Instructions</h1>
           <p data-testid="instructions">{element.strInstructions}</p>
-
           <iframe
             width="560"
             height="315"
@@ -156,7 +162,7 @@ function FoodProgress({ history }) {
         alt="Botão de finalizar"
         type="button"
         disabled={ activeButton }
-        onClick={ onSubmitButtonClick }
+        onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
       >
         finish Recipe
@@ -164,9 +170,7 @@ function FoodProgress({ history }) {
     </>
   );
 }
-
 FoodProgress.propTypes = {
   history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
-
 export default FoodProgress;
