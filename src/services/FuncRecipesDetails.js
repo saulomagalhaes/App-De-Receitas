@@ -60,3 +60,12 @@ export function checkedDonesRecipes(id) {
   }
   return false;
 }
+
+export function doneRecipes(finishedRecipe) {
+  const recipesInLocalStorage = JSON.parse(localStorage.getItem('doneRecipes'));
+  const newArrayRecipes = (recipesInLocalStorage)
+    ? [...recipesInLocalStorage, finishedRecipe]
+    : [finishedRecipe];
+
+  localStorage.setItem('doneRecipes', JSON.stringify(newArrayRecipes));
+}

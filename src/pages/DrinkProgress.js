@@ -2,117 +2,92 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { funcSaveDrinkInProgress, getFoodById } from '../redux/actions';
+import { funcSaveDrinkInProgress, getFoodById, getDrinkById } from '../redux/actions';
 import '../styles/DrinksProgress.css';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
-import { saveOrDeleteFavorites,
-  checkedFavorites } from '../services/FuncRecipesDetails';
+import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
+import ButtonFavorite from '../components/ButtonFavorite';
 
 function DrinkProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { drinkProgress } = useSelector((state) => state.drinks);
+  const drinkProgress = useSelector((state) => state.drinks.drinkdetails);
   const [activeButton, setActiveButton] = useState(true);
-  const [buttonFavorite, setOnFavoriteHeart] = useState(true);
   const [copied, setCopied] = useState('');
 
-  // const favoriteRecipes = localStorage.getItem('favoriteRecipes')
-  //   ? JSON.parse(localStorage.getItem('favoriteRecipes'))
-  //   : ['dataInitial'];
-
-  // const [copied, setCopied] = useState('');
-  // const [data, setData] = useState(favoriteRecipes);
+  const progressRecipes = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  const recipe = (progressRecipes) ? Object
+    .values(progressRecipes.cocktails[id]) : [];
+  const [arrayIngredients, setArrayIngredients] = useState(recipe);
 
   useEffect(() => {
-    dispatch(getFoodById(id));
-    dispatch(funcSaveDrinkInProgress(id));
-    setOnFavoriteHeart(checkedFavorites(id));
+    dispatch(getDrinkById(id));
   }, []);
 
-  const onSubmitButtonClick = () => { // joga para pag de finalizados (AINDA NAO MEXI)
-    history.push('/done-recipes');
+  const checkFinishRecipe = () => {
+    const ValuesChekers = Object.values(document.querySelectorAll('input'));
+    setActiveButton(!ValuesChekers.every((checkBoxCurrent) => checkBoxCurrent.checked));
   };
 
-  function concatenateIngredient() { // verifica se possuui ingrediente no length e o return para ser renderizado
-    const ingredientMeasure = [];
-    const MAX_NUMBER = 20;
-    for (let index = 1; index < MAX_NUMBER; index += 1) {
-      const ingredient = drinkProgress[0][`strIngredient${index}`];
-      if (ingredient) {
-        ingredientMeasure
-          .push(`${drinkProgress[0][`strIngredient${index}`]
-          } - ${drinkProgress[0][`strMeasure${index}`]}`);
-      }
-    }
-    return ingredientMeasure;
-  }
+  function checkItem(target) {
+    let objectRecipe = {};
+    let newArray = [];
 
-  // console.log(drinkProgress[0]);
-
-  // const handleCopy = (url) => {
-  //   navigator.clipboard.writeText(url);
-  //   setCopied('Link copied!');
-  // };
-
-  // const handleFavorites = () => {
-  //   const copyData = [...data];
-  //   const newData = copyData.filter((item) => item.id !== id);
-  //   setData(newData);
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
-  // };
-
-  // const handleFavorites = () => {
-  //   const copyData = [...data];
-  //   // const newData = copyData.filter((item) => item.id !== id);
-
-  //   const { idDrink, strCategory, strAlcoholic,
-  //     strDrink, strDrinkThumb } = drinkProgress[0];
-
-  //   const dataIngredient = {
-  //     id: idDrink,
-  //     type: 'drink',
-  //     category: strCategory,
-  //     alcoholicOrNot: strAlcoholic,
-  //     name: strDrink,
-  //     image: strDrinkThumb,
-  //   };
-
-  //   const newData = copyData.push(dataIngredient);
-  //   // setData(newData);
-  //   // localStorage.setItem('favoriteRecipes', JSON.stringify(newData));
-  //   console.log(data);
-  //   console.log(favoriteRecipes);
-  //   localStorage.setItem('favoriteRecipes', JSON.stringify(copyData));
-  // };
-
-  const toggleButton = () => {
-    const allCheckers = document.querySelectorAll('input');
-    const ValuesChekers = Object.values(allCheckers); // pega o value para testar se todos os ingredientes foram usados
-    if (ValuesChekers
-      .every((checkBoxCurrent) => checkBoxCurrent.checked)) {
-      setActiveButton(false);
+    if (arrayIngredients.includes(target.name)) { // se ja tiver, exclui o ingrediente
+      newArray = arrayIngredients
+        .filter((ingredient) => ingredient !== target.name);
+      console.log('newArray', newArray);
     } else {
-      setActiveButton(true);
+      newArray = [...arrayIngredients, target.name];
     }
-  };
+    setArrayIngredients(newArray);
+    objectRecipe = {
+      ...progressRecipes,
+      cocktails: {
+        [id]: newArray,
+      },
+    };
+    localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
+  }
 
   const addAndRemoveClass = ({ target }) => {
     const ingredient = target.parentNode;
-
     if (ingredient.classList.contains('checkedItem')) {
       ingredient.classList.remove('checkedItem');
     } else {
       ingredient.classList.add('checkedItem');
     }
-
-    toggleButton();
+    checkFinishRecipe();
+    checkItem(target);
   };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
     setCopied('Link copied!');
+  };
+
+  const getClass = (ingredient) => (arrayIngredients
+    .includes(ingredient) ? 'checkedItem' : '');
+
+  const finishRecipe = () => {
+    const data = new Date();
+    const dataFinal = `${data.getDate()}/${data.getMonth() + 1}/${data.getFullYear()}`;
+    const finishedRecipe = {
+      id: drinkProgress[0].idDrink,
+      type: 'drink',
+      nationality: '',
+      category: drinkProgress[0].strCategory,
+      alcoholicOrNot: drinkProgress[0].strAlcoholic, // alcoholic-ou-non-alcoholic-ou-texto-vazio,
+      name: drinkProgress[0].strDrink,
+      image: drinkProgress[0].strDrinkThumb,
+      doneDate: dataFinal,
+      tags: (drinkProgress[0].strTags) ? drinkProgress[0].strTags.split(',') : [],
+    };
+
+    doneRecipes(finishedRecipe);
+    history.push('/done-recipes');
   };
 
   return (
@@ -130,56 +105,40 @@ function DrinkProgress({ history }) {
             <img src={ shareIcon } alt="Butão de Compartilhar" />
           </button>
           { copied }
-          <button
-            data-testid="favorite-btn"
-            type="button"
-            onClick={ () => setOnFavoriteHeart(
-              saveOrDeleteFavorites(
-                buttonFavorite, id,
-                {
-                  id,
-                  type: 'drink',
-                  nationality: '',
-                  category: element.strCategory,
-                  alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
-                    ? element.strAlcoholic : '',
-                  name: element.strDrink,
-                  image: element.strDrinkThumb,
-                },
-              ),
-            ) }
-            src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-          >
-            <img
-              src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-              alt="Butão de Favoritar"
-            />
-          </button>
+          <ButtonFavorite
+            id={ id }
+            element={ {
+              id,
+              type: 'drink',
+              nationality: '',
+              category: element.strCategory,
+              alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
+                ? element.strAlcoholic : '',
+              name: element.strDrink,
+              image: element.strDrinkThumb,
+            } }
+          />
           <hr />
           <h1>Ingredients</h1>
           <div>
             {
-              concatenateIngredient()
+              concatenateIngredient(drinkProgress)
                 .map((ingredient, index) => (
                   <label
                     data-testid={ `${index}-ingredient-step` }
                     key={ index }
                     id={ index }
                     htmlFor={ `${index}checkIndex` }
-
+                    className={ getClass(ingredient) }
                   >
                     <input
                       type="checkbox"
                       id={ `${index}checkIndex` }
                       onChange={ (event) => addAndRemoveClass(event) }
+                      name={ ingredient }
+                      checked={ arrayIngredients.includes(ingredient) }
                     />
-                    {/* <label
-                      htmlFor={ `${index}checkIndex` }
-                      key={ index }
-                      className="checkedItem"
-                    > */}
                     {ingredient}
-                    {/* </label> */}
                   </label>
                 ))
             }
@@ -208,7 +167,7 @@ function DrinkProgress({ history }) {
         alt="Botão de finalizar"
         type="button"
         disabled={ activeButton }
-        onClick={ onSubmitButtonClick }
+        onClick={ finishRecipe }
         data-testid="finish-recipe-btn"
       >
         finish Recipe

@@ -25,7 +25,7 @@ describe('1. Validação do componente Header ', () => {
   });
 });
 
-describe('2. Validação do botoes ', () => {
+describe('2. Validação do botões ', () => {
   it(`2.1 - Verifica se existe botao para explorar comidas
   e para explorar bebidas `, () => {
     renderWithRouterAndRedux(<App />, { initialEntries: ['/explore'] });

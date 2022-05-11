@@ -32,19 +32,8 @@ const drinks = (state = INITIAL_STATE, action) => {
       ...state,
       nationalities: action.nationalities.drinks,
     };
-  case 'SAVEDRINKPROGRESS':
-    return {
-      ...state,
-      drinkProgress: action.food.drinks,
-    };
   default:
     return state;
   }
 };
 export default drinks;
-
-// case 'SAVEFOODPROGRESS':
-//   return {
-//     ...state,
-//     mealsProgress: action.food.meals,
-//   };
