@@ -1,1 +1,16 @@
-/* sdsadaa */
+.filter-recipes-done {
+  align-content: center;
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.filter-recipes-done button {
+  background: #fa5246;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  width: 75px;
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container } from 'react-bootstrap';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import '../styles/Explore.css';
 
 function Explore(props) {
   const { history } = props;
@@ -10,24 +10,24 @@ function Explore(props) {
   return (
     <>
       <Header title="Explore" />
-      <Container className="w-75 mb-2 bg-light rounded-3">
-        <Button
+      <section className="explore-container">
+        <button
           data-testid="explore-foods"
           onClick={ () => history.push('/explore/foods') }
-          variant="info"
-          className="m-4"
+          className="big-button"
+          type="button"
         >
           Explore Foods
-        </Button>
-        <Button
+        </button>
+        <button
           data-testid="explore-drinks"
           onClick={ () => history.push('/explore/drinks') }
-          variant="info"
-          className="m-4"
+          className="big-button"
+          type="button"
         >
           Explore Drinks
-        </Button>
-      </Container>
+        </button>
+      </section>
       <Footer />
     </>
   );

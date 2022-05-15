@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import '../styles/Perfil.css';
 
 function Profile({ history }) {
   const email = localStorage.getItem('user')
@@ -21,12 +22,12 @@ function Profile({ history }) {
   return (
     <>
       <Header title="Profile" />
-      <h1>Profile</h1>
-      <section>
+      <section className="perfil-container">
         <p data-testid="profile-email">{email}</p>
         <button
           data-testid="profile-done-btn"
           type="button"
+          className="big-button"
           onClick={ () => history.push('/done-recipes') }
         >
           Done Recipes
@@ -34,12 +35,14 @@ function Profile({ history }) {
         <button
           data-testid="profile-favorite-btn"
           type="button"
+          className="big-button"
           onClick={ () => history.push('/favorite-recipes') }
         >
           Favorite Recipes
         </button>
         <button
           data-testid="profile-logout-btn"
+          className="big-button"
           type="button"
           onClick={ () => funcLogoutAndRedirect() }
         >

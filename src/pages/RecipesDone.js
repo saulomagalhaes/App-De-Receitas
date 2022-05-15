@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Header from '../components/Header';
 import FiltersDone from '../components/FiltersDone';
 import CardsDone from '../components/CardsDone';
+import '../styles/DonesRecipes.css';
 
 function RecipesDone() {
   const doneRecipes = localStorage.getItem('doneRecipes')
@@ -30,12 +31,13 @@ function RecipesDone() {
         handleDrink={ handleDrink }
         handleAll={ handleAll }
       />
-
-      {data.length === 0
-        ? <h1>Não há receitas finalizadas</h1>
-        : data.map((recipe, index) => (
-          <CardsDone key={ recipe.id } recipe={ recipe } index={ index } />
-        ))}
+      <section className="cards-dones">
+        {data.length === 0
+          ? <h2>Não há receitas finalizadas</h2>
+          : data.map((recipe, index) => (
+            <CardsDone key={ recipe.id } recipe={ recipe } index={ index } />
+          ))}
+      </section>
     </>
   );
 }

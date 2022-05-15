@@ -10,7 +10,7 @@ import {
   getDrinksByFLetter,
   checkClickSearch,
 } from '../../redux/actions';
-// import './styles.css';
+import './styles.css';
 
 function FormBusca(props) {
   const { title } = props;
@@ -49,17 +49,16 @@ function FormBusca(props) {
   const handleSearch = () => (title === 'Drinks' ? searchDrinks() : searchFoods());
 
   return (
-    <form>
-      <label htmlFor="textSearch">
-        <input
-          data-testid="search-input"
-          id="textSearch"
-          type="text"
-          value={ textSearch }
-          onChange={ (event) => setTextSearch(event.target.value) }
-        />
-      </label>
-      <label htmlFor="ingredient">
+    <form className="search-session">
+      <input
+        data-testid="search-input"
+        id="textSearch"
+        type="text"
+        placeholder="Digite aqui"
+        value={ textSearch }
+        onChange={ (event) => setTextSearch(event.target.value) }
+      />
+      <label htmlFor="ingredient" className="search-radio">
         <input
           type="radio"
           id="ingredient"
@@ -70,7 +69,7 @@ function FormBusca(props) {
         />
         Ingredient
       </label>
-      <label htmlFor="name">
+      <label htmlFor="name" className="search-radio">
         <input
           type="radio"
           id="name"
@@ -81,7 +80,7 @@ function FormBusca(props) {
         />
         Name
       </label>
-      <label htmlFor="firstLetter">
+      <label htmlFor="firstLetter" className="search-radio">
         <input
           type="radio"
           id="firstLetter"
@@ -96,6 +95,7 @@ function FormBusca(props) {
         type="button"
         data-testid="exec-search-btn"
         onClick={ handleSearch }
+        className="exec-search-btn"
       >
         SEARCH
       </button>

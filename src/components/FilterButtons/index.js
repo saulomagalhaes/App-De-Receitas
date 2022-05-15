@@ -36,6 +36,7 @@ function FilterButtons(props) {
         onClick={ () => handleClick('All') }
         data-testid="All-category-filter"
         type="button"
+        className="category-filter"
       >
         All
       </button>
@@ -45,6 +46,7 @@ function FilterButtons(props) {
           data-testid={ `${cat}-category-filter` }
           type="button"
           onClick={ () => handleClick(cat) }
+          className="category-filter"
         >
           {cat}
         </button>

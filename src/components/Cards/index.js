@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
+import './styles.css';
 
 function Cards(props) {
   const history = useHistory();

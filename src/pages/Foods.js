@@ -46,7 +46,7 @@ function Foods(props) {
   }, [categories]);
 
   return (
-    <>
+    <section className="main-page">
       <Header title="Foods" />
       <div className="btn_filters-foods">
         <FilterButtons
@@ -62,7 +62,7 @@ function Foods(props) {
           )}
       </div>
       <Footer />
-    </>
+    </section>
   );
 }
 

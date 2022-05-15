@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './styles.css';
 
 function FiltersDone(props) {
   const { handleFood, handleDrink, handleAll } = props;
   return (
-    <section>
+    <section className="filter-recipes-done">
       <button data-testid="filter-by-all-btn" type="button" onClick={ handleAll }>
         All
       </button>

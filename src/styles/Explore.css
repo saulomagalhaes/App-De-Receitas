@@ -1,0 +1,16 @@
+.explore-container {
+  align-items: center;
+  background-color: #9a201d;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  height: 50vh;
+  justify-content: center;
+  left: 50%;
+  position: absolute;
+
+  /* margin: auto; */
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+}

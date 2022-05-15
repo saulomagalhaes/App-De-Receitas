@@ -1,0 +1,75 @@
+.cards-dones {
+  align-items: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.card-container {
+  align-content: stretch;
+  align-items: center;
+  background-clip: border-box;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.25rem;
+  color: #5e5e5e;
+  display: flex;
+  flex-direction: row;
+  font-weight: 500;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  min-width: 0;
+  position: relative;
+  text-align: center;
+  width: 310px;
+  word-wrap: break-word;
+}
+
+.horizontal-image {
+  width: 130px;
+}
+
+.card-info {
+  align-content: space-around;
+  display: flex;
+  flex-direction: column;
+  height: 130px;
+  justify-content: space-around;
+  justify-items: end;
+  width: 100%;
+}
+
+.btn-click {
+  border: none;
+  opacity: 0.8;
+}
+
+.btn-click p {
+  margin: 0;
+}
+
+.card-info div {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.card-info div p, .card-info p {
+  margin: 0;
+  text-align: center;
+}
+
+.copy-category-container p {
+  flex: 2;
+  font-size: 11px;
+  text-align: center;
+}
+
+button.btn-click {
+  flex: 1;
+}
+
+button.btn-click img {
+  width: 20px;
+}

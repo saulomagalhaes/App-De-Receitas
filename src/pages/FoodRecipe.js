@@ -154,7 +154,7 @@ function FoodRecipe(props) {
                 />
                 <hr />
                 <div className="recommended-card">
-                  <h2>Recommended</h2>
+                  <h2>Recomendados</h2>
                   <Slider { ...settings }>
                     {
                       drinks

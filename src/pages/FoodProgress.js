@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { getFoodById } from '../redux/actions';
 import '../styles/DetailsRecipes.css';
+import Slider from 'react-slick';
 import shareIcon from '../images/shareIcon.svg';
 import { concatenateIngredient, doneRecipes } from '../services/FuncRecipesDetails';
+import { getDrinksByName, getFoodById } from '../redux/actions';
 import ButtonFavorite from '../components/ButtonFavorite';
+
+const MAX_LENGTH = 6;
 
 function FoodProgress({ history }) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const mealsProgress = useSelector((state) => state.foods.mealdetails);
+  const drinks = useSelector((state) => state.drinks.drinks);
   const [activeButton, setActiveButton] = useState(true);
   const [copied, setCopied] = useState('');
 
@@ -20,7 +24,16 @@ function FoodProgress({ history }) {
     .values(progressRecipes.meals[id]) : [];
   const [arrayIngredients, setArrayIngredients] = useState(recipe);
 
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+  };
+
   useEffect(() => {
+    dispatch(getDrinksByName(''));
     dispatch(getFoodById(id));
   }, []);
 
@@ -134,7 +147,7 @@ function FoodProgress({ history }) {
             {element.strCategory}
           </p>
           <hr />
-          <h2>Ingredients</h2>
+          <h2>Ingredientes</h2>
           <ul className="ingredient-list">
             {
               concatenateIngredient(mealsProgress)
@@ -160,7 +173,7 @@ function FoodProgress({ history }) {
             }
           </ul>
           <hr />
-          <h2>Instructions</h2>
+          <h2>Instruções</h2>
           <p
             data-testid="instructions"
             className="instructions"
@@ -170,15 +183,46 @@ function FoodProgress({ history }) {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/VVnZd8A84z4"
+            src={ `https://www.youtube.com/embed/${element.strYoutube
+              .substring(element.strYoutube.indexOf('=') + 1)}` }
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write;
-                encrypted-media; gyroscope; picture-in-picture"
+                  encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             data-testid="video"
           />
-          <div data-testid={ `${element.idMeal}-recomendation-card` } />
+          <hr />
+          <div className="recommended-card">
+            <h2>Recomendados</h2>
+            <Slider { ...settings }>
+              {
+                drinks
+                  .slice(0, MAX_LENGTH)
+                  .map((img, indexImg) => (
+                    <div
+                      key={ indexImg }
+                      data-testid={ `${indexImg}-recomendation-card` }
+                      className="recomendation-card"
+                    >
+                      <img
+                        src={ img.strDrinkThumb }
+                        style={ { width: '200px' } }
+                        alt="Recomendação de Bebida"
+                      />
+                      <p data-testid={ `${indexImg}-recomendation-title` }>
+                        {img.strDrink}
+                      </p>
+                      <span>
+                        {img.strAlcoholic === 'Alcoholic'
+                          ? img.strAlcoholic : ''}
+                      </span>
+                    </div>
+                  ))
+              }
+            </Slider>
+          </div>
+
         </div>
       ))}
       <button

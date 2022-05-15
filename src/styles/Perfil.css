@@ -1,0 +1,11 @@
+.perfil-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil-container p {
+  font-size: 30px;
+  font-weight: 500;
+  text-transform: capitalize;
+}

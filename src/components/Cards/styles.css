@@ -1,1 +1,7 @@
-/* sdsadaa */
+.card-body {
+  padding: 0 ! important;
+}
+
+.container-cards {
+  margin-bottom: 80px ! important;
+}

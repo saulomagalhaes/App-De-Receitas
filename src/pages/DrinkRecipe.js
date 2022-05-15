@@ -9,11 +9,11 @@ import { checkedDonesRecipes,
 import { getDrinkById, getFoodsByName } from '../redux/actions';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import '../styles/DetailsRecipes.css';
 import ButtonFavorite from '../components/ButtonFavorite';
-import '../images/whiteHeartIcon.svg';
-import '../images/blackHeartIcon.svg';
 
 const MAX_LENGTH = 6;
+
 function DrinkRecipe(props) {
   const { history } = props;
   const { id } = useParams();
@@ -23,6 +23,7 @@ function DrinkRecipe(props) {
   const [buttonProgress, setButtonProgress] = useState(false);
   const [copied, setCopied] = useState('');
   const dispatch = useDispatch();
+
   const settings = {
     dots: true,
     infinite: false,
@@ -30,6 +31,7 @@ function DrinkRecipe(props) {
     slidesToShow: 2,
     slidesToScroll: 2,
   };
+
   useEffect(() => {
     dispatch(getFoodsByName(''));
     dispatch(getDrinkById(id));
@@ -61,73 +63,66 @@ function DrinkRecipe(props) {
     localStorage.setItem('inProgressRecipes', JSON.stringify(objectRecipe));
     history.push(`/drinks/${id}/in-progress`);
   }
+
   const handleCopy = () => {
-    navigator.clipboard.writeText(`http://localhost:3000/drinks/${id}`);
+    const timeOut = 3000;
+    navigator.clipboard.writeText(`http://localhost:3000/foods/${id}`);
     setCopied('Link copied!');
+    setTimeout(() => {
+      setCopied('');
+    },
+    timeOut);
   };
+
   if (drinks !== undefined) {
     return (
       <>
+        <p className="message-copy">{copied}</p>
         {
           drinks
             .map((element) => (
-              <section key={ element.idDrink }>
+              <section key={ element.idDrink } className="recipe-container">
                 <img
                   src={ element.strDrinkThumb }
                   alt="Imagem da Bebida"
                   data-testid="recipe-photo"
+                  className="recipe-photo"
                 />
-                <h1 data-testid="recipe-title">{ element.strDrink }</h1>
-                <p data-testid="recipe-category">
+                <div className="title-container">
+                  <h1 data-testid="recipe-title">{ element.strDrink }</h1>
+                  <button
+                    data-testid="share-btn"
+                    type="button"
+                    onClick={ handleCopy }
+                    className="share-btn"
+                  >
+                    <img src={ shareIcon } alt="Butão de Compartilhar" />
+                  </button>
+                  <ButtonFavorite
+                    id={ id }
+                    element={ {
+                      id,
+                      type: 'drink',
+                      nationality: '',
+                      category: element.strCategory,
+                      alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
+                        ? element.strAlcoholic : '',
+                      name: element.strDrink,
+                      image: element.strDrinkThumb,
+                    } }
+                  />
+                </div>
+                <p data-testid="recipe-category" className="recipe-category">
                   {element.strAlcoholic === 'Alcoholic' ? element.strAlcoholic : ''}
                 </p>
-                <button data-testid="share-btn" type="button" onClick={ handleCopy }>
-                  <img src={ shareIcon } alt="Butão de Compartilhar" />
-                </button>
-                {copied}
-                <ButtonFavorite
-                  id={ id }
-                  element={ {
-                    id,
-                    type: 'drink',
-                    nationality: '',
-                    category: element.strCategory,
-                    alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
-                      ? element.strAlcoholic : '',
-                    name: element.strDrink,
-                    image: element.strDrinkThumb,
-                  } }
-                />
-                {/* <button
-                  type="button"
-                  onClick={ () => setOnFavoriteHeart(
-                    saveOrDeleteFavorites(
-                      buttonFavorite, id,
-                      {
-                        id,
-                        type: 'drink',
-                        nationality: '',
-                        category: element.strCategory,
-                        alcoholicOrNot: element.strAlcoholic === 'Alcoholic'
-                          ? element.strAlcoholic : '',
-                        name: element.strDrink,
-                        image: element.strDrinkThumb,
-                      },
-                    ),
-                  ) }
-                >
-                  <img
-                    src={ buttonFavorite ? whiteHeartIcon : blackHeartIcon }
-                    alt="Butão de Favoritar"
-                    data-testid="favorite-btn"
-                  />
-                </button> */}
                 <hr />
-                <ul>
+                <h2>Ingredientes</h2>
+                <ul className="ingredient-list">
                   {
                     concatenateIngredient(drinks)
                       .map((ingredient, index) => (
                         <li
+                          className="ingredient-name-and-measure"
                           data-testid={ `${index}-ingredient-name-and-measure` }
                           key={ index }
                         >
@@ -137,10 +132,15 @@ function DrinkRecipe(props) {
                   }
                 </ul>
                 <hr />
-                <h1>Instructions</h1>
-                <p data-testid="instructions">{element.strInstructions}</p>
-                <div>
-                  <h1>Recommended</h1>
+                <h2>Instruções</h2>
+                <p
+                  data-testid="instructions"
+                  className="instructions"
+                >
+                  { element.strInstructions }
+                </p>
+                <div className="recommended-card">
+                  <h2>Recomendados</h2>
                   <Slider { ...settings }>
                     {
                       foods
@@ -149,6 +149,7 @@ function DrinkRecipe(props) {
                           <div
                             key={ indexImg }
                             data-testid={ `${indexImg}-recomendation-card` }
+                            className="recomendation-card"
                           >
                             <img
                               src={ img.strMealThumb }
@@ -174,6 +175,7 @@ function DrinkRecipe(props) {
             disabled={ buttonProgress }
             onClick={ onSubmitButtonClick }
             data-testid="start-recipe-btn"
+            className="start-recipe-btn button"
             style={ { position: 'fixed', bottom: '0' } }
           >
             { buttonPhrase }
@@ -183,9 +185,11 @@ function DrinkRecipe(props) {
   }
   return null;
 }
+
 DrinkRecipe.propTypes = {
   history: PropTypes.objectOf(
     PropTypes.any,
   ).isRequired,
 };
+
 export default DrinkRecipe;
