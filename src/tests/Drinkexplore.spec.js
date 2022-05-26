@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import fetchMock from '../../cypress/mocks/fetch';
+import fetchMock from './mocks/fetch';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import {
   HEADER_PROFILE_TOP_BTN_ID,

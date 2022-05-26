@@ -2,7 +2,7 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import waitForExpect from 'wait-for-expect';
 import userEvent from '@testing-library/user-event';
-import fetchMock from '../../cypress/mocks/fetch';
+import fetchMock from './mocks/fetch';
 import App from '../App';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import {
