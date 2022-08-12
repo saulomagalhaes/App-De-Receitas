@@ -8,7 +8,7 @@ Projeto de um aplicativo web de receitas utilizando React com Redux afim de vali
 
 ## Deploy
 
-Link do projeto em funcionamento https://app-de-receitas-rosy.vercel.app/
+Veja o projeto em funcionamento https://app-de-receitas-rosy.vercel.app/
 
 ## Autores
 
